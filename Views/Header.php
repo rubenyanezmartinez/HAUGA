@@ -62,3 +62,31 @@ include_once'../Functions/Authentication.php';
 </head>
 
 <body>
+
+    <nav class="nav">
+        <div class="container">
+            <div class="row" style="padding-top: 1%">
+
+                <div class="col-2 align-self-center text-center">
+                    <h4><a href="#" class="textoAzul">CENTROS</a></h4>
+                </div>
+
+                <div class="col-2 align-self-center text-center">
+                    <h4><a href="#" class="textoAzul">EDIFICIOS</a></h4>
+                </div>
+
+                <div class="col-2 align-self-center text-center">
+                    <h4><a href="#" class="textoAzul">ESPACIOS</a></h4>
+                </div>
+
+                <div class="col-3 align-self-center text-center">
+                    <h4><a href="#" class="textoAzul">DEPARTAMENTOS</a></h4>
+                </div>
+
+                <div class="col-3 align-self-center text-center">
+                    <h4><a href="#" class="textoAzul">GRUPOS DE INVESTIGACIÓN</a></h4>
+                </div>
+
+            </div>
+        </div>
+    </nav>
