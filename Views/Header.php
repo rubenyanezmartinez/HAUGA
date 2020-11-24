@@ -15,13 +15,14 @@ include_once'../Functions/Authentication.php';
     <!-- Estilos propios -->
     <link href="../libraries/estilos.css" rel="stylesheet">
 
+    <!-- ENLACES A JQUERY -->
+    <script src="../libraries/jquery/dist/jquery.slim.min.js"></script>
+    <script src="../libraries/jquery/dist/jquery.min.js"></script>
+
     <!-- ENLACES A BOOTSTRAP -->
     <link href="../libraries/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- ENLACES A JQUERY -->
-    <script src="../libraries/jquery/dist/jquery.slim.min.js"></script>
-    <script src="../libraries/jquery/dist/jquery.min.js"></script>
 
 
     <nav id="barra-fija-superior" class="nav">
