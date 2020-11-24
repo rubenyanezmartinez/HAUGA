@@ -1,0 +1,24 @@
+#logo-uvigo{
+    width: 200px;
+    height: 30px;
+}
+
+#barra-fija-superior{
+    background-color: #073349;
+    height: 60px;
+}
+
+#barra-fija-inferior{
+    background-color: #073349;
+    height: 60px;
+}
+
+.textoBlanco{
+    color: white;
+    font-size: .75rem;
+    margin-right: 5px;
+}
+
+.textoAzul{
+    color: #073349;
+}
