@@ -10,10 +10,7 @@
 
 #barra-fija-inferior{
     background-color: #073349;
-    height: 60px;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
+    margin-top: 1%;
 }
 
 #barra-fija-inferior{
