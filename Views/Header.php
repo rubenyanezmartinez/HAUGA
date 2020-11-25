@@ -93,3 +93,5 @@ include_once'../Functions/Authentication.php';
             </div>
         </div>
     </nav>
+
+    <hr>
