@@ -90,6 +90,12 @@ include_once'../Functions/Autenticacion.php';
                     <h4><a href="#" class="textoAzul">GRUPOS DE INVESTIGACIÓN</a></h4>
                 </div>
 
+                <?php if (rolUsuario == "admin") {?>
+                    <div class="col-3 align-self-center text-center">
+                        <h4><a href="#" class="textoAzul">USUARIOS</a></h4>
+                    </div>
+                <?php } ?>
+
             </div>
         </div>
     </nav>
