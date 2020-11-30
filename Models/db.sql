@@ -90,6 +90,7 @@ CREATE TABLE `hauga`.`centro` (
 CREATE TABLE `hauga`.`espacio` (
 	`espacio_id` int NOT NULL AUTO_INCREMENT,
 	`nombre_esp` VARCHAR(15) NOT NULL,
+	`ruta_imagen` VARCHAR(50) NOT NULL,
 	`tarifa_esp` int NOT NULL,
 	`categoria_esp` enum('DOCENCIA', 'INVESTIGACION', 'PAS', 'COMUN') NOT NULL,
 	`planta_esp` int NOT NULL,
@@ -146,8 +147,8 @@ INSERT INTO `hauga`.`centro`
 VALUES (null, 'centro1', 1);
 
 INSERT INTO `hauga`.`espacio`
-(`espacio_id`, `nombre_esp`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
-VALUES (null, 'espacio1', 300, 'DOCENCIA', 2, 1);
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'espacio1',`../Models/Imagenes_Espacios/fotoEjemplo.PNG`, 300, 'DOCENCIA', 2, 1);
 
 INSERT INTO `hauga`.`incidencia`
 (`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)
