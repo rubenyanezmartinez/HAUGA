@@ -1,6 +1,6 @@
 <?php
 
-include_once '../Functions/Authentication.php';
+include_once './Functions/Authentication.php';
 
 ?>
 
@@ -29,7 +29,7 @@ include_once '../Functions/Authentication.php';
         <div class="container">
             <div class="row" style="padding-top: 1%">
                 <div class="col-auto">
-                    <img class="logo-uvigo align-bottom" src="img/logo-barra-superior.svg" alt="Universidade de Vigo">
+                    <img class="logo-uvigo align-bottom" src="./Views/img/logo-barra-superior.svg" alt="Universidade de Vigo">
                 </div>
                 <div class="col align-self-center text-center">
                     <a class="textoBlanco" href="http://campusdaauga.uvigo.es/">CAMPUS DA AUGA</a>
@@ -52,7 +52,7 @@ include_once '../Functions/Authentication.php';
                         <svg style="color: white" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                         </svg>
-                        <a class="textoBlanco align-bottom" href="#"> INICIAR SESIÓN</a>
+                        <a class="textoBlanco align-bottom" href='./Controllers/User_Controller.php'> INICIAR SESIÓN</a>
 
                     <?php } ?>
 
