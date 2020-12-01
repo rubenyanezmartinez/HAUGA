@@ -148,7 +148,7 @@ VALUES (null, 'centro1', 1);
 
 INSERT INTO `hauga`.`espacio`
 (`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
-VALUES (null, 'espacio1',`../Models/Imagenes_Espacios/fotoEjemplo.PNG`, 300, 'DOCENCIA', 2, 1);
+VALUES (null, 'espacio1','../Models/Imagenes_Espacios/fotoEjemplo.PNG', 300, 'DOCENCIA', 2, 1);
 
 INSERT INTO `hauga`.`incidencia`
 (`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)

@@ -188,3 +188,15 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/12206-codestream
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,jetbrains,git
+
+.idea/codeStyles/codeStyleConfig.xml
+
+.idea/HAUGA.iml
+
+.idea/inspectionProfiles/Project_Default.xml
+
+.idea/modules.xml
+
+.idea/vcs.xml
+
+.idea/

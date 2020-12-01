@@ -1,19 +1,29 @@
 <?php
 //entrada a la aplicacion
 
-//se va usar la session de la conexion
+//session
+echo('index');
 session_start();
+//incluir funcion autenticacion
 
-//funcion de autenticacion
 include './Functions/Authentication.php';
-
-//si no ha pasado por el login de forma correcta
+//si no esta autenticado
 if (!IsAuthenticated()){
-	header('Location:./Controllers/Usuario_Controller.php?action=LOGIN');
-}
-//si ha pasado por el login de forma correcta 
-else{
-	header('Location:./Controllers/Index_Controller.php');
+    header('Location: ./Controllers/User_Controller.php');
+} else{   //esta autenticado
+    include './Models/USUARIO_Model.php';
+    $usuario = new USUARIO_Model(null, $_SESSION['login'],'','','','','','',
+        '','','','', '','','','');
+    $usuario->RellenaDatos();
+
+    if($usuario->rol == 'ADMIN'){
+        include './Views/index_admin.php';
+        new AdminIndex();
+    } else{
+        include './Views/index_usuario.php';
+        new Index();
+    }
+
 }
 
 ?>

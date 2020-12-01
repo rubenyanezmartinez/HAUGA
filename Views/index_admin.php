@@ -1,6 +1,6 @@
 <?php
 
-class Index {
+class AdminIndex {
 
     //Constructor
     function __construct(){

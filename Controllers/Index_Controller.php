@@ -4,27 +4,23 @@
 //session
 session_start();
 //incluir funcion autenticacion
-include '../Functions/Authentication.php';
+include '../Functions/Autenticacion.php';
 //si no esta autenticado
 if (!IsAuthenticated()){
 	header('Location: ../index.php');
-}
-//esta autenticado
-else{
+} else{   //esta autenticado
 	include '../Models/USUARIO_Model.php';
-	$usuario = new USUARIO_Model($_SESSION['login'],'','','','','','','','','','');
+	$usuario = new USUARIO_Model(null, $_SESSION['login'],'','','','','','',
+        '','','','', '','','','');
 	$usuario->RellenaDatos();
+
 	
-	if($usuario->administrador == 'si'){
-		include '../Views/admin_index_View.php';
+	if($usuario->rol == 'ADMIN'){
+		include '../Views/index_admin.php';
+		new AdminIndex();
+	} else{
+		include '../Views/index_usuario.php';
 		new Index();
-	} else if($usuario->pujador == 'si'){
-		include '../Views/users_index_View.php';
-		new Index();
-	} else {
-		include '../Views/MESSAGE_View.php';
-		session_destroy();
-		new MESSAGE('Usuario pendiente de autorización', '../index.php');
 	}
 
 }

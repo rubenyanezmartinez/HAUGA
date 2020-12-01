@@ -54,7 +54,7 @@ class LOGIN_View{
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4 align-self-center">
-            <form>
+            <form method="POST" action="../Controllers/User_Controller.php">
                 <h2 class="text-center textoAzul">Iniciar sesión</h2>
 
                 <div class="input-group mb-2">
@@ -65,7 +65,7 @@ class LOGIN_View{
                             </svg>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="login" placeholder="Nombre de usuario">
+                    <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario">
                 </div>
 
                 <div class="input-group mb-2">
@@ -77,12 +77,13 @@ class LOGIN_View{
                             </svg>
                         </div>
                     </div>
-                    <input type="password" class="form-control" id="password" placeholder="Contraseña">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña">
                 </div>
 
 
 
-                <button type="submit" style="background-color: #073349;" class="btn btn-primary">Iniciar sesión</button>
+                <!--<button type="submit" style="background-color: #073349;" class="btn btn-primary">Iniciar sesión</button>-->
+                <input type="submit" class="btn btn-primary" name="action" value="login">
 
             </form>
 

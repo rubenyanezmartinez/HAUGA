@@ -56,37 +56,9 @@
 			include_once 'Access_DB.php';
 			$this->mysqli = ConnectDB();
 		}
-		
-		//A partir del login, rellena los demás datos del objeto
-		function RellenaDatos()
-		{
-			
-			$sql="SELECT * FROM usuario WHERE login LIKE '".$this->login."'";
-			$resultado=$this->mysqli->query($sql);
-			$registro=mysqli_fetch_array($resultado);
-			
-			$this->login = $registro[0];
-			$this->usuario_id = $registro[0];
-			$this->login = $registro[1];
-			$this->nombre = $registro[2];
-			$this->apellidos = $registro[3];
-			$this->password = $registro[4];
-			$this->fecha_nacimiento = $registro[5];
-			$this->email_usuario = $registro[6];
-			$this->telef_usuario = $registro[7];
-			$this->dni = $registro[8];
-			$this->rol = $registro[9];
-			$this->afiliacion = $registro[10];
-			$this->nombre_puesto = $registro[11];
-			$this->nivel_jerarquia = $registro[12];
-			$this->depart_usuario = $registro[13];
-			$this->grupo_usuario = $registro[14];
-			$this->centro_usuario = $registro[15];
-			
-			return $registro;
-		
-		}
-		
+
+
+
 		//Realiza un ADD sobre la tabla USUARIO. Devuelve un mensaje informando del resultado.
 		function registrar(){
 			
@@ -165,7 +137,7 @@
 
 					$resultado_login .= $login_number;
 				}
-			}	
+			}
 
 		}
 		
@@ -210,61 +182,48 @@
 			}
 		}
 		
-		//Devuelve un array de USUARIOs con todos los usuarios de la tabla.
-		function SHOWALL(){
-		
-			$sql = "SELECT * FROM USUARIO";
-			
-			$resultado = $this->mysqli->query($sql); //Guarda el resultado de la consulta.
 
-            $usuarios = $resultado->fetch_All(MYSQLI_ASSOC); 
-            $usuarios_toret = array();
 
-            foreach($usuarios as $usuario){ //Par cada tupla recuperada
-                array_push($usuarios_toret, new USUARIO_Model($usuario['login'],
-                                                        $usuario['password'],
-                                                        $usuario['dni'],
-                                                        $usuario['apellidos'],
-                                                        $usuario['nombre'],
-                                                        $usuario['telefono'],
-                                                        $usuario['avatar'],
-                                                        $usuario['fechaNacimiento'],
-														$usuario['pujador'],
-														$usuario['subastador'],
-														$usuario['administrador']
-														)); //Crea un usuario con los datos recuperados por la consulta y lo almacena en el array
+        //Recupera los datos de un usuario a partir de su login
+        function rellenaDatos(){
+            $sql="SELECT * FROM usuario WHERE (`login` LIKE '".$this->login."')";
+            $resultado=$this->mysqli->query($sql);
+            $registro=mysqli_fetch_array($resultado);
+
+            $this->usuario_id = $registro["usuario_id"];
+            $this->login = $registro["login"];
+            $this->nombre = $registro["nombre"];
+            $this->apellidos = $registro["apellidos"];
+            $this->password = $registro["password"];
+            $this->fecha_nacimiento = $registro["fecha_nacimiento"];
+            $this->email_usuario = $registro["email_usuario"];
+            $this->telef_usuario = $registro["telef_usuario"];
+            $this->dni = $registro["dni"];
+            $this->rol = $registro["rol"];
+            $this->afiliacion = $registro["afiliacion"];
+            $this->nombre_puesto = $registro["nombre_puesto"];
+            $this->nivel_jerarquia = $registro["nivel_jerarquia"];
+            $this->depart_usuario = $registro["depart_usuario"];
+            $this->grupo_usuario = $registro["grupo_usuario"];
+            $this->centro_usuario = $registro["centro_usuario"];
+
+            return $registro;
+        }
+
+        //Recupera el rol de un usuario determinado
+        //Devuelve el rol del usuario si lo encuentra en la BD, mensaje de error en caso contrario
+        function getRol(){
+            $sql = "SELECT * FROM usuario WHERE(`login` = '". $this->login ."')";
+            $result = $this->mysqli->query($sql);
+
+            if($result->num_rows == 1){
+                $tuple = $result->fetch_array();
+                return $tuple['rol'];
+            }else{
+                return 'No existe el usuario en la BD';
             }
+        }
 
-            
-            return $usuarios_toret;
-		
-		}
-		
-		//Edita un USUARIO
-		function EDIT(){				
-		
-			$sql = "UPDATE USUARIO
-                    SET password = '".$this->password."',
-                    dni = '".$this->dni."',
-                    apellidos = '".$this->apellidos."',
-                    nombre = '".$this->nombre."',
-                    telefono = '".$this->telefono."',
-                    avatar = '".$this->avatar."',
-					fechaNacimiento = '".$this->fechaNacimiento."',
-					pujador = '".$this->pujador."',
-					subastador = '".$this->subastador."',
-					administrador = '".$this->administrador."' 
-                    WHERE login = '".$this->login."'";
-			
-			if(!$this->mysqli->query($sql)){
-                return "Error editando el usuario"; //Se edita correctamente el usuario
-            }
-            else{
-                return "Usuario editado";//Se produce un error al editar
-            }
-
-		
-		}
 		
 		//Elimina un USUARIO
 		function DELETE(){
@@ -280,51 +239,7 @@
                 var_dump($sql);
                 return "Usuario eliminado"; //Se elimina correctamente el usuario
             }
-		
-		}
-		
-		//Busca USUARIOs, devuelve un array de USUARIOs
-		function SEARCH(){
-		
-			$sql = "SELECT * FROM USUARIO WHERE
-						login LIKE '%".$this->login."%' AND
-						password LIKE '%".$this->password."%' AND
-						dni LIKE '%".$this->dni."%' AND
-						apellidos LIKE '%".$this->apellidos."%' AND
-						nombre LIKE '%".$this->nombre."%' AND
-						telefono LIKE '%".$this->telefono."%' AND
-						avatar LIKE '%".$this->avatar."%' AND
-						fechaNacimiento LIKE '%".$this->fechaNacimiento."%' AND
-						pujador LIKE '%".$this->pujador."%' AND
-						subastador LIKE '%".$this->subastador."%' AND
-						administrador LIKE '%".$this->administrador."%'" ;
-			
-			//Una vez realiza la consulta, hace el mismo proceso empleado en el SHOWALL para generar el array de USUARIOs			
-			$resultado = $this->mysqli->query($sql);
-			
-            $usuarios = $resultado->fetch_All(MYSQLI_ASSOC);
-            $usuarios_toret = array();
+        }
 
-            foreach($usuarios as $usuario){
-                array_push($usuarios_toret, new USUARIO_Model($usuario['login'],
-                                                        $usuario['password'],
-                                                        $usuario['dni'],
-                                                        $usuario['apellidos'],
-                                                        $usuario['nombre'],
-                                                        $usuario['telefono'],
-                                                        $usuario['avatar'],
-                                                        $usuario['fechaNacimiento'],
-														$usuario['pujador'],
-														$usuario['subastador'],
-														$usuario['administrador']
-														));
-            }
-
-            
-            return $usuarios_toret;
-		
-		}
-		
-		
-	}
+    }
 ?>
