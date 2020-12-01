@@ -268,14 +268,16 @@
 		
 		//Elimina un USUARIO
 		function DELETE(){
-		
-			$sql = "DELETE FROM USUARIO
+		    var_dump($this->login);
+			$sql = "DELETE FROM usuario
                     WHERE login = '".$this->login."'";
 
             if(!$this->mysqli->query($sql)){
+                var_dump($sql);
                 return "Error eliminando el usuario"; //Se produce un error al eliminar el usuario
             }
             else{
+                var_dump($sql);
                 return "Usuario eliminado"; //Se elimina correctamente el usuario
             }
 		

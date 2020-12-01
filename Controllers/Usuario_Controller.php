@@ -203,29 +203,9 @@
 			
 			break;
 		case 'DELETE'://Caso DELETE borra un usuario
-			if(!$_POST){//Antes de confirmar el borrado
-				//echo $_REQUEST['login'];
-				//exit;
-				$usuario = new USUARIO_Model($_REQUEST['login'],'','','','','','','','','','');
-				$usuario->RellenaDatos();
-				$fechaPOST = preg_split("/-/", $usuario->fechaNacimiento);
-				$usuario->fechaNacimiento = $fechaPOST[2]."/".$fechaPOST[1]."/".$fechaPOST[0];
-				//print_r($usuario);
-				//exit;
-				include '../Views/USUARIO_DELETE_View.php';
-				new USUARIO_DELETE_View($usuario); //Muestra la tabla DELETE del usuario
-			} else {
-				$usuario = new USUARIO_Model($_POST['login'],'','','','','','','','','',''); //Crea un usuario con el login
-				$mensaje = $usuario->DELETE(); //Elimina el usuario
-				$rutaAvatar = '../Files/'.$usuario->avatar;
-				
-				if($mensaje == 'Registro realizado con éxito'){
-					//Si el usuario se borra correctamente de la BD, elimina el fichero AVATAR
-					unlink($rutaAvatar);
-				}
-				//Muestra el mensaje de confirmación del borrado
-				new MESSAGE($mensaje, '../Controllers/Usuario_Controller.php');
-				
+			if($_GET){//Antes de confirmar el borrado
+                $usuario = new USUARIO_Model('',$_GET['login'],'','','','','','','','','', '', '', '', '', ''); //Crea un usuario con el login
+                var_dump($usuario->DELETE()); //Elimina el usuario
 			}
 			break;
 		case 'SHOWCURRENT'://Muestra los detalles de un usuario
