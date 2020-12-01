@@ -8,7 +8,7 @@
 #!/bin/bash
 
 #Si puede conceder permisos:
-if chmod -R a+w Imagenes_Espacios/; then
+if chmod -R a+w Models/Imagenes_Espacios/; then
 	#Envia mensaje afirmativo:
 	printf 'Se ha concedido con exito permisos de escritura al directorio Imagenes_Espacios\n'
 else
