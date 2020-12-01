@@ -122,7 +122,11 @@ CREATE USER if not exists 'admin_hauga'@'localhost' IDENTIFIED BY 'admin_hauga';
 GRANT ALL ON `hauga`.* TO 'admin_hauga'@'localhost';
 
 
-INSERT INTO `hauga`.`usuario` 
+INSERT INTO `hauga`.`usuario`
+(`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
+VALUES (null, 'rymartinez', 'Rubén', 'Yañez Martinez', '1234', '1998-07-27', 'rymartinez@gmail.com', '6661006666', '22222222A', 'ADMIN', 'ADMINISTRACION', 'puesto', 1, 1, 1, 1);
+
+INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
 VALUES (null, 'Zabo', 'Javier', 'Quintas Bergantiño', '1234', '1997-08-03', 'jqbergantinho@gmail.com', '637334410', '11111111A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'puesto', 1, 1, 1, 1);
 
