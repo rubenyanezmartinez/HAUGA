@@ -1,6 +1,7 @@
 <?php
 
 include_once './Functions/Authentication.php';
+include_once './Functions/esAdministrador.php';
 
 ?>
 
@@ -70,29 +71,48 @@ include_once './Functions/Authentication.php';
         <div class="container">
             <div class="row" style="padding-top: 1%">
 
-                <div class="col-2 align-self-center text-center">
-                    <h4><a href="#" class="textoAzul">CENTROS</a></h4>
-                </div>
+                <?php if (esAdministrador() == "admin") {?>
+                    <div class="col-2 align-self-center text-center">
+                        <h5><a href="#" class="textoAzul">CENTROS</a></h5>
+                    </div>
 
-                <div class="col-2 align-self-center text-center">
-                    <h4><a href="#" class="textoAzul">EDIFICIOS</a></h4>
-                </div>
+                    <div class="col-2 align-self-center text-center">
+                        <h5><a href="#" class="textoAzul">EDIFICIOS</a></h5>
+                    </div>
 
-                <div class="col-2 align-self-center text-center">
-                    <h4><a href="#" class="textoAzul">ESPACIOS</a></h4>
-                </div>
+                    <div class="col-2 align-self-center text-center">
+                        <h5><a href="#" class="textoAzul">ESPACIOS</a></h5>
+                    </div>
 
-                <div class="col-3 align-self-center text-center">
-                    <h4><a href="#" class="textoAzul">DEPARTAMENTOS</a></h4>
-                </div>
+                    <div class="col-2 align-self-center text-center">
+                        <h5><a href="#" class="textoAzul">DEPARTAMENTOS</a></h5>
+                    </div>
 
-                <div class="col-3 align-self-center text-center">
-                    <h4><a href="#" class="textoAzul">GRUPOS DE INVESTIGACIÓN</a></h4>
-                </div>
+                    <div class="col-2 align-self-center text-center">
+                        <h5><a href="#" class="textoAzul">GRUPOS INVESTIGACIÓN</a></h5>
+                    </div>
+                    <div class="col-2 align-self-center text-center">
+                        <h5><a href="#" class="textoAzul">USUARIOS</a></h5>
+                    </div>
+                <?php } else { ?>
+                    <div class="col-2 align-self-center text-center">
+                        <h4><a href="#" class="textoAzul">CENTROS</a></h4>
+                    </div>
 
-                <?php if (rolUsuario == "admin") {?>
+                    <div class="col-2 align-self-center text-center">
+                        <h4><a href="#" class="textoAzul">EDIFICIOS</a></h4>
+                    </div>
+
+                    <div class="col-2 align-self-center text-center">
+                        <h4><a href="#" class="textoAzul">ESPACIOS</a></h4>
+                    </div>
+
                     <div class="col-3 align-self-center text-center">
-                        <h4><a href="#" class="textoAzul">USUARIOS</a></h4>
+                        <h4><a href="#" class="textoAzul">DEPARTAMENTOS</a></h4>
+                    </div>
+
+                    <div class="col-3 align-self-center text-center">
+                        <h4><a href="#" class="textoAzul">GRUPOS INVESTIGACIÓN</a></h4>
                     </div>
                 <?php } ?>
 
