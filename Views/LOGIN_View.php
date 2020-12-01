@@ -31,6 +31,7 @@ class LOGIN_View{
     <script src="../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
 
+    <script type="text/javascript" src="../Views/js/validacionesLogin.js"></script>
 
 
     <nav id="barra-fija-superior" class="nav">
@@ -65,7 +66,7 @@ class LOGIN_View{
                             </svg>
                         </div>
                     </div>
-                    <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario">
+                    <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario" size="12" maxlength="12">
                 </div>
 
                 <div class="input-group mb-2">
@@ -77,7 +78,7 @@ class LOGIN_View{
                             </svg>
                         </div>
                     </div>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" size="64" maxlength="64">
                 </div>
                 <button type='submit' name='action' value='login' class="btn btn-primary" style="background-color: #073349;">
                     Iniciar sesión
