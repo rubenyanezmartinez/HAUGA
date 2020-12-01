@@ -3,7 +3,7 @@
 
 	session_start(); //solicito trabajar con la session
 	include '../Functions/Authentication.php';//incluye el fichero Authentication.php
-	include '../Views/MESSAGE_View.php';//incluye el fichero MESSAGE_View.php
+	//include '../Views/MESSAGE_View.php';//incluye el fichero MESSAGE_View.php
 	include "../Models/USUARIO_Model.php";//incluye el fichero USUARIO_Model.php
 	
 	function valores_form(){
@@ -69,6 +69,44 @@
 		
 		return $usuario;
 	}
+
+    //Recoge los valores de un formulario ADD
+    function valores_form_add(){
+
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
+        $password = $_POST['password'];
+        $fecha_nacimiento = $_POST['fecha_nacimiento'];
+        $email_usuario = $_POST['email_usuario'];
+        $telef_usuario = $_POST['telef_usuario'];
+        $dni = $_POST['dni'];
+        $rol = $_POST['rol'];
+        $afiliacion = $_POST['afiliacion'];
+        $nombre_puesto='';
+        if(isset($_POST['nombre_puesto'])){
+            $nombre_puesto = $_POST['nombre_puesto'];
+        }
+        $nivel_jerarquia = '';
+        if(isset($_POST['nivel_jerarquia'])){
+            $nivel_jerarquia = $_POST['nivel_jerarquia'];
+        }
+        $depart_usuario = '';
+        if(isset($_POST['depart_usuario'])){
+            $depart_usuario = $_POST['depart_usuario'];
+        }
+        $grupo_usuario = '';
+        if(isset($_POST['grupo_usuario'])){
+            $grupo_usuario = $_POST['grupo_usuario'];
+        }
+        $centro_usuario = '';
+        if(isset($_POST['centro_usuario'])){
+            $centro_usuario = $_POST['centro_usuario'];
+        }
+
+        $usuario = new USUARIO_Model('','', $nombre, $apellidos, $password, $fecha_nacimiento,$email_usuario,$telef_usuario,$dni,$rol,$afiliacion,$nombre_puesto,$nivel_jerarquia,$depart_usuario, $grupo_usuario, $centro_usuario);
+
+        return $usuario;
+    }
 	
 	if(isset($_REQUEST['action'])){//Si existe una accion mediante post se almacena en una variable
 		$accion=$_REQUEST['action'];
@@ -141,38 +179,8 @@
 				include '../Views/USUARIO_ADD_View.php';
 				new USUARIO_ADD_View();
 			} else {
-				$usuario = valores_form(); //USUARIO con los datos introducidos en el formulario.
-				$target_dir = "../Files/";
-				//Ruta en la que se almacenará el fichero resguardo.
-				$target_file = $target_dir . basename($_FILES["avatar"]["name"]);
-				$uploadOk = 1;
-				//Formato del fichero
-				$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-				
-				//Si el archivo existe
-				if (file_exists($target_file)) {
-					new MESSAGE ("El fichero resguardo ya existe.",  '../Controllers/Usuario_Controller.php?action=ADD');
-					$uploadOk = 0;
-				}
-				
-				//Permite solo la subida de imágenes y PDFs
-				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-				&& $imageFileType != "pdf" ) {
-					new MESSAGE ("Formato del fichero resguardo incorrecto.", '../Controllers/Usuario_Controller.php?action=ADD');
-					$uploadOk = 0;
-				}
-				
-				//Si no ha habido ningún error en la subida del fichero, añade el participante a la tabla.
-				if ($uploadOk != 0) {
-					$mensaje=$usuario->registrar();//Añade la tupla y
-					//Si la tupla se ha añadido correctamente, sube el fichero resguardo.
-					if($mensaje == 'Registro realizado con éxito'){	//Si el ADD devuelve un mensaje correcto
-						move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file);//Guarda el archivo en el servidor.
-					}
-					
-					new MESSAGE($mensaje, '../Controllers/Index_Controller.php');
-				}
-				
+				$usuario = valores_form_add(); //USUARIO con los datos introducidos en el formulario.
+                var_dump(($usuario->registrar()));
 			}
 			
 			break;

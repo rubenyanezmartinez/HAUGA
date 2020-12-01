@@ -80,6 +80,8 @@ class LOGIN_View{
                     <input type="password" class="form-control" id="password" placeholder="Contraseña">
                 </div>
 
+
+
                 <button type="submit" style="background-color: #073349;" class="btn btn-primary">Iniciar sesión</button>
 
             </form>

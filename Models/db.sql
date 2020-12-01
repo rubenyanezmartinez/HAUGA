@@ -26,11 +26,11 @@ CREATE TABLE `hauga`.`usuario` (
 	`dni` VARCHAR(9) NOT NULL UNIQUE,
 	`rol` enum('ADMIN', 'USUARIO_NORMAL') NOT NULL, 
 	`afiliacion` enum('DOCENTE', 'INVESTIGADOR', 'ADMINISTRACION') NOT NULL,
-	`nombre_puesto` VARCHAR(15) NOT NULL,
-	`nivel_jerarquia` int NOT NULL,
-	`depart_usuario` int NOT NULL,
-	`grupo_usuario` int NOT NULL,
-	`centro_usuario` int NOT NULL,
+	`nombre_puesto` VARCHAR(15),
+	`nivel_jerarquia` int,
+	`depart_usuario` int,
+	`grupo_usuario` int,
+	`centro_usuario` int,
 	PRIMARY KEY (`usuario_id`)
 );
 

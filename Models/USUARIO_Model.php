@@ -97,7 +97,7 @@
 				return "Ya existe el DNI";
 			}
 			
-			$sql = "INSERT INTO USUARIO (
+			$sql = "insert into usuario (
 							usuario_id,
 							login,
 							nombre,
@@ -115,7 +115,7 @@
 							grupo_usuario,
 							centro_usuario) 
 								VALUES (
-									'".$this->usuario_id."',
+									null,
 									'".$this->login."',
 									'".$this->nombre."',
 									'".$this->apellidos."',
@@ -131,7 +131,7 @@
 									'".$this->depart_usuario."',
 									'".$this->grupo_usuario."',
 									'".$this->centro_usuario."'
-									)";
+									);";
 			
 			
 			if (!$this->mysqli->query($sql)) {

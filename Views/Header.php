@@ -1,6 +1,6 @@
 <?php
 
-include_once'../Functions/Autenticacion.php';
+include_once '../Functions/Authentication.php';
 
 ?>
 
