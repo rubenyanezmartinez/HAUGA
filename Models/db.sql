@@ -118,7 +118,7 @@ CREATE TABLE `hauga`.`solicitud_responsabilidad` (
 );
 
 
-CREATE USER if not exists 'admin_hauga'@'localhost' IDENTIFIED WITH mysql_native_password BY 'admin_hauga';
+CREATE USER if not exists 'admin_hauga'@'localhost' IDENTIFIED BY 'admin_hauga';
 GRANT ALL ON `hauga`.* TO 'admin_hauga'@'localhost';
 
 
