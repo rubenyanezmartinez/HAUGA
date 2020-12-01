@@ -2,42 +2,57 @@
 	
 	class USUARIO_Model{
 		
+		var $usuario_id;
 		var $login;
-		var $password;
-		var $dni;
-		var $apellidos;
 		var $nombre;
-		var $telefono;
-		var $avatar;
-		var $fechaNacimiento;
-		var $pujador;
-		var $subastador;
-		var $administrador;
+		var $apellidos;
+		var $password;
+		var $fecha_nacimiento;
+		var $email_usuario;
+		var $telef_usuario;
+		var $dni;
+		var $rol;
+		var $afiliacion;
+		var $nombre_puesto;
+		var $nivel_jerarquia;
+		var $depart_usuario;
+		var $grupo_usuario;
+		var $centro_usuario;
 		var $mysqli;
 		
 		//Crea un objeto USUARIO
-		function __construct($login,
-							 $password,
-							 $dni,
-							 $apellidos,
+		function __construct($usuario_id,
+							 $login,
 							 $nombre,
-							 $telefono,
-							 $avatar,
-							 $fechaNacimiento,
-							 $pujador,
-							 $subastador,
-							 $administrador){
+							 $apellidos,
+							 $password,
+							 $fecha_nacimiento,
+							 $email_usuario,
+							 $telef_usuario,
+							 $dni,
+							 $rol,
+							 $afiliacion,
+							 $nombre_puesto,
+							 $nivel_jerarquia,
+							 $depart_usuario,
+							 $grupo_usuario,
+							 $centro_usuario){
+			$this->usuario_id = $usuario_id;
 			$this->login = $login;
-			$this->password = $password;
-			$this->dni = $dni;
-			$this->apellidos = $apellidos;
 			$this->nombre = $nombre;
-			$this->telefono = $telefono;
-			$this->avatar = $avatar;
-			$this->fechaNacimiento =  $fechaNacimiento;
-			$this->pujador = $pujador;
-			$this->subastador = $subastador;
-			$this->administrador = $administrador;
+			$this->apellidos = $apellidos;
+			$this->password = $password;
+			$this->fecha_nacimiento = $fecha_nacimiento;
+			$this->email_usuario = $email_usuario;
+			$this->telef_usuario = $telef_usuario;
+			$this->dni = $dni;
+			$this->rol = $rol;
+			$this->afiliacion = $afiliacion;
+			$this->nombre_puesto = $nombre_puesto;
+			$this->nivel_jerarquia = $nivel_jerarquia;
+			$this->depart_usuario = $depart_usuario;
+			$this->grupo_usuario = $grupo_usuario;
+			$this->centro_usuario = $centro_usuario;
 			include_once 'Access_DB.php';
 			$this->mysqli = ConnectDB();
 		}
@@ -46,21 +61,27 @@
 		function RellenaDatos()
 		{
 			
-			$sql="SELECT * FROM USUARIO WHERE login LIKE '".$this->login."'";
+			$sql="SELECT * FROM usuario WHERE login LIKE '".$this->login."'";
 			$resultado=$this->mysqli->query($sql);
 			$registro=mysqli_fetch_array($resultado);
 			
 			$this->login = $registro[0];
-			$this->password = $registro[1];
-			$this->dni = $registro[2];
-			$this->nombre = $registro[3];
-			$this->apellidos = $registro[4];
-			$this->telefono = $registro[5];
-			$this->fechaNacimiento = $registro[7];
-			$this->avatar = $registro[6];
-			$this->pujador = $registro[8];
-			$this->subastador = $registro[9];
-			$this->administrador = $registro[10];
+			$this->usuario_id = $registro[0];
+			$this->login = $registro[1];
+			$this->nombre = $registro[2];
+			$this->apellidos = $registro[3];
+			$this->password = $registro[4];
+			$this->fecha_nacimiento = $registro[5];
+			$this->email_usuario = $registro[6];
+			$this->telef_usuario = $registro[7];
+			$this->dni = $registro[8];
+			$this->rol = $registro[9];
+			$this->afiliacion = $registro[10];
+			$this->nombre_puesto = $registro[11];
+			$this->nivel_jerarquia = $registro[12];
+			$this->depart_usuario = $registro[13];
+			$this->grupo_usuario = $registro[14];
+			$this->centro_usuario = $registro[15];
 			
 			return $registro;
 		
