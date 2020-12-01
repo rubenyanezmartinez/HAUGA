@@ -90,10 +90,7 @@
 		//Realiza un ADD sobre la tabla USUARIO. Devuelve un mensaje informando del resultado.
 		function registrar(){
 			
-			//Comprueba si existe el login
-			if($this->existeLogin()){
-				return "Ya existe el login";
-			}
+			$this->login = $this->generarLogin();
 			
 			//Comprueba si existe un usuario con el DNI especificado
 			if($this->existeDNI()){
@@ -101,29 +98,39 @@
 			}
 			
 			$sql = "INSERT INTO USUARIO (
+							usuario_id,
 							login,
-							password,
-							dni,
-							apellidos,
 							nombre,
-							telefono,
-							avatar,
-							fechaNacimiento,
-							pujador,
-							subastador,
-							administrador) 
+							apellidos,
+							password,
+							fecha_nacimiento,
+							email_usuario,
+							telef_usuario,
+							dni,
+							rol,
+							afiliacion,
+							nombre_puesto,
+							nivel_jerarquia,
+							depart_usuario,
+							grupo_usuario,
+							centro_usuario) 
 								VALUES (
+									'".$this->usuario_id."',
 									'".$this->login."',
-									'".$this->password."',
-									'".$this->dni."',
-									'".$this->apellidos."',
 									'".$this->nombre."',
-									'".$this->telefono."',
-									'".$this->avatar."',
-									'".$this->fechaNacimiento."',
-									'".$this->pujador."',
-									'".$this->subastador."',
-									'".$this->administrador."'
+									'".$this->apellidos."',
+									'".$this->password."',
+									'".$this->fecha_nacimiento."',
+									'".$this->email_usuario."',
+									'".$this->telef_usuario."',
+									'".$this->dni."',
+									'".$this->rol."',
+									'".$this->afiliacion."',
+									'".$this->nombre_puesto."',
+									'".$this->nivel_jerarquia."',
+									'".$this->depart_usuario."',
+									'".$this->grupo_usuario."',
+									'".$this->centro_usuario."'
 									)";
 			
 			
@@ -135,10 +142,36 @@
 			}		
 			
 		}
+
+		function generarLogin(){
+			$surname = explode(" ", $this->apellidos);
+
+			$resultado_login = $this->nombre[0];
+			$resultado_login .= $surname[0][0];
+			$resultado_login .= $surname[1];
+
+			$login_number = 0;
+
+			while(true){
+				$sql = "SELECT * FROM usuario WHERE login = '".$resultado_login."';";
+				
+				$resultado = $this->mysqli->query($sql);
+
+				if($resultado->num_rows <= 0) {
+					return $resultado_login;
+				}
+				else{
+					$login_number = $login_number + 1;
+
+					$resultado_login .= $login_number;
+				}
+			}	
+
+		}
 		
 		//Devuelte true si existe en la BD el login del objeto
 		function existeLogin(){
-			$sql = "SELECT * FROM USUARIO WHERE login = '".$this->login."';";
+			$sql = "SELECT * FROM usuario WHERE login = '".$this->login."';";
 			
 			$resultado = $this->mysqli->query($sql);	
 			
@@ -147,7 +180,7 @@
 		
 		//Devuelte true si existe un usuario con el DNI del objeto
 		function existeDNI(){
-			$sql = "SELECT * FROM USUARIO WHERE DNI = '".$this->dni."';";
+			$sql = "SELECT * FROM usuario WHERE dni = '".$this->dni."';";
 			
 			$resultado = $this->mysqli->query($sql);
 			
@@ -159,7 +192,7 @@
 		function login(){
 
 			$sql = "SELECT *
-					FROM USUARIO
+					FROM usuario
 					WHERE login = '".$this->login."'";
 		
 			$resultado = $this->mysqli->query($sql);
