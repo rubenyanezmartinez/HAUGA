@@ -22,6 +22,8 @@ if(!IsAuthenticated()){
             break;
         case 'logout': logout();
             break;
+        case 'add': add();
+            break;
         //Caso default para vista de error generico
         default: echo('default del switch user_controller');
             break;
@@ -72,6 +74,59 @@ function showall(){
     $AllUsuarios = $usuario->SHOWALL(); //En $AllUsuarios se guarda el array de USUARIOs que devuelve el SHOWALL con todos los USUSARIOs registrados
     include '../Views/USUARIO_SHOWALL_View.php';    //Incluye fichero php con la vista SHOWALL
     new USUARIO_SHOWALL_View($AllUsuarios);//LLama al constructor de Usuario_Showall, que muestra la tabla
+}
+
+function add(){
+    include '../Views/USUARIO_ADD_View.php';
+    if(!$_POST){//Antes de cubrir el formulario
+        new USUARIO_ADD_View();
+    } else {
+
+        if($_POST['nombre_puesto']==""){
+            $nombre_puesto=null;
+        }else{
+            $nombre_puesto = $_POST['nombre_puesto'];
+        }
+
+        if($_POST['nivel_jerarquia']==""){
+            $nivel_jerarquia = null;
+        }else{
+            $nivel_jerarquia = $_POST['nivel_jerarquia'];
+        }
+
+        if($_POST['depart_usuario']==""){
+            $depart_usuario = null;
+        }else{
+            $depart_usuario = $_POST['depart_usuario'];
+        }
+
+        if($_POST['grupo_usuario'] ==""){
+            $grupo_usuario = null;
+        }else{
+            $grupo_usuario = $_POST['grupo_usuario'];
+        }
+
+        if($_POST['centro_usuario']==""){
+            $centro_usuario =null;
+
+        }else{
+            $centro_usuario = $_POST['centro_usuario'];
+        }
+
+        $usuario = new USUARIO_Model(null, '', $_POST['nombre'], $_POST['apellidos'],$_POST['password'], $_POST['fecha_nacimiento']
+            ,$_POST['email_usuario'],$_POST['telef_usuario'],$_POST['dni'],$_POST['rol'],$_POST['afiliacion'],$nombre_puesto,
+            $nivel_jerarquia,$depart_usuario,$grupo_usuario,$centro_usuario);//USUARIO con los datos introducidos en el formulario.
+
+        $respuesta = $usuario->registrar();
+        if($respuesta === true){
+            header('Location:../Controllers/User_Controller.php?action=showall');
+        }else{
+            //Mostramos datos introducidos y mensaje de error
+            $login = new USUARIO_ADD_View(["nombre" => $_POST['nombre'], "apellidos" => $_POST['apellidos'], "password" => $_POST['password'], "fecha_nacimiento" => $_POST['fecha_nacimiento'],
+                "email_usuario" => $_POST['email_usuario'], "telef_usuario" => $_POST['telef_usuario'], "dni" => $_POST['dni'], "rol" => $_POST['rol'], "afiliacion" => $_POST['afiliacion'],
+                "nombre_puesto" => $nombre_puesto, "nivel_jerarquia" => $nivel_jerarquia, "depart_usuario" => $depart_usuario, "grupo_usuario" => $grupo_usuario, "centro_usuario" => $centro_usuario,"respuesta"=>$respuesta]);
+        }
+    }
 }
 
 

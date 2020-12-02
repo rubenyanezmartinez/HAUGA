@@ -73,6 +73,22 @@ include_once 'Access_DB.php';
 				return "Ya existe el DNI";
 			}
 
+            $stmt = $this->db->prepare("INSERT into usuario 
+                    (usuario_id, login, nombre, apellidos, password, fecha_nacimiento, email_usuario, telef_usuario, dni, rol, afiliacion, nombre_puesto, nivel_jerarquia, depart_usuario, grupo_usuario, centro_usuario) 
+					VALUES
+					(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            $stmt->execute(array(null, $this->login, $this->nombre, $this->apellidos, $this->password, $this->fecha_nacimiento, $this->email_usuario,
+                $this->telef_usuario, $this->dni, $this->rol, $this->afiliacion, $this->nombre_puesto, $this->nivel_jerarquia, $this->depart_usuario, $this->grupo_usuario, $this->centro_usuario));
+
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);    //Fetch para cuando esperamso SOLO UN resultado
+
+            if($resultado != null){
+                return true;
+            }else{
+                return "Error insertando el usuario";
+            }
+			/*
+
 			$sql = "insert into usuario (
 							usuario_id,
 							login,
@@ -115,7 +131,7 @@ include_once 'Access_DB.php';
 			}
 			else{
 				return 'Registro realizado con éxito';//Inserción correcta
-			}
+			}*/
 
 		}
 
@@ -182,18 +198,24 @@ include_once 'Access_DB.php';
 			$login_number = 0;
 
 			while(true){
-				$sql = "SELECT * FROM usuario WHERE login = '".$resultado_login."';";
 
-				$resultado = $this->mysqli->query($sql);
+                $stmt = $this->db->prepare("SELECT *
+					FROM usuario
+					WHERE login = ?");
 
-				if($resultado->num_rows <= 0) {
-					return $resultado_login;
-				}
-				else{
-					$login_number = $login_number + 1;
+                $stmt->execute(array($resultado_login));
 
-					$resultado_login .= $login_number;
-				}
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if($resultado != null){
+                    $login_number = $login_number + 1;
+
+                    $resultado_login .= $login_number;
+                }else{
+                    return $resultado_login;
+                }
+
+
 			}
 
 		}
@@ -202,23 +224,27 @@ include_once 'Access_DB.php';
 		function existLogin(){
             $stmt = $this->db->prepare("SELECT *
 					FROM usuario
-					WHERE login = ? ");
+					WHERE login = ?");
             $stmt->execute(array($this->login));
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
             if($resultado != null){
                 return true;
             }else{
-                return 'Este usuario no esta registrado';
+                return "El usuario con este login ya existe";
             }
 		}
 		
 		//Devuelte true si existe un usuario con el DNI del objeto
 		function existDNI(){
-			$sql = "SELECT * FROM usuario WHERE dni = '".$this->dni."';";
-			
-			$resultado = $this->mysqli->query($sql);
-			
-			return ($resultado->num_rows > 0); //Devuelve true si la consulta SQL devolvió alguna tupla
+            $stmt = $this->db->prepare("SELECT *
+					FROM usuario
+					WHERE dni = ?");
+            $stmt->execute(array($this->dni));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($resultado != false){
+                return true;
+            }
 			
 		}
 		
