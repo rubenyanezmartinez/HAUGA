@@ -17,7 +17,7 @@ if(!IsAuthenticated()){
     }
 
     switch($action){
-
+        //Comprobar si esta autenticado y si tiene el rol necesario
         case 'showall': showall();
             break;
         case 'logout': logout();

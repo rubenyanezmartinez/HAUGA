@@ -207,7 +207,7 @@ include_once 'Access_DB.php';
 					FROM usuario
 					WHERE login = ? AND password = ? ");
             $stmt->execute(array($this->login, $this->password));
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);    //Fetch para cuando esperamso SOLO UN resultado
 
             if($resultado != null){
                 return true;
