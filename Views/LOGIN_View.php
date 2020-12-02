@@ -31,7 +31,9 @@ class LOGIN_View{
     <script src="../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
 
+    <script src="../libraries/jquery/jquery.validate.min.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesLogin.js"></script>
+
 
 
     <nav id="barra-fija-superior" class="nav">
@@ -55,7 +57,7 @@ class LOGIN_View{
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4 align-self-center">
-            <form method="POST" action="../Controllers/User_Controller.php">
+            <form id="loginForm" method="POST" action="../Controllers/User_Controller.php">
                 <h2 class="text-center textoAzul">Iniciar sesión</h2>
 
                 <div class="input-group mb-2">
