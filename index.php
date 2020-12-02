@@ -2,7 +2,5 @@
 
 session_start();
 
-include './Views/index_usuario.php';
-new Index();
-
+header('Location:./Controllers/Index_Controller.php');
 ?>

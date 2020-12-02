@@ -9,7 +9,6 @@ class AdminIndex {
 
     //Muestra la cabecera, la pagina de inicio y el pie;
     function render(){
-
         include '../Views/Header.php';
 
         include '../Views/Footer.php';

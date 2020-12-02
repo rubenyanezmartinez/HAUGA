@@ -58,7 +58,6 @@
 		}
 
 
-
 		//Realiza un ADD sobre la tabla USUARIO. Devuelve un mensaje informando del resultado.
 		function registrar(){
 			
@@ -114,6 +113,41 @@
 			}		
 			
 		}
+
+        //Devuelve un array de USUARIOs con todos los usuarios de la tabla.
+        function SHOWALL(){
+
+            $sql = "SELECT * FROM usuario";
+
+            $resultado = $this->mysqli->query($sql); //Guarda el resultado de la consulta.
+
+            $usuarios = $resultado->fetch_All(MYSQLI_ASSOC);
+            $usuarios_toret = array();
+
+            foreach($usuarios as $usuario){ //Par cada tupla recuperada
+                array_push($usuarios_toret, new USUARIO_Model($usuario['usuario_id'],
+                    $usuario['login'],
+                    $usuario['nombre'],
+                    $usuario['apellidos'],
+                    $usuario['password'],
+                    $usuario['fecha_nacimiento'],
+                    $usuario['email_usuario'],
+                    $usuario['telef_usuario'],
+                    $usuario['dni'],
+                    $usuario['rol'],
+                    $usuario['afiliacion'],
+                    $usuario['nombre_puesto'],
+                    $usuario['nivel_jerarquia'],
+                    $usuario['depart_usuario'],
+                    $usuario['grupo_usuario'],
+                    $usuario['depart_usuario']
+                )); //Crea un usuario con los datos recuperados por la consulta y lo almacena en el array
+            }
+
+
+            return $usuarios_toret;
+
+        }
 
 		function generarLogin(){
 			$surname = explode(" ", $this->apellidos);

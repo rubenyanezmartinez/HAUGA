@@ -1,7 +1,7 @@
 <?php
 include '../Views/LOGIN_View.php';
 include '../Functions/Authentication.php';
-include '../Models/Access_DB.php';
+//include '../Models/Access_DB.php';
 include '../Models/USUARIO_Model.php';
 session_start();
 echo('User_controller');
@@ -17,7 +17,11 @@ if(!IsAuthenticated()){
 
     switch($action){
 
-        default: echo('default del switch user_controller');
+        default: //Caso por defecto, muestra todos los usuarios.
+            $usuario = new USUARIO_Model('','','','','','','','','','','','','','','',''); //Crea un USUARIO vacío
+            $AllUsuarios = $usuario->SHOWALL(); //En $AllUsuarios se guarda el array de USUARIOs que devuelte el SHOWALL con todos los USUARIOs registrados
+            include '../Views/USUARIO_SHOWALL_View.php'; //Incluye el fichero php con la vista del SHOWALL
+            new USUARIO_SHOWALL_View($AllUsuarios); //Llama al constructor de Usuario_Showall, que muestra la tabla.
             break;
     }
 }
