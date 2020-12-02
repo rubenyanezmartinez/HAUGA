@@ -164,7 +164,7 @@ include_once 'Access_DB.php';
                             new USUARIO_Model(
                                 $user['usuario_id'],$user['login'],$user['nombre']
                                 ,$user['apellidos'],$user['password'],$user['fecha_nacimiento'],$user['email_usuario']
-                                ,$user['telf_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
+                                ,$user['telef_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
                                 ,$user['nivel_jerarquia'],$user['depart_usuario'],$user['grupo_usuario'],$user['centro_usuario']
                             )
                 );
