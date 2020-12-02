@@ -10,13 +10,7 @@ function esAdministrador(){
         return false;
     }
     else{
-        $usuario = new USUARIO_Model(null, $_SESSION['login'], "", "","","", ""
-            ,"","","","","","",
-            "","","","");
-
-        $rol = $usuario->getRol();
-
-        if($rol == "ADMIN"){
+        if($_SESSION['rol'] == "ADMIN"){
             return true;
         }
         else{
