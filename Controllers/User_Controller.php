@@ -48,7 +48,7 @@ function login(){
             if($respuesta === true){ //Si coincide la contraseña dada con la del usuario
                 session_start();
                 $_SESSION['login'] = $_POST['login'];
-                $_SESSION['rol'] = $usuario->getRol();
+                $_SESSION['rol'] = $usuario->consultarRol();
 
                 header('Location:../index.php');
             }else{
