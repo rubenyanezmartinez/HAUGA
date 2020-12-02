@@ -26,7 +26,10 @@ include_once '../Functions/esAdministrador.php';
     <script src="../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
 
+    <script src="../libraries/jquery/jquery.validate.js"></script>
     <script src="../libraries/jquery/jquery.validate.min.js"></script>
+    <script src="../libraries/jquery/additional-methods.js"></script>
+    <script src="../libraries/jquery/additional-methods.min.js"></script>
 
 
     <nav id="barra-fija-superior" class="nav">
