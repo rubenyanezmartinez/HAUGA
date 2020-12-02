@@ -3,8 +3,10 @@
 //Clase que implementa la vista donde el usuario introduce el login y la contraseñapara acceder a la aplicación
 class LOGIN_View{
 
+    var $datos;
 //Constructor de la clase
-    function __construct(){
+    function __construct($datos = ["login" => '', "password" => '', "respuesta"=>'']){
+        $this->datos = $datos;
         $this->render();
     }
 //función que muestra la cabecera, inputs y el pie de la pagina de login
@@ -71,7 +73,7 @@ class LOGIN_View{
                             </svg>
                         </div>
                     </div>
-                    <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario" size="12" maxlength="12">
+                    <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario" value="<?php echo($this->datos['login'])?>" size="12" maxlength="12">
                 </div>
 
                 <div class="input-group mb-2">
@@ -83,8 +85,13 @@ class LOGIN_View{
                             </svg>
                         </div>
                     </div>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" size="64" maxlength="64">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" value="<?php echo $this->datos['password']?>" size="64" maxlength="64">
                 </div>
+
+                <?php if($this->datos['login']!='' && $this->datos['password']!=''){ ?>
+                <div class="alert alert-danger"><?php echo($this->datos['respuesta'])?></div>
+                <?php } ?>
+
                 <button type='submit' name='action' value='login' class="btn btn-primary" style="background-color: #073349;">
                     Iniciar sesión
                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

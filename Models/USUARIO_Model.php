@@ -1,7 +1,9 @@
 <?php
-	
+include_once 'Access_DB.php';
+
 	class USUARIO_Model{
-		
+        private $db;
+
 		var $usuario_id;
 		var $login;
 		var $nombre;
@@ -18,7 +20,7 @@
 		var $depart_usuario;
 		var $grupo_usuario;
 		var $centro_usuario;
-		var $mysqli;
+		//var $mysqli;
 		
 		//Crea un objeto USUARIO
 		function __construct($usuario_id,
@@ -53,8 +55,8 @@
 			$this->depart_usuario = $depart_usuario;
 			$this->grupo_usuario = $grupo_usuario;
 			$this->centro_usuario = $centro_usuario;
-			include_once 'Access_DB.php';
-			$this->mysqli = ConnectDB();
+
+			$this->db = PDOConnection::getInstance();
 		}
 
 
@@ -64,7 +66,7 @@
 			$this->login = $this->generarLogin();
 			
 			//Comprueba si existe un usuario con el DNI especificado
-			if($this->existeDNI()){
+			if($this->existDNI()){
 				return "Ya existe el DNI";
 			}
 			
@@ -176,16 +178,21 @@
 		}
 		
 		//Devuelte true si existe en la BD el login del objeto
-		function existeLogin(){
-			$sql = "SELECT * FROM usuario WHERE login = '".$this->login."';";
-			
-			$resultado = $this->mysqli->query($sql);	
-			
-			return ($resultado->num_rows > 0); //Devuelve true si la consulta SQL devolvió alguna tupla
+		function existLogin(){
+            $stmt = $this->db->prepare("SELECT *
+					FROM usuario
+					WHERE login = ? ");
+            $stmt->execute(array($this->login));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($resultado != null){
+                return true;
+            }else{
+                return 'Este usuario no esta registrado';
+            }
 		}
 		
 		//Devuelte true si existe un usuario con el DNI del objeto
-		function existeDNI(){
+		function existDNI(){
 			$sql = "SELECT * FROM usuario WHERE dni = '".$this->dni."';";
 			
 			$resultado = $this->mysqli->query($sql);
@@ -196,24 +203,18 @@
 		
 		//Verifica que el usuario existe y la contraseña asociada es correcta.
 		function login(){
-
-			$sql = "SELECT *
+            $stmt = $this->db->prepare("SELECT *
 					FROM usuario
-					WHERE login = '".$this->login."'";
-		
-			$resultado = $this->mysqli->query($sql);
-			if ($resultado->num_rows == 0){ //Comprueba si existe el login
-				return 'El login no existe';
-			}
-			else{
-				$tupla = $resultado->fetch_array();
-				if ($tupla['password'] == $this->password){ //Si existe el login, comprueba si la contraseña es correcta
-					return 'true';
-				}
-				else{
-					return 'La password para este usuario no es correcta';
-				}
-			}
+					WHERE login = ? AND password = ? ");
+            $stmt->execute(array($this->login, $this->password));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($resultado != null){
+                return true;
+            }else{
+                return "El usuario o la contraseña para este usuario no son correctos";
+            }
+
 		}
 		
 
@@ -247,12 +248,15 @@
         //Recupera el rol de un usuario determinado
         //Devuelve el rol del usuario si lo encuentra en la BD, mensaje de error en caso contrario
         function getRol(){
-            $sql = "SELECT * FROM usuario WHERE(`login` = '". $this->login ."')";
-            $result = $this->mysqli->query($sql);
 
-            if($result->num_rows == 1){
-                $tuple = $result->fetch_array();
-                return $tuple['rol'];
+            $stmt = $this->db->prepare("SELECT *
+					FROM usuario
+					WHERE login = ? ");
+            $stmt->execute(array($this->login));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($resultado != null){
+                return $resultado['rol'];
             }else{
                 return 'No existe el usuario en la BD';
             }
