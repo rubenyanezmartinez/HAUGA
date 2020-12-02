@@ -16,6 +16,10 @@ $(document).ready(function() {
                 required: true
             }
         },
+        errorClass:  'fieldError',
+        onkeyup:     false,
+        onblur:      false,
+        errorElement:'label',
         messages : {
             login: {
                 required: "El campo no puede estar vacío",
@@ -33,5 +37,10 @@ $(document).ready(function() {
             }
         },
 
+    });
+
+    $("#botonLogin").click(function(){
+        $("#loginForm").submit();
+        return false;
     });
 });
