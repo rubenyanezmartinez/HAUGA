@@ -19,6 +19,7 @@ include_once './Functions/esAdministrador.php';
     <!-- ENLACES A JQUERY -->
     <script src="../libraries/jquery/dist/jquery.slim.min.js"></script>
     <script src="../libraries/jquery/dist/jquery.min.js"></script>
+    <script src="../libraries/jquery/jquery.validate.min.js"></script>
 
     <!-- ENLACES A BOOTSTRAP -->
     <link href="../libraries/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
