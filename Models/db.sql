@@ -26,7 +26,7 @@ CREATE TABLE `hauga`.`usuario` (
 	`dni` VARCHAR(9) NOT NULL UNIQUE,
 	`rol` enum('ADMIN', 'USUARIO_NORMAL') NOT NULL, 
 	`afiliacion` enum('DOCENTE', 'INVESTIGADOR', 'ADMINISTRACION') NOT NULL,
-	`nombre_puesto` VARCHAR(15),
+	`nombre_puesto` VARCHAR(60),
 	`nivel_jerarquia` int,
 	`depart_usuario` int,
 	`grupo_usuario` int,
@@ -124,11 +124,15 @@ GRANT ALL ON `hauga`.* TO 'admin_hauga'@'localhost';
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
-VALUES (null, 'rymartinez', 'Rubén', 'Yañez Martinez', '1234', '1998-07-27', 'rymartinez@gmail.com', '6661006666', '22222222A', 'ADMIN', 'ADMINISTRACION', 'puesto', 1, 1, 1, 1);
+VALUES (null, 'rymartinez', 'Rubén', 'Yañez Martinez', '1234', '1998-07-27', 'rymartinez@gmail.com', '6661006666', '22222222A', 'ADMIN', 'ADMINISTRACION', '', null, null, null, null);
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
-VALUES (null, 'Zabo', 'Javier', 'Quintas Bergantiño', '1234', '1997-08-03', 'jqbergantinho@gmail.com', '637334410', '11111111A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'puesto', 1, 1, 1, 1);
+VALUES (null, 'Zabo', 'Javier', 'Quintas Bergantiño', '1234', '1997-08-03', 'jqbergantinho@gmail.com', '637334410', '11111111A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'Director de recursos humanos', 1, 1, 1, 1);
+
+INSERT INTO `hauga`.`usuario`
+(`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
+VALUES (null, 'mvaugusto', 'Manuel', 'Vazquez Augusto', '1234', '1998-12-31', 'mvaugusto@gmail.com', '777807117', '33333333A', 'USUARIO_NORMAL', 'DOCENTE', null, null, 1, null, 1);
 
 INSERT INTO `hauga`.`grupo_investigacion`
 (`grupo_id`, `nombre_grupo`, `telef_grupo`, `lineas_investigacion`, `area_conoc_grupo`, `email_grupo`, `responsable_grupo`)
