@@ -31,7 +31,10 @@ class LOGIN_View{
     <script src="../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
 
+    <script src="../libraries/jquery/jquery.validate.js"></script>
     <script src="../libraries/jquery/jquery.validate.min.js"></script>
+    <script src="../libraries/jquery/additional-methods.js"></script>
+    <script src="../libraries/jquery/additional-methods.min.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesLogin.js"></script>
 
 
