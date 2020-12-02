@@ -35,3 +35,11 @@
 .botonFormulario{
     background-color: #073349;
 }
+
+label.error {
+    float: none;
+    color: red;
+    padding-left: .5em;
+    vertical-align: middle;
+    font-size: 12px;
+}
