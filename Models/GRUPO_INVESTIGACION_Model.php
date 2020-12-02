@@ -52,5 +52,12 @@ include_once 'Access_DB.php';
 
             return $registro;
         }
+
+        /**
+         * @return mixed
+         */
+        function getNombreGrupo(){
+            return $this->nombre_grupo;
+        }
     }
 ?>
