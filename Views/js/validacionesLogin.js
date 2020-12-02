@@ -2,27 +2,34 @@ $(document).ready(function() {
     $("#loginForm").validate({
         rules: {
             login: {
-                required: true,
+                nowhitespace: true,
+                alphanumeric: true,
+                maxLength: 12,
                 minLength: 1,
-                maxLength: 12
+                required: true
             },
             password: {
-                required: true,
+                nowhitespace: true,
+                alphanumeric: true,
+                maxLength: 64,
                 minLength: 1,
-                maxLength: 64
+                required: true
             }
         },
         messages : {
             login: {
-                required : "El campo es obligatorio.",
+                required: "El campo no puede estar vacío",
                 minLength: "El campo no puede estar vacío.",
                 maxLength: "El campo no puede exceder los 12 caracteres.",
-                alphanumeric: "El campo debe ser alfanumerico."
+                alphanumeric: "El campo debe ser alfanumerico.",
+                nowhitespace: "El campo no puede ser un espacio en blanco"
             },
             password: {
-                required : "El campo es obligatorio.",
+                required: "El campo no puede estar vacío",
                 minLength: "El campo no puede estar vacío.",
-                maxLength: "El campo no puede exceder los 64 caracteres."
+                maxLength: "El campo no puede exceder los 64 caracteres.",
+                alphanumeric: "El campo debe ser alfanumerico.",
+                nowhitespace: "El campo no puede ser un espacio en blanco"
             }
         },
 
