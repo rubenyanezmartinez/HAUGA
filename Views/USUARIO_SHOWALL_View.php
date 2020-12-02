@@ -41,11 +41,12 @@ class USUARIO_SHOWALL_View{
                 </div>
             </div>
 
+            <hr>
             <!-- Tabla showall -->
             <div class="row">
                 <table class="table table-bordered">
                     <thead>
-                    <tr>
+                    <tr class="text-center" style="color: white;background-color: #073349;">
                         <th scope="col">Usuario</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellidos</th>
