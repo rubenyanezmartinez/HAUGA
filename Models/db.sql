@@ -128,7 +128,15 @@ VALUES (null, 'rymartinez', 'Rubén', 'Yañez Martinez', '1234', '1998-07-27', '
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
-VALUES (null, 'jqbergantino', 'Javier', 'Quintas Bergantiño', '1234', '1997-08-03', 'jqbergantinho@gmail.com', '637334410', '11111111A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'Director de recursos humanos', 1, 1, null, null);
+VALUES (null, 'jqbergantino', 'Javier', 'Quintas Bergantiño', '1234', '1997-08-03', 'jqbergantinho@gmail.com', '637334410', '11111111A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'Director de recursos humanos', 1, null, null, null);
+
+INSERT INTO `hauga`.`usuario`
+(`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
+VALUES (null, 'ipgonzalez', 'Inés', 'Prieto González', '1234', '1997-08-03', 'ipgonzalez@gmail.com', '658694410', '55555555A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'Directora de imagen', 3, null, null, null);
+
+INSERT INTO `hauga`.`usuario`
+(`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
+VALUES (null, 'rcferradas', 'Rodrigo', 'Currás Ferradás', '1234', '1997-08-03', 'rcferradas@gmail.com', '637895210', '66666666A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'Secretario de posgrado', 4, null, null, null);
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
