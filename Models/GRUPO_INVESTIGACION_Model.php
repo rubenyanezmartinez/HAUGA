@@ -75,6 +75,19 @@ include_once 'Access_DB.php';
             return $allgrupos;
         }
 
+        function actualizarResponsable(){
+
+            $stmt = $this->db->prepare("UPDATE grupo_investigacion set responsable_grupo = ? where responsable_grupo = ?");
+
+            if( $stmt->execute(array(NULL, $this->responsable_grupo))){
+                return true;
+            }else{
+                return "Error ACTUALIZANDO";
+            }
+
+
+        }
+
         /**
          * @return mixed
          */

@@ -77,61 +77,14 @@ include_once 'Access_DB.php';
                     (usuario_id, login, nombre, apellidos, password, fecha_nacimiento, email_usuario, telef_usuario, dni, rol, afiliacion, nombre_puesto, nivel_jerarquia, depart_usuario, grupo_usuario, centro_usuario) 
 					VALUES
 					(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            $stmt->execute(array(null, $this->login, $this->nombre, $this->apellidos, $this->password, $this->fecha_nacimiento, $this->email_usuario,
-                $this->telef_usuario, $this->dni, $this->rol, $this->afiliacion, $this->nombre_puesto, $this->nivel_jerarquia, $this->depart_usuario, $this->grupo_usuario, $this->centro_usuario));
 
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);    //Fetch para cuando esperamso SOLO UN resultado
-
-            if($resultado != null){
+            if( $stmt->execute(array(null, $this->login, $this->nombre, $this->apellidos, $this->password, $this->fecha_nacimiento, $this->email_usuario,
+                $this->telef_usuario, $this->dni, $this->rol, $this->afiliacion, $this->nombre_puesto, $this->nivel_jerarquia, $this->depart_usuario, $this->grupo_usuario, $this->centro_usuario))){
                 return true;
             }else{
                 return "Error insertando el usuario";
             }
-			/*
 
-			$sql = "insert into usuario (
-							usuario_id,
-							login,
-							nombre,
-							apellidos,
-							password,
-							fecha_nacimiento,
-							email_usuario,
-							telef_usuario,
-							dni,
-							rol,
-							afiliacion,
-							nombre_puesto,
-							nivel_jerarquia,
-							depart_usuario,
-							grupo_usuario,
-							centro_usuario) 
-								VALUES (
-									null,
-									'".$this->login."',
-									'".$this->nombre."',
-									'".$this->apellidos."',
-									'".$this->password."',
-									'".$this->fecha_nacimiento."',
-									'".$this->email_usuario."',
-									'".$this->telef_usuario."',
-									'".$this->dni."',
-									'".$this->rol."',
-									'".$this->afiliacion."',
-									'".$this->nombre_puesto."',
-									'".$this->nivel_jerarquia."',
-									'".$this->depart_usuario."',
-									'".$this->grupo_usuario."',
-									'".$this->centro_usuario."'
-									);";
-
-
-			if (!$this->mysqli->query($sql)) {
-				return 'Error en el registro';//Si se produce algún error durante la inserción.
-			}
-			else{
-				return 'Registro realizado con éxito';//Inserción correcta
-			}*/
 
 		}
 
@@ -208,8 +161,8 @@ include_once 'Access_DB.php';
                 $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if($resultado != null){
+                    $resultado_login = str_replace($login_number,"",$resultado_login);
                     $login_number = $login_number + 1;
-
                     $resultado_login .= $login_number;
                 }else{
                     return $resultado_login;
@@ -315,17 +268,32 @@ include_once 'Access_DB.php';
 		
 		//Elimina un USUARIO
 		function DELETE(){
-		    var_dump($this->login);
-			$sql = "DELETE FROM usuario
-                    WHERE login = '".$this->login."'";
 
-            if(!$this->mysqli->query($sql)){
-                var_dump($sql);
-                return "Error eliminando el usuario"; //Se produce un error al eliminar el usuario
+            $stmt = $this->db->prepare("DELETE
+					FROM usuario
+					WHERE login = ? ");
+
+            if( $stmt->execute(array($this->login))){
+                return true;
+            }else{
+                return "Error eliminando el usuario";
             }
-            else{
-                var_dump($sql);
-                return "Usuario eliminado"; //Se elimina correctamente el usuario
+        }
+
+        //Recupera el id de un usuario determinado
+        //Devuelve el id del usuario si lo encuentra en la BD, mensaje de error en caso contrario
+        function consultarId(){
+
+            $stmt = $this->db->prepare("SELECT *
+					FROM usuario
+					WHERE login = ? ");
+            $stmt->execute(array($this->login));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($resultado != null){
+                return $resultado['usuario_id'];
+            }else{
+                return 'No existe el usuario en la BD';
             }
         }
 

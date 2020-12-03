@@ -186,12 +186,11 @@ function render(){
                         </select>
                     </div>
 
-                    <div class="col-md-6 input-group mb-2" id="div_nombre_puesto">
+                    <div class="col-md-6 input-group mb-2" id="div_nombre_puesto" style="margin-bottom: 1rem!important;">
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="background-color: #073349;">
-                                <svg style="color: white" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                                 </svg>
                             </div>
                         </div>
@@ -225,10 +224,10 @@ function render(){
                         </select>
                     </div>
 
-                    <div class="col-md-6 input-group mb-2" id="div_nivel_jerarquia">
+                    <div class="col-md-6 input-group mb-2" id="div_nivel_jerarquia" style="margin-bottom: 1rem!important;">
                         <div class="input-group-prepend" >
                             <div class="input-group-text" style="background-color: #073349;">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                                 </svg>
                             </div>

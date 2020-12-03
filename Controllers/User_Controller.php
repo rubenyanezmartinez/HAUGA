@@ -7,6 +7,7 @@ include '../Models/USUARIO_Model.php';
 include '../Models/CENTRO_Model.php';
 include '../Models/GRUPO_INVESTIGACION_Model.php';
 include '../Models/DEPARTAMENTO_Models.php';
+include '../Models/INCIDENCIA_Model.php';
 session_start();
 
 
@@ -30,6 +31,9 @@ if(!IsAuthenticated()){
         case 'showcurrent':
             $login_usuario = $_GET['login_usuario'];
             showcurrent($login_usuario);
+            break;
+        case 'delete':
+            delete();
             break;
         //Caso default para vista de error generico
         default: echo('default del switch user_controller');
@@ -147,19 +151,19 @@ function add(){
             $nivel_jerarquia = $_POST['nivel_jerarquia'];
         }
 
-        if($_POST['depart_usuario']==""){
+        if(!isset($_POST['depart_usuario'])){
             $depart_usuario = null;
         }else{
             $depart_usuario = $_POST['depart_usuario'];
         }
 
-        if($_POST['grupo_usuario'] ==""){
+        if(!isset($_POST['grupo_usuario'])){
             $grupo_usuario = null;
         }else{
             $grupo_usuario = $_POST['grupo_usuario'];
         }
 
-        if($_POST['centro_usuario']==""){
+        if(!isset($_POST['centro_usuario'])){
             $centro_usuario =null;
 
         }else{
@@ -244,6 +248,26 @@ function showcurrent($login_usuario)
 
 function logout(){
     logoutSession();   //De Desconectar.php
+}
+
+function delete(){
+    if(isset($_GET['login_usuario'])){//Antes de confirmar el borrado
+        $usuario = new USUARIO_Model('', $_GET['login_usuario'], '', '','', ''
+            ,'','','','','','',
+            '','', '','');
+        $id_usuario = $usuario->consultarId();
+        $grupo = new GRUPO_INVESTIGACION_Model('','','','','','',$id_usuario);  //Crea un GRUPO con responsable
+        $grupo->actualizarResponsable(); //En $Array con todos los grupos
+        $departamento = new DEPARTAMENTO_Models('','','','','','',$id_usuario, '');  //Crea un DEPARTAMENTO vacio
+        $departamento -> actualizarResponsable();
+        $incidencia = new INCIDENCIA_Model('','','','',$id_usuario);  //Crea un DEPARTAMENTO vacio
+        $incidencia -> actualizarResponsable();
+        $usuario = new USUARIO_Model('',$_GET['login_usuario'],'','','','','','','','','', '', '', '', '', ''); //Crea un usuario con el login
+        $respuesta = $usuario->DELETE(); //Elimina el usuario
+        if($respuesta === true){
+            header('Location:../Controllers/User_Controller.php?action=showall');
+        }
+    }
 }
 
 
