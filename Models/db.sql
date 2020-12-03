@@ -37,7 +37,7 @@ CREATE TABLE `hauga`.`usuario` (
 
 CREATE TABLE `hauga`.`grupo_investigacion` (
 	`grupo_id` int NOT NULL AUTO_INCREMENT,
-	`nombre_grupo` VARCHAR(20) NOT NULL,
+	`nombre_grupo` VARCHAR(70) NOT NULL,
 	`telef_grupo` int NOT NULL,
 	`lineas_investigacion` int NOT NULL,
 	`area_conoc_grupo` VARCHAR(30) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE `hauga`.`grupo_investigacion` (
 
 CREATE TABLE `hauga`.`departamento` (
 	`depart_id` int NOT NULL AUTO_INCREMENT,
-	`nombre_depart` VARCHAR(15) NOT NULL,
+	`nombre_depart` VARCHAR(70) NOT NULL,
 	`codigo_depart` VARCHAR(9) NOT NULL UNIQUE,
 	`telef_depart` int NOT NULL,
 	`email_depart` VARCHAR(30) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE `hauga`.`departamento` (
 
 CREATE TABLE `hauga`.`edificio` (
 	`edificio_id` int NOT NULL AUTO_INCREMENT,
-	`nombre_edif` VARCHAR(15) NOT NULL,
+	`nombre_edif` VARCHAR(70) NOT NULL,
 	`direccion_edif` VARCHAR(50) NOT NULL,
 	`telef_edif` int NOT NULL,
 	`num_plantas` int NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `hauga`.`agrupacion_edificio` (
 
 CREATE TABLE `hauga`.`centro` (
 	`centro_id` int NOT NULL AUTO_INCREMENT,
-	`nombre_centro` VARCHAR(15) NOT NULL,
+	`nombre_centro` VARCHAR(70) NOT NULL,
 	`edificio_centro` int NOT NULL,
 	PRIMARY KEY	(`centro_id`)
 );
@@ -128,11 +128,15 @@ VALUES (null, 'rymartinez', 'Rubén', 'Yañez Martinez', '1234', '1998-07-27', '
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
-VALUES (null, 'Zabo', 'Javier', 'Quintas Bergantiño', '1234', '1997-08-03', 'jqbergantinho@gmail.com', '637334410', '11111111A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'Director de recursos humanos', 1, 1, 1, 1);
+VALUES (null, 'jqbergantino', 'Javier', 'Quintas Bergantiño', '1234', '1997-08-03', 'jqbergantinho@gmail.com', '637334410', '11111111A', 'USUARIO_NORMAL', 'ADMINISTRACION', 'Director de recursos humanos', 1, 1, null, null);
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
 VALUES (null, 'mvaugusto', 'Manuel', 'Vazquez Augusto', '1234', '1998-12-31', 'mvaugusto@gmail.com', '777807117', '33333333A', 'USUARIO_NORMAL', 'DOCENTE', null, null, 1, null, 1);
+
+INSERT INTO `hauga`.`usuario`
+(`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
+VALUES (null, 'nghervella', 'Noelia', 'García Hervella', '1234', '1998-12-31', 'nghervella@gmail.com', '875905218', '44444444A', 'USUARIO_NORMAL', 'INVESTIGADOR', null, null, null, 1, null);
 
 INSERT INTO `hauga`.`grupo_investigacion`
 (`grupo_id`, `nombre_grupo`, `telef_grupo`, `lineas_investigacion`, `area_conoc_grupo`, `email_grupo`, `responsable_grupo`)
@@ -140,23 +144,23 @@ VALUES (null, 'LIA2', '111111111', 2, 'Realidad virtual', 'lia2@gmail.com', 1);
 
 INSERT INTO `hauga`.`departamento`
 (`depart_id`, `nombre_depart`, `codigo_depart`, `telef_depart`, `email_depart`, `area_conc_depart`, `responsable_depart`, `edificio_depart`)
-VALUES (null, 'departamento 1', 'dept1', '222222222', 'dept1@gmail.com', 'conocimiento 2', 1, 1);
+VALUES (null, 'Departamento de Informática', 'deptinfo', '222222222', 'informatica@gmail.com', 'sistemas informaticos', 4, 1);
 
 INSERT INTO `hauga`.`edificio`
 (`edificio_id`, `nombre_edif`, `direccion_edif`, `telef_edif`, `num_plantas`, `agrup_edificio`)
-VALUES (null, 'edificio1', 'direccion1', '333333333', 3, 1);
+VALUES (null, 'Politécnico', 'direccion1', '333333333', 3, 1);
 
 INSERT INTO `hauga`.`agrupacion_edificio`
 (`agrup_id`, `nombre_agrup`, `ubicacion_agrup`)
-VALUES (null, 'agrupacion1', 'ubicacion1');
+VALUES (null, 'Campos de Ourense', 'ubicacion1');
 
 INSERT INTO `hauga`.`centro`
 (`centro_id`, `nombre_centro`, `edificio_centro`)
-VALUES (null, 'centro1', 1);
+VALUES (null, 'ESEI', 1);
 
 INSERT INTO `hauga`.`espacio`
 (`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
-VALUES (null, 'espacio1','../Models/Imagenes_Espacios/fotoEjemplo.PNG', 300, 'DOCENCIA', 2, 1);
+VALUES (null, 'Aula 2.1','../Models/Imagenes_Espacios/fotoEjemplo.PNG', 300, 'DOCENCIA', 2, 1);
 
 INSERT INTO `hauga`.`incidencia`
 (`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)
