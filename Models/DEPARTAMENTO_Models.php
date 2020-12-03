@@ -59,6 +59,27 @@ class DEPARTAMENTO_Models{
         return $resultado;
     }
 
+    //Devuelve un array de departamento con todos los departamento de la tabla.
+    function SHOWALL(){
+
+        $stmt = $this->db->prepare("SELECT * FROM departamento");
+        $stmt->execute();
+        $departamentos_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $alldepartamentos = array();  //array para almacenar los datos de todos los grupos
+
+        //Recorremos todos las filas de grupos devueltas por la sentencia sql
+        foreach ($departamentos_db as $departamento){
+            //Introducimos uno a uno los grupos recuperados de la BD
+            array_push($alldepartamentos,
+                new DEPARTAMENTO_Models(
+                    $departamento['depart_id'],$departamento['nombre_depart'],$departamento['codigo_depart']
+                    ,$departamento['telef_depart'],$departamento['email_depart'],$departamento['area_conc_depart'],$departamento['responsable_depart'],
+                    $departamento['edificio_depart'])
+            );
+        }
+        return $alldepartamentos;
+    }
+
     /**
      * @return mixed
      */

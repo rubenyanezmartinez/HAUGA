@@ -39,6 +39,26 @@ class CENTRO_Model{
         return $resultado;
     }
 
+    //Devuelve un array de centros con todos los centros de la tabla.
+    function SHOWALL(){
+
+        $stmt = $this->db->prepare("SELECT * FROM centro");
+        $stmt->execute();
+        $centros_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allcentros = array();  //array para almacenar los datos de todos los grupos
+
+        //Recorremos todos las filas de grupos devueltas por la sentencia sql
+        foreach ($centros_db as $centro){
+            //Introducimos uno a uno los grupos recuperados de la BD
+            array_push($allcentros,
+                new CENTRO_Model(
+                    $centro['centro_id'],$centro['nombre_centro'],$centro['edificio_centro']
+                )
+            );
+        }
+        return $allcentros;
+    }
+
     /**
      * @return mixed
      */

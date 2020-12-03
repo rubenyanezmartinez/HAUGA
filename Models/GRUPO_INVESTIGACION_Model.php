@@ -54,6 +54,27 @@ include_once 'Access_DB.php';
             return $resultado;
         }
 
+        //Devuelve un array de GRUPOS con todos los GRUPOS de la tabla.
+        function SHOWALL(){
+
+            $stmt = $this->db->prepare("SELECT * FROM grupo_investigacion");
+            $stmt->execute();
+            $grupos_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $allgrupos = array();  //array para almacenar los datos de todos los grupos
+
+            //Recorremos todos las filas de grupos devueltas por la sentencia sql
+            foreach ($grupos_db as $grupo){
+                //Introducimos uno a uno los grupos recuperados de la BD
+                array_push($allgrupos,
+                    new GRUPO_INVESTIGACION_Model(
+                        $grupo['grupo_id'],$grupo['nombre_grupo'],$grupo['telef_grupo']
+                        ,$grupo['lineas_investigacion'],$grupo['area_conoc_grupo'],$grupo['email_grupo'],$grupo['responsable_grupo']
+                    )
+                );
+            }
+            return $allgrupos;
+        }
+
         /**
          * @return mixed
          */

@@ -120,9 +120,18 @@ function showall(){
 }
 
 function add(){
+    $grupo = new GRUPO_INVESTIGACION_Model('','','','','','','');  //Crea un GRUPO vacio
+    $grupos = $grupo->SHOWALL(); //En $Array con todos los grupos
+    $departamento = new DEPARTAMENTO_Models('','','','','','','', '');  //Crea un DEPARTAMENTO vacio
+    $departamentos = $departamento->SHOWALL(); //En $Array con todos los departamento
+    $centro = new CENTRO_Model('','','');  //Crea un centro vacio
+    $centros = $centro->SHOWALL(); //En $Array con todos los centros
     include '../Views/USUARIO_ADD_View.php';
     if(!$_POST){//Antes de cubrir el formulario
-        new USUARIO_ADD_View();
+        $datos = ["nombre" => '', "apellidos" => '', "password" => '', "fecha_nacimiento" => '',
+            "email_usuario" => '', "telef_usuario" => '', "dni" => '', "rol" => '', "afiliacion" => '',
+            "nombre_puesto" => '', "nivel_jerarquia" => '', "depart_usuario" => '', "grupo_usuario" => '', "centro_usuario" => '',"respuesta"=>''];
+        new USUARIO_ADD_View($datos, $grupos, $departamentos, $centros);
     } else {
 
         if($_POST['nombre_puesto']==""){
@@ -167,7 +176,7 @@ function add(){
             //Mostramos datos introducidos y mensaje de error
             $login = new USUARIO_ADD_View(["nombre" => $_POST['nombre'], "apellidos" => $_POST['apellidos'], "password" => $_POST['password'], "fecha_nacimiento" => $_POST['fecha_nacimiento'],
                 "email_usuario" => $_POST['email_usuario'], "telef_usuario" => $_POST['telef_usuario'], "dni" => $_POST['dni'], "rol" => $_POST['rol'], "afiliacion" => $_POST['afiliacion'],
-                "nombre_puesto" => $nombre_puesto, "nivel_jerarquia" => $nivel_jerarquia, "depart_usuario" => $depart_usuario, "grupo_usuario" => $grupo_usuario, "centro_usuario" => $centro_usuario,"respuesta"=>$respuesta]);
+                "nombre_puesto" => $nombre_puesto, "nivel_jerarquia" => $nivel_jerarquia, "depart_usuario" => $depart_usuario, "grupo_usuario" => $grupo_usuario, "centro_usuario" => $centro_usuario,"respuesta"=>$respuesta], $grupos, $departamentos, $centros);
         }
     }
 }

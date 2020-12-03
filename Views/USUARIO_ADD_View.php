@@ -3,11 +3,15 @@
 //Clase que implementa la vista donde el administrador crea un usuario
 class USUARIO_ADD_View{
 var $datos;
+var $grupos;
+var $departamentos;
+var $centros;
 //Constructor de la clase
-function __construct($datos = ["nombre" => '', "apellidos" => '', "password" => '', "fecha_nacimiento" => '',
-    "email_usuario" => '', "telef_usuario" => '', "dni" => '', "rol" => '', "afiliacion" => '',
-    "nombre_puesto" => '', "nivel_jerarquia" => '', "depart_usuario" => '', "grupo_usuario" => '', "centro_usuario" => '',"respuesta"=>'']){
+function __construct($datos, $grupos, $departamentos, $centros){
     $this->datos = $datos;
+    $this->grupos = $grupos;
+    $this->departamentos = $departamentos;
+    $this->centros = $centros;
     $this->render();
 }
 //función que muestra la cabecera, inputs y el pie de la pagina de login
@@ -156,28 +160,30 @@ function render(){
                         <input type="password" class="form-control" id="password"  name="password" placeholder="Contraseña" size="64" maxlength="64" value="<?php echo($this->datos['password'])?>">
                     </div>
 
-                    <div class="col-md-6 input-group mb-2" id="div_depart_usuario">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text" style="background-color: #073349;">
-                                <svg style="color: white" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <input type="number" class="form-control" id="depart_usuario" name="depart_usuario" placeholder="Departamento" value="<?php echo($this->datos['depart_usuario'])?>">
+                    <div class="col-md-6 form-group" id="div_depart_usuario">
+                        <select class=" form-control" id="depart_usuario" name="depart_usuario">
+                            <option value="" disabled selected>Departamento</option>
+                            <?php
+                            foreach ($this->departamentos as $departamento){
+                                ?>
+                                <option value="<?=$departamento->depart_id?>"><?php echo $departamento->nombre_depart ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
                     </div>
 
-                    <div class="col-md-6 input-group mb-2" id="div_grupo_usuario">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text" style="background-color: #073349;">
-                                <svg style="color: white" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <input type="number" class="form-control" id="grupo_usuario" name="grupo_usuario" placeholder="Grupo" value="<?php echo($this->datos['grupo_usuario'])?>">
+                    <div class="col-md-6 form-group" id="div_grupo_usuario">
+                        <select class=" form-control" id="grupo_usuario" name="grupo_usuario">
+                            <option value="" disabled selected>Grupo</option>
+                            <?php
+                                foreach ($this->grupos as $grupo){
+                            ?>
+                                    <option value="<?=$grupo->grupo_id?>"><?php echo $grupo->nombre_grupo ?></option>
+                            <?php
+                                }
+                                ?>
+                        </select>
                     </div>
 
                     <div class="col-md-6 input-group mb-2" id="div_nombre_puesto">
@@ -206,16 +212,17 @@ function render(){
                         <input type="date" class="form-control" onkeydown="return false"  id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha nacimiento" value="<?php echo($this->datos['fecha_nacimiento'])?>">
                     </div>
 
-                    <div class="col-md-6 input-group mb-2" id="div_centro_usuario">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text" style="background-color: #073349;">
-                                <svg style="color: white" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <input type="number" class="form-control" id="centro_usuario" name="centro_usuario" placeholder="Centro" value="<?php echo($this->datos['centro_usuario'])?>">
+                    <div class="col-md-6 form-group" id="div_centro_usuario">
+                        <select class=" form-control" id="centro_usuario" name="centro_usuario">
+                            <option value="" disabled selected>Centro</option>
+                            <?php
+                            foreach ($this->centros as $centro){
+                                ?>
+                                <option value="<?=$centro->centro_id?>"><?php echo $centro->nombre_centro ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
                     </div>
 
                     <div class="col-md-6 input-group mb-2" id="div_nivel_jerarquia">
