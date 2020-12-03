@@ -220,32 +220,27 @@ include_once 'Access_DB.php';
 
 
         //Recupera los datos de un usuario a partir de su login
+        //Devuelve el modelo con los datos llenos si se encuentra el usuario, mensaje de error en caso contrario
         function rellenaDatos(){
             $stmt = $this->db->prepare("SELECT *
 					FROM usuario
 					WHERE login = ?");
 
             $stmt->execute(array($this->login));
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($user != null){
+                return new USUARIO_Model(
+                    $user['usuario_id'],$user['login'],$user['nombre']
+                    ,$user['apellidos'],$user['password'],$user['fecha_nacimiento'],$user['email_usuario']
+                    ,$user['telef_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
+                    ,$user['nivel_jerarquia'],$user['depart_usuario'],$user['grupo_usuario'],$user['centro_usuario']
+                );
 
-            $this->usuario_id = $resultado["usuario_id"];
-            $this->login = $resultado["login"];
-            $this->nombre = $resultado["nombre"];
-            $this->apellidos = $resultado["apellidos"];
-            $this->password = $resultado["password"];
-            $this->fecha_nacimiento = $resultado["fecha_nacimiento"];
-            $this->email_usuario = $resultado["email_usuario"];
-            $this->telef_usuario = $resultado["telef_usuario"];
-            $this->dni = $resultado["dni"];
-            $this->rol = $resultado["rol"];
-            $this->afiliacion = $resultado["afiliacion"];
-            $this->nombre_puesto = $resultado["nombre_puesto"];
-            $this->nivel_jerarquia = $resultado["nivel_jerarquia"];
-            $this->depart_usuario = $resultado["depart_usuario"];
-            $this->grupo_usuario = $resultado["grupo_usuario"];
-            $this->centro_usuario = $resultado["centro_usuario"];
 
-            return $resultado;
+            }else{
+                return  'Error inesperado al intentar cumplir su solicitud de consulta';
+            }
+
         }
 
         //Recupera el rol de un usuario determinado
@@ -277,6 +272,41 @@ include_once 'Access_DB.php';
                 return true;
             }else{
                 return "Error eliminando el usuario";
+            }
+        }
+
+        //Modifica los datos de un usuario cualquiera siendo ADMIN
+        //Devuelve true si se ejecuta la sentencia, mensaje de error en caso contrario
+        function adminEDIT(){
+            $stmt = $this->db->prepare("UPDATE usuario SET
+                    password = ?, email_usuario = ?, telef_usuario = ?, rol = ?, afiliacion = ?,
+                     nombre_puesto = ?, nivel_jerarquia = ?, depart_usuario = ?, grupo_usuario = ?, centro_usuario = ?
+					WHERE login = ?");
+            $resultado = $this->db->execute(array($this->password, $this->email_usuario, $this->telef_usuario, $this->rol, $this->afiliacion,
+                $this->nombre_puesto, $this->nivel_jerarquia, $this->depart_usuario, $this->grupo_usuario, $this->centro_usuario,
+                $this->login));
+
+            if($resultado === true){
+                return true;
+            }else{
+                return 'Error inesperado al intentar cumplir su solicitud de modificacion';
+            }
+        }
+
+        //Modifica los datos personales siendo usuario normal
+        //Devuelve true si se ejecuta la sentencia, mensaje de error en caso contrario
+        function EDIT(){
+            $stmt = $this->db->prepare("UPDATE usuario SET
+                    password = ?, email_usuario = ?, telef_usuario = ?
+					WHERE login = ?");
+            $resultado = $this->db->execute(array($this->password, $this->email_usuario, $this->rol, $this->afiliacion, $this->nombre_puesto,
+                $this->nivel_jerarquia, $this->depart_usuario, $this->grupo_usuario, $this->centro_usuario,
+                $this->login));
+
+            if($resultado === true){
+                return true;
+            }else{
+                return 'Error inesperado al intentar cumplir su solicitud de modificacion';
             }
         }
 

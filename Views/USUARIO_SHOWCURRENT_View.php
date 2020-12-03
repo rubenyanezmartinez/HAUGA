@@ -1,13 +1,18 @@
 <?php
 class USUARIO_SHOWCURRENT_View{
+    var $usuario;
+    var $info_afiliacion;
+    var $esModificar;
 
-
-    function __construct($vectorUsuario){
-        $this->render($vectorUsuario);
+    function __construct($usuario = null, $info_afiliacion = '', $esModificar = false){
+        $this->usuario = $usuario;
+        $this->info_afiliacion = $info_afiliacion;
+        $this->esModificar = $esModificar;
+        $this->render();
     }
 
 
-    function render($vectorUsuario){
+    function render(){
 
     include '../Views/Header.php'; //Incluye la cabecera
 
@@ -15,10 +20,11 @@ class USUARIO_SHOWCURRENT_View{
 
 
         <div class="container">
+            <!-- TO DO: si el $usuario es null, mostrar el mensaje de error -->
 
             <div class="row">
                 <div class="col text-center">
-                    <h2 class="textoAzul">Vista en detalle de <?php echo $vectorUsuario["login"]; ?></h2>
+                    <h2 class="textoAzul">Vista en detalle de <?=$this->usuario->getLogin() ?></h2>
                 </div>
             </div>
 

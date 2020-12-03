@@ -42,16 +42,14 @@ include_once 'Access_DB.php';
 					WHERE grupo_id = ?");
 
             $stmt->execute(array($this->grupo_id));
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            $grupo = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $this->nombre_grupo = $resultado["nombre_grupo"];
-            $this->telef_grupo = $resultado["telef_grupo"];
-            $this->lineas_investigacion = $resultado["lineas_investigacion"];
-            $this->area_conoc_grupo = $resultado["area_conoc_grupo"];
-            $this->email_grupo = $resultado["email_grupo"];
-            $this->responsable_grupo = $resultado["responsable_grupo"];
-
-            return $resultado;
+            if($grupo != null){
+                return new GRUPO_INVESTIGACION_Model($grupo["nombre_grupo"],$grupo["telef_grupo"],$grupo["lineas_investigacion"],
+                    $grupo["area_conoc_grupo"],$grupo["email_grupo"],$grupo["responsable_grupo"]);
+            }else{
+                return  'Error inesperado al intentar cumplir su solicitud de consulta';
+            }
         }
 
         //Devuelve un array de GRUPOS con todos los GRUPOS de la tabla.

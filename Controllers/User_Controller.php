@@ -1,5 +1,6 @@
 <?php
 include '../Views/LOGIN_View.php';
+include '../Views/USUARIO_SHOWCURRENT_View.php';
 include '../Functions/Authentication.php';
 include '../Functions/Desconectar.php';
 include '../Models/Access_DB.php';
@@ -22,6 +23,21 @@ if(!IsAuthenticated()){
 
     switch($action){
         //Comprobar si esta autenticado y si tiene el rol necesario
+        case 'consultarEdit':   //Caso para solicitar datos al modelo y mostrarselos al usuario para editar
+            $login_usuario = $_GET['login_usuario'];
+            showcurrentEdit($login_usuario);
+            break;
+        case 'edit':    //Caso para modificar los datos en la BD con los que vienen de la vista
+            if($_SESSION['rol']=='ADMIN'){
+                $login_usuario = $_GET['login_usuario'];
+                edit($login_usuario);
+            }else{
+                $login_usuario = $_SESSION['login'];
+                edit($login_usuario);
+            }
+
+            edit($login_usuario);
+            break;
         case 'jerarquia': jerarquia();
             break;
         case 'showall': showall();
@@ -188,61 +204,47 @@ function add(){
 
 function showcurrent($login_usuario)
 {
-    include '../Views/USUARIO_SHOWCURRENT_View.php';
+    $esModificar = false;    //Indica a la vista que se van a poder editar datos
 
     $usuario_model = new USUARIO_Model('',$login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
     $usuario = $usuario_model->rellenaDatos();
+    //TO DO: Si rellenaDatos devuelve el mensaje de error, llamar a la vista de error
 
-    $vectorUsuario = [];
-
-    $vectorUsuario["login"] = $usuario["login"];
-    $vectorUsuario["nombre"] = $usuario["nombre"];
-    $vectorUsuario["apellidos"] = $usuario["apellidos"];
     $fecha = explode("-", $usuario["fecha_nacimiento"]);
-    $vectorUsuario["fecha_nacimiento"] = $fecha[2]."/".$fecha[1]."/".$fecha[0];
-    $vectorUsuario["dni"] = $usuario["dni"];
-    $vectorUsuario["telef_usuario"] = $usuario["telef_usuario"];
-    $vectorUsuario["email_usuario"] = $usuario["email_usuario"];
-    $vectorUsuario["rol"] = $usuario["rol"];
+    $usuario->setFechaNacimiento($fecha[2]."/".$fecha[1]."/".$fecha[0]);
 
-    if ($vectorUsuario["rol"] == "USUARIO_NORMAL"){
-        $vectorUsuario["rol"] = "Usuario Normal";
+    if ($usuario->getRol() == "USUARIO_NORMAL"){
+        $usuario->setRol("Usuario Normal");
     }
-    else if ($vectorUsuario["rol"] == "ADMIN"){
-        $vectorUsuario["rol"] = "Administrador";
+    else if ($usuario->getRol() == "ADMIN"){
+        $usuario->setRol("Administrador");
+        $info_afiliacion = "-";
     }
 
-    $vectorUsuario["afiliacion"] = $usuario["afiliacion"];
-
-
-    if ($vectorUsuario["rol"] == "ADMIN") {
-        $vectorUsuario["info_afiliacion"] = "-";
-
-    }
-    else if ($vectorUsuario["afiliacion"] == "DOCENTE") {
-        $centro_model = new CENTRO_Model($usuario["centro_usuario"], '', '');
+    else if ($usuario->getAfiliacion() == "DOCENTE") {
+        $centro_model = new CENTRO_Model($usuario->getCentroUsuario(), '', '');
         $centro = $centro_model->rellenaDatos();
 
-        $departamento_model = new DEPARTAMENTO_Models($usuario["depart_usuario"], '', '', '', '', '', '', '');
+        $departamento_model = new DEPARTAMENTO_Models($usuario->getDepartUsuario(), '', '', '', '', '', '', '');
         $departamento = $departamento_model->rellenaDatos();
 
-        $vectorUsuario["info_afiliacion"] = $departamento["nombre_depart"]. ", " .$centro["nombre_centro"];
+        $info_afiliacion = $departamento->getNombreDepartamento(). ", " . $centro->getNombreCentro();
 
     }
-    else if ($vectorUsuario["afiliacion"] == "INVESTIGADOR") {
-        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario["grupo_usuario"], '', '', '', '', '', '');
+    else if ($usuario->getAfiliacion() == "INVESTIGADOR") {
+        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario->getGrupoUsuario(), '', '', '', '', '', '');
         $grupo = $grupo_investigacion_model->rellenaDatos();
-        $vectorUsuario["info_afiliacion"] = $grupo["nombre_grupo"];
+        $info_afiliacion = $grupo->getNombreGrupo();
 
     }
-    else if ($vectorUsuario["afiliacion"] == "ADMINISTRACION") {
-        $vectorUsuario["info_afiliacion"] = $usuario["nivel_jerarquia"]. ", " .$usuario["nombre_puesto"];
+    else if ($usuario->getAfiliacion() == "ADMINISTRACION") {
+        $info_afiliacion = $usuario->getNivelJerarquia(). ", " .$usuario->getNombrePuesto();
     }
     else {
-        $vectorUsuario["info_afiliacion"] = "-";
+        $info_afiliacion = "-";
     }
 
-    new USUARIO_SHOWCURRENT_View($vectorUsuario);
+    new USUARIO_SHOWCURRENT_View($usuario, $info_afiliacion, $esModificar);
 
 }
 
@@ -295,6 +297,66 @@ function jerarquia(){
     new USUARIO_JERARQUIA_View();
 }
 
+//Funcion para editar los datos
+function edit($login_usuario){
+    /*
+    $usuario_model = new USUARIO_Model('',$login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    $usuario = $usuario_model->rellenaDatos();
+    */
 
+    //Recordar volver a formatear las cadenas de rol al formato de la BD
+    //new USUARIO_SHOWCURRENT_View($vectorUsuario);
+
+}
+
+//Funcion para recuperar datos de la BD y pasarselos a la vista para EDITAR
+function showcurrentEdit($login_usuario){
+
+    $esModificar = true;    //Indica a la vista que se van a poder editar datos
+
+    $usuario_model = new USUARIO_Model('',$login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    $usuario = $usuario_model->rellenaDatos();
+    //TO DO: Si rellenaDatos devuelve el mensaje de error, llamar a la vista de error
+
+    $fecha = explode("-", $usuario["fecha_nacimiento"]);
+    $usuario->setFechaNacimiento($fecha[2]."/".$fecha[1]."/".$fecha[0]);
+
+    if ($usuario->getRol() == "USUARIO_NORMAL"){
+        $usuario->setRol("Usuario Normal");
+    }
+    else if ($usuario->getRol() == "ADMIN"){
+        $usuario->setRol("Administrador");
+        $info_afiliacion = "-";
+    }
+
+    else if ($usuario->getAfiliacion() == "DOCENTE") {
+        $centro_model = new CENTRO_Model($usuario->getCentroUsuario(), '', '');
+        $centro = $centro_model->rellenaDatos();
+
+        $departamento_model = new DEPARTAMENTO_Models($usuario->getDepartUsuario(), '', '', '', '', '', '', '');
+        $departamento = $departamento_model->rellenaDatos();
+
+        $info_afiliacion = $departamento->getNombreDepartamento(). ", " . $centro->getNombreCentro();
+
+    }
+    else if ($usuario->getAfiliacion() == "INVESTIGADOR") {
+        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario->getGrupoUsuario(), '', '', '', '', '', '');
+        $grupo = $grupo_investigacion_model->rellenaDatos();
+        $info_afiliacion = $grupo->getNombreGrupo();
+
+    }
+    else if ($usuario->getAfiliacion() == "ADMINISTRACION") {
+        $info_afiliacion = $usuario->getNivelJerarquia(). ", " .$usuario->getNombrePuesto();
+    }
+    else {
+        $info_afiliacion = "-";
+    }
+
+    new USUARIO_SHOWCURRENT_View($usuario, $info_afiliacion, $esModificar);
+}
+
+function recuperarDatosForm(){
+
+}
 
 ?>

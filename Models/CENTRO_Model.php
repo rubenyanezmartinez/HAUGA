@@ -30,13 +30,14 @@ class CENTRO_Model{
 					WHERE centro_id = ?");
 
         $stmt->execute(array($this->centro_id));
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $centro = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($centro != null){
 
-        $this->centro_id = $resultado["centro_id"];
-        $this->nombre_centro = $resultado["nombre_centro"];
-        $this->edificio_centro = $resultado["edificio_centro"];
+            return new CENTRO_Model($centro["centro_id"], $centro["nombre_centro"], $centro["edificio_centro"]);
 
-        return $resultado;
+        }else{
+            return  'Error inesperado al intentar cumplir su solicitud de consulta';
+        }
     }
 
     //Devuelve un array de centros con todos los centros de la tabla.

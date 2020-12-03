@@ -45,18 +45,15 @@ class DEPARTAMENTO_Models{
 					WHERE depart_id = ?");
 
         $stmt->execute(array($this->depart_id));
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $departamento = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->nombre_depart = $resultado["nombre_depart"];
-        $this->codigo_depart = $resultado["codigo_depart"];
-        $this->telef_depart = $resultado["telef_depart"];
-        $this->email_depart = $resultado["email_depart"];
-        $this->area_conc_depart = $resultado["area_conc_depart"];
-        $this->responsable_depart = $resultado["responsable_depart"];
-        $this->edificio_depart = $resultado["edificio_depart"];
+        if($departamento != null){
+            return new DEPARTAMENTO_Models($departamento["nombre_depart"],$departamento["codigo_depart"],$departamento["telef_depart"],
+        $departamento["email_depart"],$departamento["area_conc_depart"],$departamento["responsable_depart"],$departamento["edificio_depart"]);
+        }else {
+            return  'Error inesperado al intentar cumplir su solicitud de consulta';
+        }
 
-
-        return $resultado;
     }
 
     //Devuelve un array de departamento con todos los departamento de la tabla.
