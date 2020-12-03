@@ -268,28 +268,31 @@ include_once 'Access_DB.php';
 
         //Recupera los datos de un usuario a partir de su login
         function rellenaDatos(){
-            $sql="SELECT * FROM usuario WHERE (`login` LIKE '".$this->login."')";
-            $resultado=$this->mysqli->query($sql);
-            $registro=mysqli_fetch_array($resultado);
+            $stmt = $this->db->prepare("SELECT *
+					FROM usuario
+					WHERE login = ?");
 
-            $this->usuario_id = $registro["usuario_id"];
-            $this->login = $registro["login"];
-            $this->nombre = $registro["nombre"];
-            $this->apellidos = $registro["apellidos"];
-            $this->password = $registro["password"];
-            $this->fecha_nacimiento = $registro["fecha_nacimiento"];
-            $this->email_usuario = $registro["email_usuario"];
-            $this->telef_usuario = $registro["telef_usuario"];
-            $this->dni = $registro["dni"];
-            $this->rol = $registro["rol"];
-            $this->afiliacion = $registro["afiliacion"];
-            $this->nombre_puesto = $registro["nombre_puesto"];
-            $this->nivel_jerarquia = $registro["nivel_jerarquia"];
-            $this->depart_usuario = $registro["depart_usuario"];
-            $this->grupo_usuario = $registro["grupo_usuario"];
-            $this->centro_usuario = $registro["centro_usuario"];
+            $stmt->execute(array($this->login));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            return $registro;
+            $this->usuario_id = $resultado["usuario_id"];
+            $this->login = $resultado["login"];
+            $this->nombre = $resultado["nombre"];
+            $this->apellidos = $resultado["apellidos"];
+            $this->password = $resultado["password"];
+            $this->fecha_nacimiento = $resultado["fecha_nacimiento"];
+            $this->email_usuario = $resultado["email_usuario"];
+            $this->telef_usuario = $resultado["telef_usuario"];
+            $this->dni = $resultado["dni"];
+            $this->rol = $resultado["rol"];
+            $this->afiliacion = $resultado["afiliacion"];
+            $this->nombre_puesto = $resultado["nombre_puesto"];
+            $this->nivel_jerarquia = $resultado["nivel_jerarquia"];
+            $this->depart_usuario = $resultado["depart_usuario"];
+            $this->grupo_usuario = $resultado["grupo_usuario"];
+            $this->centro_usuario = $resultado["centro_usuario"];
+
+            return $resultado;
         }
 
         //Recupera el rol de un usuario determinado

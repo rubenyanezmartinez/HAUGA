@@ -28,7 +28,8 @@ if(!IsAuthenticated()){
         case 'add': add();
             break;
         case 'showcurrent':
-            showcurrent();
+            $login_usuario = $_GET['login_usuario'];
+            showcurrent($login_usuario);
             break;
         //Caso default para vista de error generico
         default: echo('default del switch user_controller');
@@ -182,9 +183,63 @@ function add(){
 }
 
 
-function showcurrent(){
+function showcurrent($login_usuario)
+{
     include '../Views/USUARIO_SHOWCURRENT_View.php';
-    new USUARIO_SHOWCURRENT_View();
+
+    $usuario_model = new USUARIO_Model('',$login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    $usuario = $usuario_model->rellenaDatos();
+
+    $vectorUsuario = [];
+
+    $vectorUsuario["login"] = $usuario["login"];
+    $vectorUsuario["nombre"] = $usuario["nombre"];
+    $vectorUsuario["apellidos"] = $usuario["apellidos"];
+    $vectorUsuario["fecha_nacimiento"] = $usuario["fecha_nacimiento"];
+    $vectorUsuario["dni"] = $usuario["dni"];
+    $vectorUsuario["telef_usuario"] = $usuario["telef_usuario"];
+    $vectorUsuario["email_usuario"] = $usuario["email_usuario"];
+    $vectorUsuario["rol"] = $usuario["rol"];
+
+    if ($vectorUsuario["rol"] == "USUARIO_NORMAL"){
+        $vectorUsuario["rol"] = "Usuario Normal";
+    }
+    else if ($vectorUsuario["rol"] == "ADMIN"){
+        $vectorUsuario["rol"] = "Administrador";
+    }
+
+    $vectorUsuario["afiliacion"] = $usuario["afiliacion"];
+
+
+    if ($vectorUsuario["rol"] == "ADMIN") {
+        $vectorUsuario["info_afiliacion"] = "-";
+
+    }
+    else if ($vectorUsuario["afiliacion"] == "DOCENTE") {
+        $centro_model = new CENTRO_Model($usuario["centro_usuario"], '', '');
+        $centro = $centro_model->rellenaDatos();
+
+        $departamento_model = new DEPARTAMENTO_Models($usuario["depart_usuario"], '', '', '', '', '', '', '');
+        $departamento = $departamento_model->rellenaDatos();
+
+        $vectorUsuario["info_afiliacion"] = $departamento["nombre_depart"]. ", " .$centro["nombre_centro"];
+
+    }
+    else if ($vectorUsuario["afiliacion"] == "INVESTIGADOR") {
+        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario["grupo_usuario"], '', '', '', '', '', '');
+        $grupo = $grupo_investigacion_model->rellenaDatos();
+        $vectorUsuario["info_afiliacion"] = $grupo["nombre_grupo"];
+
+    }
+    else if ($vectorUsuario["afiliacion"] == "ADMINISTRACION") {
+        $vectorUsuario["info_afiliacion"] = $usuario["nivel_jerarquia"]. ", " .$usuario["nombre_puesto"];
+    }
+    else {
+        $vectorUsuario["info_afiliacion"] = "-";
+    }
+
+    new USUARIO_SHOWCURRENT_View($vectorUsuario);
+
 }
 
 function logout(){
