@@ -216,7 +216,17 @@ include_once 'Access_DB.php';
             }
 
 		}
-		
+
+		function devolverDistintosNivelesJerarquia(){
+            $stmt = $this->db->prepare("SELECT DISTINCT nivel_jerarquia
+					FROM usuario
+					WHERE nivel_jerarquia IS NOT NULL");
+
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $resultado;
+        }
 
 
         //Recupera los datos de un usuario a partir de su login
