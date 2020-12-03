@@ -22,6 +22,8 @@ if(!IsAuthenticated()){
 
     switch($action){
         //Comprobar si esta autenticado y si tiene el rol necesario
+        case 'jerarquia': jerarquia();
+            break;
         case 'showall': showall();
             break;
         case 'logout': logout();
@@ -269,6 +271,31 @@ function delete(){
             header('Location:../Controllers/User_Controller.php?action=showall');
         }
     }
+}
+
+function jerarquia(){
+    include '../Views/USUARIO_JERARQUIA_View.php';
+
+    //Recuerar todos los distintos niveless
+    $usuario_model = new USUARIO_Model('','','','','','','','','','','','','','','','');
+    $niveles = $usuario_model->devolverDistintosNivelesJerarquia();
+
+    //Pasar los niveles a un array ordenado
+    $vectorNiveles = [];
+    foreach($niveles as $nivel){
+        array_push($vectorNiveles, $nivel["nivel_jerarquia"]);
+    }
+    sort($vectorNiveles, SORT_NUMERIC);
+
+    $toret = [];
+    //Recorrer todos los niveles anotando a el puesto del nivel y el responsable
+    foreach ($vectorNiveles as $nivel){
+        $toret[$nivel] = $usuario_model->devolverUsuariosNivelJerarquia($nivel);
+    }
+
+    print_r($toret);
+
+    new USUARIO_JERARQUIA_View();
 }
 
 
