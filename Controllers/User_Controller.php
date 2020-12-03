@@ -97,10 +97,7 @@ function showall(){
         $vectorUsuarios[$i]["rol"] = $AllUsuarios[$i]->rol;
         $vectorUsuarios[$i]["afiliacion"] = $AllUsuarios[$i]->afiliacion;
 
-        if ($vectorUsuarios[$i]["rol"] == "ADMIN"){
-            $vectorUsuarios[$i]["info_afiliacion"] = "-";
-        }
-        else if ($vectorUsuarios[$i]["afiliacion"] == "DOCENTE") {
+        if ($vectorUsuarios[$i]["afiliacion"] == "DOCENTE") {
             $centro_model = new CENTRO_Model($AllUsuarios[$i]->centro_usuario, '','');
             $centro = $centro_model->rellenaDatos();
 
