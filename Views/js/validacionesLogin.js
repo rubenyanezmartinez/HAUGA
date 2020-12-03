@@ -16,10 +16,6 @@ $(document).ready(function() {
                 required: true
             }
         },
-        errorClass:  'fieldError',
-        onkeyup:     false,
-        onblur:      false,
-        errorElement:'label',
         messages : {
             login: {
                 required: "El campo no puede estar vacío",

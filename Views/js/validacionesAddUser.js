@@ -112,10 +112,6 @@ $(document).ready(function() {
                 digit: true
             }
         },
-        errorClass:  'fieldError',
-        onkeyup:     false,
-        onblur:      false,
-        errorElement:'label',
         messages : {
             nombre: {
                 required: "El campo no puede estar vacío",
