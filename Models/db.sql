@@ -42,7 +42,7 @@ CREATE TABLE `hauga`.`grupo_investigacion` (
 	`lineas_investigacion` int NOT NULL,
 	`area_conoc_grupo` VARCHAR(30) NOT NULL,
 	`email_grupo` VARCHAR(30) NOT NULL,
-	`responsable_grupo` int NOT NULL,
+	`responsable_grupo` int,
 	PRIMARY KEY	(`grupo_id`)
  );
 
@@ -54,7 +54,7 @@ CREATE TABLE `hauga`.`departamento` (
 	`telef_depart` int NOT NULL,
 	`email_depart` VARCHAR(30) NOT NULL,
 	`area_conc_depart` VARCHAR(30) NOT NULL,
-	`responsable_depart` int NOT NULL,
+	`responsable_depart` int,
 	`edificio_depart` int NOT NULL,
 	PRIMARY KEY (`depart_id`)
 );
@@ -104,7 +104,7 @@ CREATE TABLE `hauga`.`incidencia` (
 	`descripcion_incid` VARCHAR(500) NOT NULL,
 	`estado_incid` enum('PEND', 'DENEG', 'ACEPT') NOT NULL,
 	`espacio_afectado` int NOT NULL,
-	`autor_incidencia` int NOT NULL,
+	`autor_incidencia` int,
 	PRIMARY KEY	(`incidencia_id`)
 );
 
