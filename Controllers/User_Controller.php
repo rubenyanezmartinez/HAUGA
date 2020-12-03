@@ -27,6 +27,8 @@ if(!IsAuthenticated()){
             break;
         case 'add': add();
             break;
+        case 'showcurrent': showcurrent();
+            break;
         //Caso default para vista de error generico
         default: echo('default del switch user_controller');
             break;
@@ -169,6 +171,10 @@ function add(){
     }
 }
 
+
+function showcurrent(){
+    
+}
 
 function logout(){
     logoutSession();   //De Desconectar.php
