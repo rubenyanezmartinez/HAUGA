@@ -54,7 +54,7 @@ class USUARIO_SHOWALL_View{
                         <th scope="col">Correo Electrónico</th>
                         <th scope="col">Afiliación</th>
                         <th scope="col">Información de Afiliación</th>
-                        <th scope="col">Opciones</th>
+                        <th style="width: 10%" scope="col">Opciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -62,27 +62,16 @@ class USUARIO_SHOWALL_View{
 
                     <?php
 
-                        foreach($arrayUsuarios as $usuario){
+                    for ($i = 0; $i < count($arrayUsuarios); $i++){
 
                             echo '<tr>';
-                            echo '<th scope="row">'.$usuario->login.'</th>';
-                            echo '<th>'.$usuario->nombre.'</th>';
-                            echo '<th>'.$usuario->apellidos.'</th>';
-                            echo '<th>'.$usuario->dni.'</th>';
-                            echo '<th>'.$usuario->email_usuario.'</th>';
-                            echo '<th>'.$usuario->afiliacion.'</th>';
-                            if($usuario->afiliacion == 'DOCENTE'){
-                                echo '<th>'.$usuario->depart_usuario.', '.$usuario->centro_usuario.'</th>';
-                            }
-                            else if ($usuario->afiliacion == 'INVESTIGADOR'){
-                                echo '<th>.$usuario->grupo_usuario.</th>';
-                            }
-                            else if ($usuario->afiliacion == 'ADMINISTRACION'){
-                                echo '<th>'.$usuario->nivel_jerarquia.', '.$usuario->nombre_puesto.'</th>';
-                            }
-                            else{
-                                echo '<th></th>';
-                            }
+                            echo '<th scope="row">'.$arrayUsuarios[$i]["login"].'</th>';
+                            echo '<th>'.$arrayUsuarios[$i]["nombre"].'</th>';
+                            echo '<th>'.$arrayUsuarios[$i]["apellidos"].'</th>';
+                            echo '<th>'.$arrayUsuarios[$i]["dni"].'</th>';
+                            echo '<th>'.$arrayUsuarios[$i]["email_usuario"].'</th>';
+                            echo '<th>'.$arrayUsuarios[$i]["afiliacion"].'</th>';
+                            echo '<th>'.$arrayUsuarios[$i]["info_afiliacion"].'</th>';
                             echo '<th>
                                         <a href="../Controllers/User_Controller.php?action=showcurrent">
                                             <svg style="color: green" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
