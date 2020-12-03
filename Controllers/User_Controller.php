@@ -199,7 +199,8 @@ function showcurrent($login_usuario)
     $vectorUsuario["login"] = $usuario["login"];
     $vectorUsuario["nombre"] = $usuario["nombre"];
     $vectorUsuario["apellidos"] = $usuario["apellidos"];
-    $vectorUsuario["fecha_nacimiento"] = $usuario["fecha_nacimiento"];
+    $fecha = explode("-", $usuario["fecha_nacimiento"]);
+    $vectorUsuario["fecha_nacimiento"] = $fecha[2]."/".$fecha[1]."/".$fecha[0];
     $vectorUsuario["dni"] = $usuario["dni"];
     $vectorUsuario["telef_usuario"] = $usuario["telef_usuario"];
     $vectorUsuario["email_usuario"] = $usuario["email_usuario"];
