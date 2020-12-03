@@ -90,37 +90,6 @@ include_once 'Access_DB.php';
 
         //Devuelve un array de USUARIOs con todos los usuarios de la tabla.
         function SHOWALL(){
-            /*
-            $sql = "SELECT * FROM usuario";
-
-            $resultado = $this->mysqli->query($sql); //Guarda el resultado de la consulta.
-
-            $usuarios = $resultado->fetch_All(MYSQLI_ASSOC);
-            $usuarios_toret = array();
-
-            foreach($usuarios as $usuario){ //Par cada tupla recuperada
-                array_push($usuarios_toret, new USUARIO_Model($usuario['usuario_id'],
-                    $usuario['login'],
-                    $usuario['nombre'],
-                    $usuario['apellidos'],
-                    $usuario['password'],
-                    $usuario['fecha_nacimiento'],
-                    $usuario['email_usuario'],
-                    $usuario['telef_usuario'],
-                    $usuario['dni'],
-                    $usuario['rol'],
-                    $usuario['afiliacion'],
-                    $usuario['nombre_puesto'],
-                    $usuario['nivel_jerarquia'],
-                    $usuario['depart_usuario'],
-                    $usuario['grupo_usuario'],
-                    $usuario['depart_usuario']
-                )); //Crea un usuario con los datos recuperados por la consulta y lo almacena en el array
-            }
-
-
-            return $usuarios_toret;
-            */
             $stmt = $this->db->prepare("SELECT * FROM usuario");
             $stmt->execute();
             $users_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -136,6 +105,27 @@ include_once 'Access_DB.php';
                                 ,$user['telef_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
                                 ,$user['nivel_jerarquia'],$user['depart_usuario'],$user['grupo_usuario'],$user['centro_usuario']
                             )
+                );
+            }
+            return $allUsers;
+        }
+
+        function devolverUsuariosNivelJerarquia($nivel){
+            $stmt = $this->db->prepare("SELECT * FROM usuario WHERE nivel_jerarquia = ?");
+            $stmt->execute(array($nivel));
+            $users_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $allUsers = array();
+
+
+            foreach ($users_db as $user){
+
+                array_push($allUsers,
+                    new USUARIO_Model(
+                        $user['usuario_id'],$user['login'],$user['nombre']
+                        ,$user['apellidos'],$user['password'],$user['fecha_nacimiento'],$user['email_usuario']
+                        ,$user['telef_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
+                        ,$user['nivel_jerarquia'],$user['depart_usuario'],$user['grupo_usuario'],$user['centro_usuario']
+                    )
                 );
             }
             return $allUsers;
