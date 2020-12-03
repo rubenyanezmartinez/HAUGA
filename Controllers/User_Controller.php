@@ -27,7 +27,8 @@ if(!IsAuthenticated()){
             break;
         case 'add': add();
             break;
-        case 'showcurrent': showcurrent();
+        case 'showcurrent':
+            showcurrent();
             break;
         //Caso default para vista de error generico
         default: echo('default del switch user_controller');
@@ -173,7 +174,8 @@ function add(){
 
 
 function showcurrent(){
-    
+    include '../Views/USUARIO_SHOWCURRENT_View.php';
+    new USUARIO_SHOWCURRENT_View();
 }
 
 function logout(){
