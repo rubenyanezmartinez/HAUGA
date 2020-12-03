@@ -4,6 +4,9 @@ include '../Functions/Authentication.php';
 include '../Functions/Desconectar.php';
 include '../Models/Access_DB.php';
 include '../Models/USUARIO_Model.php';
+include '../Models/CENTRO_Model.php';
+include '../Models/GRUPO_INVESTIGACION_Model.php';
+include '../Models/DEPARTAMENTO_Models.php';
 session_start();
 
 
@@ -72,8 +75,45 @@ function login(){
 function showall(){
     $usuario = new USUARIO_Model('','','','','','','','','','','','','','','','');  //Crea un USUARIO vacio
     $AllUsuarios = $usuario->SHOWALL(); //En $AllUsuarios se guarda el array de USUARIOs que devuelve el SHOWALL con todos los USUSARIOs registrados
+
+    $vectorUsuarios = [];
+
+    for ($i = 0; $i < count($AllUsuarios); $i++) {
+        $vectorUsuarios[$i]["login"] = $AllUsuarios[$i]->login;
+        $vectorUsuarios[$i]["nombre"] = $AllUsuarios[$i]->nombre;
+        $vectorUsuarios[$i]["apellidos"] = $AllUsuarios[$i]->apellidos;
+        $vectorUsuarios[$i]["dni"] = $AllUsuarios[$i]->dni;
+        $vectorUsuarios[$i]["email_usuario"] = $AllUsuarios[$i]->email_usuario;
+        $vectorUsuarios[$i]["rol"] = $AllUsuarios[$i]->rol;
+        $vectorUsuarios[$i]["afiliacion"] = $AllUsuarios[$i]->afiliacion;
+
+        if ($vectorUsuarios[$i]["rol"] == "ADMIN"){
+            $vectorUsuarios[$i]["info_afiliacion"] = "-";
+        }
+        else if ($vectorUsuarios[$i]["afiliacion"] == "DOCENTE") {
+            $centro_model = new CENTRO_Model($AllUsuarios[$i]->centro_usuario, '','');
+            $centro = $centro_model->rellenaDatos();
+
+            $departamento_model = new DEPARTAMENTO_Models($AllUsuarios[$i]->depart_usuario, '','','','','','','');
+            $departamento = $departamento_model->rellenaDatos();
+
+            $vectorUsuarios[$i]["info_afiliacion"] = $departamento["nombre_depart"].", ".$centro["nombre_centro"];
+        }
+        else if ($vectorUsuarios[$i]["afiliacion"] == "INVESTIGADOR"){
+            $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($AllUsuarios[$i]->grupo_usuario, '','','','','','');
+            $grupo = $grupo_investigacion_model->rellenaDatos();
+            $vectorUsuarios[$i]["info_afiliacion"] = $grupo["nombre_grupo"];
+        }
+        else if ($vectorUsuarios[$i]["afiliacion"] == "ADMINISTRACION"){
+            $vectorUsuarios[$i]["info_afiliacion"] = $AllUsuarios[$i]->nivel_jerarquia.", ".$AllUsuarios[$i]->nombre_puesto;
+        }
+        else{
+            $vectorUsuarios[$i]["info_afiliacion"] = "-";
+        }
+    }
+
     include '../Views/USUARIO_SHOWALL_View.php';    //Incluye fichero php con la vista SHOWALL
-    new USUARIO_SHOWALL_View($AllUsuarios);//LLama al constructor de Usuario_Showall, que muestra la tabla
+    new USUARIO_SHOWALL_View($vectorUsuarios);//LLama al constructor de Usuario_Showall, que muestra la tabla
 }
 
 function add(){
