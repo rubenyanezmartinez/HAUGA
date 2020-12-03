@@ -36,7 +36,9 @@ include_once '../Functions/esAdministrador.php';
         <div class="container">
             <div class="row" style="padding-top: 1%">
                 <div class="col-auto">
-                    <img class="logo-uvigo align-bottom" src="../Views/img/logo-barra-superior.svg" alt="Universidade de Vigo">
+                    <a href="../Controllers/Index_Controller.php">
+                        <img class="logo-uvigo align-bottom" src="../Views/img/logo-barra-superior.svg" alt="Universidade de Vigo">
+                    </a>
                 </div>
                 <div class="col align-self-center text-center">
                     <a class="textoBlanco" href="http://campusdaauga.uvigo.es/">CAMPUS DA AUGA</a>
