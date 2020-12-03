@@ -40,21 +40,23 @@ class DEPARTAMENTO_Models{
     //Recupera los datos de un grupo de investigacion a partir de su grupo_id
     function rellenaDatos(){
 
-        $sql="SELECT * FROM departamento WHERE (`depart_id` LIKE '".$this->depart_id."')";
+        $stmt = $this->db->prepare("SELECT *
+					FROM departamento
+					WHERE depart_id = ?");
 
-        $resultado=$this->mysqli->query($sql);
+        $stmt->execute(array($this->depart_id));
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $registro=mysqli_fetch_array($resultado);
+        $this->nombre_depart = $resultado["nombre_depart"];
+        $this->codigo_depart = $resultado["codigo_depart"];
+        $this->telef_depart = $resultado["telef_depart"];
+        $this->email_depart = $resultado["email_depart"];
+        $this->area_conc_depart = $resultado["area_conc_depart"];
+        $this->responsable_depart = $resultado["responsable_depart"];
+        $this->edificio_depart = $resultado["edificio_depart"];
 
-        $this->nombre_depart = $registro["nombre_depart"];
-        $this->codigo_depart = $registro["codigo_depart"];
-        $this->telef_depart = $registro["telef_depart"];
-        $this->email_depart = $registro["email_depart"];
-        $this->area_conc_depart = $registro["area_conc_depart"];
-        $this->responsable_depart = $registro["responsable_depart"];
-        $this->edificio_depart = $registro["edificio_depart"];
 
-        return $registro;
+        return $resultado;
     }
 
     /**

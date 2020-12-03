@@ -37,20 +37,21 @@ include_once 'Access_DB.php';
         //Recupera los datos de un grupo de investigacion a partir de su grupo_id
         function rellenaDatos(){
 
-            $sql="SELECT * FROM grupo_investigacion WHERE (`grupo_id` LIKE '".$this->grupo_id."')";
+            $stmt = $this->db->prepare("SELECT *
+					FROM grupo_investigacion
+					WHERE grupo_id = ?");
 
-            $resultado=$this->mysqli->query($sql);
+            $stmt->execute(array($this->grupo_id));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $registro=mysqli_fetch_array($resultado);
+            $this->nombre_grupo = $resultado["nombre_grupo"];
+            $this->telef_grupo = $resultado["telef_grupo"];
+            $this->lineas_investigacion = $resultado["lineas_investigacion"];
+            $this->area_conoc_grupo = $resultado["area_conoc_grupo"];
+            $this->email_grupo = $resultado["email_grupo"];
+            $this->responsable_grupo = $resultado["responsable_grupo"];
 
-            $this->nombre_grupo = $registro["nombre_grupo"];
-            $this->telef_grupo = $registro["telef_grupo"];
-            $this->lineas_investigacion = $registro["lineas_investigacion"];
-            $this->area_conoc_grupo = $registro["area_conoc_grupo"];
-            $this->email_grupo = $registro["email_grupo"];
-            $this->responsable_grupo = $registro["responsable_grupo"];
-
-            return $registro;
+            return $resultado;
         }
 
         /**

@@ -25,17 +25,18 @@ class CENTRO_Model{
     //Recupera los datos de un grupo de investigacion a partir de su grupo_id
     function rellenaDatos(){
 
-        $sql="SELECT * FROM centro WHERE (`centro_id` LIKE '".$this->centro_id."')";
+        $stmt = $this->db->prepare("SELECT *
+					FROM centro
+					WHERE centro_id = ?");
 
-        $resultado=$this->mysqli->query($sql);
+        $stmt->execute(array($this->centro_id));
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $registro=mysqli_fetch_array($resultado);
+        $this->centro_id = $resultado["centro_id"];
+        $this->nombre_centro = $resultado["nombre_centro"];
+        $this->edificio_centro = $resultado["edificio_centro"];
 
-        $this->centro_id = $registro["centro_id"];
-        $this->nombre_centro = $registro["nombre_centro"];
-        $this->edificio_centro = $registro["edificio_centro"];
-
-        return $registro;
+        return $resultado;
     }
 
     /**
