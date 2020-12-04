@@ -111,7 +111,7 @@ function showall($numero_pagina){
 
     $num_paginas_posibles = ceil($numero_usuarios/5);
 
-    if ($numero_pagina > $num_paginas_posibles) {
+    if ($numero_pagina > $num_paginas_posibles or $numero_pagina <= 0) {
         $numero_pagina = 1;
     }
 
@@ -129,15 +129,15 @@ function showall($numero_pagina){
     }
 
     for ($i = $inicioUsuarios; $i < $finalUsuarios; $i++) {
-        $vectorUsuarios[$i]["login"] = $AllUsuarios[$i]->login;
-        $vectorUsuarios[$i]["nombre"] = $AllUsuarios[$i]->nombre;
-        $vectorUsuarios[$i]["apellidos"] = $AllUsuarios[$i]->apellidos;
-        $vectorUsuarios[$i]["dni"] = $AllUsuarios[$i]->dni;
-        $vectorUsuarios[$i]["email_usuario"] = $AllUsuarios[$i]->email_usuario;
-        $vectorUsuarios[$i]["rol"] = $AllUsuarios[$i]->rol;
-        $vectorUsuarios[$i]["afiliacion"] = $AllUsuarios[$i]->afiliacion;
+        $vectorUsuarios[$i]["login"] = $AllUsuarios[$i]->getLogin();
+        $vectorUsuarios[$i]["nombre"] = $AllUsuarios[$i]->getNombre();
+        $vectorUsuarios[$i]["apellidos"] = $AllUsuarios[$i]->getApellidos();
+        $vectorUsuarios[$i]["dni"] = $AllUsuarios[$i]->getDni();
+        $vectorUsuarios[$i]["email_usuario"] = $AllUsuarios[$i]->getEmailUsuario();
+        $vectorUsuarios[$i]["afiliacion"] = $AllUsuarios[$i]->getAfiliacion();
 
         if ($vectorUsuarios[$i]["afiliacion"] == "DOCENTE") {
+
             $centro_model = new CENTRO_Model($AllUsuarios[$i]->centro_usuario, '', '');
             $centro = $centro_model->rellenaDatos();
 
@@ -145,14 +145,22 @@ function showall($numero_pagina){
             $departamento = $departamento_model->rellenaDatos();
 
             $vectorUsuarios[$i]["info_afiliacion"] = $departamento->getNombreDepartamento() . ", " . $centro->getNombreCentro();
-        } else if ($vectorUsuarios[$i]["afiliacion"] == "INVESTIGADOR") {
+
+        }
+        else if ($vectorUsuarios[$i]["afiliacion"] == "INVESTIGADOR") {
+
             $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($AllUsuarios[$i]->grupo_usuario, '', '', '', '', '', '');
             $grupo = $grupo_investigacion_model->rellenaDatos();
 
             $vectorUsuarios[$i]["info_afiliacion"] = $grupo->getNombreGrupo();
-        } else if ($vectorUsuarios[$i]["afiliacion"] == "ADMINISTRACION") {
+
+        }
+        else if ($vectorUsuarios[$i]["afiliacion"] == "ADMINISTRACION") {
+
             $vectorUsuarios[$i]["info_afiliacion"] = $AllUsuarios[$i]->nivel_jerarquia . ", " . $AllUsuarios[$i]->nombre_puesto;
-        } else {
+
+        }
+        else {
             $vectorUsuarios[$i]["info_afiliacion"] = "-";
         }
 
