@@ -1,8 +1,12 @@
 <?php
 class USUARIO_JERARQUIA_View{
 
+    var $usuarios;
+    var $niveles;
 
-    function __construct(){
+    function __construct($usuarios, $niveles){
+        $this->usuarios = $usuarios;
+        $this->niveles = $niveles;
         $this->render();
     }
 
@@ -22,6 +26,35 @@ class USUARIO_JERARQUIA_View{
 
             <hr>
 
+            <div class="row" style="padding-bottom: 1%">
+                <div class="col">
+                    <div class="accordion" id="accordionExample">
+
+                    <?php foreach ($this->niveles as $nivel) { ?>
+
+                        <div class="card">
+                            <div class="card-header" id="heading<?php echo $nivel; ?>" style="background-color: #073349">
+                                <h5>
+                                    <button style="color: white; font-size: large" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse<?php echo $nivel; ?>" aria-expanded="true" aria-controls="collapse<?php echo $nivel; ?>">
+                                        Nivel <?php echo $nivel; ?>
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapse<?php echo $nivel; ?>" class="collapse" aria-labelledby="heading<?php echo $nivel; ?>" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <?php foreach ($this->usuarios[$nivel] as $usuario) {
+                                        echo '<b>'.$usuario->getNombrePuesto().'</b> - '.$usuario->getApellidos().', '.$usuario->getNombre().'<br>';
+                                    } ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+
+                    </div>
+                </div>
+            </div>
 
 
 

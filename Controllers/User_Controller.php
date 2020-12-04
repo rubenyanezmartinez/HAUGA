@@ -298,9 +298,7 @@ function jerarquia(){
         $toret[$nivel] = $usuario_model->devolverUsuariosNivelJerarquia($nivel);
     }
 
-    print_r($toret);
-
-    new USUARIO_JERARQUIA_View();
+    new USUARIO_JERARQUIA_View($toret, $vectorNiveles);
 }
 
 //Funcion para editar los datos

@@ -92,7 +92,7 @@ class USUARIO_SHOWCURRENT_View{
                 </ul>
 
             <?php } else { ?>
-                
+
             <?php } ?>
 
             <div class="row">
