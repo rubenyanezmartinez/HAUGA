@@ -11,6 +11,7 @@ include '../Models/DEPARTAMENTO_Models.php';
 include '../Models/INCIDENCIA_Model.php';
 session_start();
 
+const TAM_PAG = 5;
 
 if(!IsAuthenticated()){
     login();
@@ -119,10 +120,10 @@ function showall($numero_pagina){
         $inicioUsuarios = 0;
     }
     else{
-        $inicioUsuarios = (($numero_pagina-1)*5);
+        $inicioUsuarios = (($numero_pagina-1)*TAM_PAG);
     }
 
-    $finalUsuarios = $inicioUsuarios+5;
+    $finalUsuarios = $inicioUsuarios+TAM_PAG;
 
     if($finalUsuarios > $numero_usuarios){
         $finalUsuarios = $numero_usuarios;

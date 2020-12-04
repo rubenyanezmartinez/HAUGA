@@ -73,8 +73,8 @@ CREATE TABLE `hauga`.`edificio` (
 
 CREATE TABLE `hauga`.`agrupacion_edificio` (
 	`agrup_id` int NOT NULL AUTO_INCREMENT,
-	`nombre_agrup` VARCHAR(15) NOT NULL,
-	`ubicacion_agrup` VARCHAR(50) NOT NULL,
+	`nombre_agrup` VARCHAR(50) NOT NULL,
+	`ubicacion_agrup` VARCHAR(100) NOT NULL,
 	PRIMARY KEY (`agrup_id`)
 );
 
