@@ -209,43 +209,48 @@ function showcurrent($login_usuario)
 
     $usuario_model = new USUARIO_Model('',$login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
     $usuario = $usuario_model->rellenaDatos();
-    //TO DO: Si rellenaDatos devuelve el mensaje de error, llamar a la vista de error
 
-    $fecha = explode("-", $usuario["fecha_nacimiento"]);
-    $usuario->setFechaNacimiento($fecha[2]."/".$fecha[1]."/".$fecha[0]);
-
-    if ($usuario->getRol() == "USUARIO_NORMAL"){
-        $usuario->setRol("Usuario Normal");
+    if ($usuario == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+        new USUARIO_SHOWCURRENT_View(null, null, null);
     }
-    else if ($usuario->getRol() == "ADMIN"){
-        $usuario->setRol("Administrador");
-        $info_afiliacion = "-";
+    else{
+        $fecha = explode("-", $usuario->getFechaNacimiento());
+        $usuario->setFechaNacimiento($fecha[2]."/".$fecha[1]."/".$fecha[0]);
+
+        if ($usuario->getRol() == "USUARIO_NORMAL"){
+            $usuario->setRol("Usuario Normal");
+        }
+        else if ($usuario->getRol() == "ADMIN"){
+            $usuario->setRol("Administrador");
+        }
+
+        if ($usuario->getAfiliacion() == "DOCENTE") {
+            $centro_model = new CENTRO_Model($usuario->getCentroUsuario(), '', '');
+            $centro = $centro_model->rellenaDatos();
+
+            $departamento_model = new DEPARTAMENTO_Models($usuario->getDepartUsuario(), '', '', '', '', '', '', '');
+            $departamento = $departamento_model->rellenaDatos();
+
+            $info_afiliacion = $departamento->getNombreDepartamento(). ", " . $centro->getNombreCentro();
+
+        }
+        else if ($usuario->getAfiliacion() == "INVESTIGADOR") {
+            $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario->getGrupoUsuario(), '', '', '', '', '', '');
+            $grupo = $grupo_investigacion_model->rellenaDatos();
+            $info_afiliacion = $grupo->getNombreGrupo();
+
+        }
+        else if ($usuario->getAfiliacion() == "ADMINISTRACION") {
+            $info_afiliacion = $usuario->getNivelJerarquia(). ", " .$usuario->getNombrePuesto();
+        }
+        else {
+            $info_afiliacion = "-";
+        }
+
+        new USUARIO_SHOWCURRENT_View($usuario, $info_afiliacion, $esModificar);
     }
 
-    else if ($usuario->getAfiliacion() == "DOCENTE") {
-        $centro_model = new CENTRO_Model($usuario->getCentroUsuario(), '', '');
-        $centro = $centro_model->rellenaDatos();
 
-        $departamento_model = new DEPARTAMENTO_Models($usuario->getDepartUsuario(), '', '', '', '', '', '', '');
-        $departamento = $departamento_model->rellenaDatos();
-
-        $info_afiliacion = $departamento->getNombreDepartamento(). ", " . $centro->getNombreCentro();
-
-    }
-    else if ($usuario->getAfiliacion() == "INVESTIGADOR") {
-        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario->getGrupoUsuario(), '', '', '', '', '', '');
-        $grupo = $grupo_investigacion_model->rellenaDatos();
-        $info_afiliacion = $grupo->getNombreGrupo();
-
-    }
-    else if ($usuario->getAfiliacion() == "ADMINISTRACION") {
-        $info_afiliacion = $usuario->getNivelJerarquia(). ", " .$usuario->getNombrePuesto();
-    }
-    else {
-        $info_afiliacion = "-";
-    }
-
-    new USUARIO_SHOWCURRENT_View($usuario, $info_afiliacion, $esModificar);
 
 }
 

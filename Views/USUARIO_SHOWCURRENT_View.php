@@ -20,73 +20,80 @@ class USUARIO_SHOWCURRENT_View{
 
 
         <div class="container">
-            <!-- TO DO: si el $usuario es null, mostrar el mensaje de error -->
 
-            <div class="row">
-                <div class="col text-center">
-                    <h2 class="textoAzul">Vista en detalle de <?=$this->usuario->getLogin() ?></h2>
-                </div>
-            </div>
+            <?php if ($this->usuario == null){ ?>
+                <div class="alert alert-danger">El usuario al que está intentando acceder no existe.</div>
+            <?php } else if ($this->esModificar == false){ ?>
 
-            <hr>
-
-            <ul>
                 <div class="row">
-                    <div class="col text-left">
-                        <li><b>Nombre: </b><?php echo $vectorUsuario["nombre"];?></li>
+                    <div class="col text-center">
+                        <h2 class="textoAzul">Vista en detalle de <?=$this->usuario->getLogin() ?></h2>
                     </div>
                 </div>
 
+                <hr>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>Apellidos: </b><?php echo $vectorUsuario["apellidos"];?></li>
+                <ul>
+                    <div class="row">
+                        <div class="col text-left">
+                            <li><b>Nombre: </b><?=$this->usuario->getNombre() ?></li>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>Fecha de nacimiento: </b><?php echo $vectorUsuario["fecha_nacimiento"];?></li>
+
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>Apellidos: </b><?=$this->usuario->getApellidos() ?></li>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>Correo electrónico: </b><?php echo $vectorUsuario["email_usuario"];?></li>
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>Fecha de nacimiento: </b><?=$this->usuario->getFechaNacimiento() ?></li>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>Teléfono: </b><?php echo $vectorUsuario["telef_usuario"];?></li>
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>Correo electrónico: </b><?=$this->usuario->getEmailUsuario() ?></li>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>DNI: </b><?php echo $vectorUsuario["dni"];?></li>
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>Teléfono: </b><?=$this->usuario->getTelefUsuario() ?></li>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>Rol: </b><?php echo $vectorUsuario["rol"];?></li>
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>DNI: </b><?=$this->usuario->getDni() ?></li>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>Afiliación: </b><?php echo $vectorUsuario["afiliacion"];?></li>
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>Rol: </b><?=$this->usuario->getRol() ?></li>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row" style="padding-top: 0.5%;">
-                    <div class="col text-left">
-                        <li><b>Información sobre afiliación: </b><?php echo $vectorUsuario["info_afiliacion"];?></li>
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>Afiliación: </b><?=$this->usuario->getAfiliacion() ?></li>
+                        </div>
                     </div>
-                </div>
 
-            </ul>
+                    <div class="row" style="padding-top: 0.5%;">
+                        <div class="col text-left">
+                            <li><b>Información sobre afiliación: </b><?=$this->info_afiliacion ?></li>
+                        </div>
+                    </div>
+
+                </ul>
+
+            <?php } else { ?>
+                
+            <?php } ?>
 
             <div class="row">
                 <div class="col text-right">
