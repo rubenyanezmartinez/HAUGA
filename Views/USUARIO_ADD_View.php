@@ -21,32 +21,6 @@ function render(){
 <!doctype html>
 <html lang="es">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Portada</title>
-
-    <!-- Estilos propios -->
-    <link href="../libraries/estilos.css" rel="stylesheet">
-
-    <!-- ENLACES A JQUERY -->
-    <script src="../libraries/jquery/dist/jquery.slim.min.js"></script>
-    <script src="../libraries/jquery/dist/jquery.min.js"></script>
-
-    <!-- ENLACES A BOOTSTRAP -->
-    <link href="../libraries/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="../libraries/jquery/jquery.validate.js"></script>
-    <script src="../libraries/jquery/jquery.validate.min.js"></script>
-    <script src="../libraries/jquery/additional-methods.js"></script>
-    <script src="../libraries/jquery/additional-methods.min.js"></script>
-   <script type="text/javascript" src="../Views/js/validacionesAddUser.js"></script>
-
-</head>
-
-<body>
-
 <div class="container">
     <div class="row">
        <!-- <div class="col-4"></div>-->
@@ -162,27 +136,30 @@ function render(){
 
                     <div class="col-md-6 form-group" id="div_depart_usuario">
                         <select class=" form-control" id="depart_usuario" name="depart_usuario">
-                            <option value="" disabled selected>Departamento</option>
+
+                                <option value="" disabled>Departamento</option>
+
                             <?php
                             foreach ($this->departamentos as $departamento){
-                                ?>
-                                <option value="<?=$departamento->depart_id?>"><?php echo $departamento->nombre_depart ?></option>
-                                <?php
-                            }
-                            ?>
+                                if($departamento->depart_id == $this->datos['depart_id']){?>
+                                    <option value="<?=$departamento->depart_id?>" selected><?php echo $departamento->nombre_depart ?></option>
+                                <?php }else{?>
+                                    <option value="<?=$departamento->depart_id?>"><?php echo $departamento->nombre_depart ?></option>
+                                <?php }}?>
                         </select>
                     </div>
 
                     <div class="col-md-6 form-group" id="div_grupo_usuario">
                         <select class=" form-control" id="grupo_usuario" name="grupo_usuario">
-                            <option value="" disabled selected>Grupo</option>
+                            <option value="" disabled>Grupo</option>
+
                             <?php
                                 foreach ($this->grupos as $grupo){
-                            ?>
-                                    <option value="<?=$grupo->grupo_id?>"><?php echo $grupo->nombre_grupo ?></option>
-                            <?php
-                                }
-                                ?>
+                                    if($grupo->grupo_id == $this->datos['grupo_id']){?>
+                                        <option value="<?=$grupo->grupo_id?>" selected><?php echo $grupo->nombre_grupo ?></option>
+                                   <?php }else{?>
+                            <option value="<?=$grupo->grupo_id?>" ><?php echo $grupo->nombre_grupo ?></option>
+                               <?php }}?>
                         </select>
                     </div>
 
@@ -213,14 +190,17 @@ function render(){
 
                     <div class="col-md-6 form-group" id="div_centro_usuario">
                         <select class=" form-control" id="centro_usuario" name="centro_usuario">
-                            <option value="" disabled selected>Centro</option>
+
+                                <option value="" disabled>Centro</option>
+
                             <?php
                             foreach ($this->centros as $centro){
-                                ?>
-                                <option value="<?=$centro->centro_id?>"><?php echo $centro->nombre_centro ?></option>
-                                <?php
-                            }
-                            ?>
+                                if($centro->centro_id == $this->datos['centro_id']){?>
+                                    <option value="<?=$centro->centro_id?>" selected><?php echo $centro->nombre_centro ?></option>
+                                <?php }else{?>
+                                    <option value="<?=$centro->centro_id?>"><?php echo $centro->nombre_centro ?></option>
+                                <?php }}?>
+
                         </select>
                     </div>
 
@@ -304,7 +284,14 @@ function render(){
                 <?php } ?>
 
                 <div class ="row">
-                        <div class="col-md-6 input-group mb-2">
+                    <div class="col-md-6  mb-2" style="margin-bottom: 1rem!important;">
+                        <button id="botonAtras" type='submit' name='action' value='atras' class="btn btn-light mr-4">
+                            Atrás
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                            </svg>
+                        </button>
+
                             <button id="botonAddUser" type='submit' name='action' value='addUser' class="btn btn-success">
                                 Crear usuario
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -312,16 +299,8 @@ function render(){
                                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                 </svg>
                             </button>
-                        </div>
+                    </div>
 
-                        <div class="col-md-6 input-group mb-2">
-                            <button id="botonAtras" type='submit' name='action' value='atras' class="btn btn-light">
-                                Atrás
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                                </svg>
-                            </button>
-                        </div>
 
 
 

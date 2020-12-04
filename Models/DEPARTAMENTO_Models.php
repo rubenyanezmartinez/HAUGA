@@ -56,6 +56,43 @@ class DEPARTAMENTO_Models{
 
     }
 
+    //Realiza un ADD sobre la tabla departamento. Devuelve un mensaje informando del resultado.
+    function registrar(){
+
+        //Comprueba si existe un departamento con el codigo especificado
+        if($this->existCodigo()){
+            return "Ya existe el código";
+        }
+
+        $stmt = $this->db->prepare("INSERT into departamento
+                    (depart_id, nombre_depart, codigo_depart, telef_depart, email_depart, area_conc_depart, responsable_depart, edificio_depart) 
+					VALUES
+					(?,?,?,?,?,?,?,?)");
+
+        if( $stmt->execute(array(null, $this->nombre_depart, $this->codigo_depart, $this->telef_depart, $this->email_depart, $this->area_conc_depart, $this->responsable_depart,
+            $this->edificio_depart))){
+            return true;
+        }else{
+            return "Error insertando el departamento";
+        }
+
+
+    }
+
+    //Devuelte true si existe un departamento con el código del objeto
+    function existCodigo(){
+        $stmt = $this->db->prepare("SELECT *
+					FROM departamento
+					WHERE codigo_depart = ?");
+        $stmt->execute(array($this->codigo_depart));
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($resultado != false){
+            return true;
+        }
+
+    }
+
     //Devuelve un array de departamento con todos los departamento de la tabla.
     function SHOWALL(){
 
@@ -75,19 +112,6 @@ class DEPARTAMENTO_Models{
             );
         }
         return $alldepartamentos;
-    }
-
-    function actualizarResponsable(){
-
-        $stmt = $this->db->prepare("UPDATE departamento set responsable_depart = ? where responsable_depart = ?");
-
-        if( $stmt->execute(array(NULL, $this->responsable_depart))){
-            return true;
-        }else{
-            return "Error ACTUALIZANDO";
-        }
-
-
     }
 
     /**
