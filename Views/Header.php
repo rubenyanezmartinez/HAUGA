@@ -32,6 +32,7 @@ include_once '../Functions/esAdministrador.php';
     <script src="../libraries/jquery/additional-methods.min.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddUser.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddDepartamento.js"></script>
+    <script type="text/javascript" src="../Views/js/validacionesAddAgrupacion.js"></script>
 
 
     <nav id="barra-fija-superior" class="nav">
