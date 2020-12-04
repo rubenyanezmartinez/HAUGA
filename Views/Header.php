@@ -101,7 +101,7 @@ include_once '../Functions/esAdministrador.php';
                         <h5><a href="#" class="textoAzul">GRUPOS INVESTIGACIÓN</a></h5>
                     </div>
                     <div class="col-2 align-self-center text-center">
-                        <h5><a href="../Controllers/User_Controller.php?action=showall" class="textoAzul">USUARIOS</a></h5>
+                        <h5><a href="../Controllers/User_Controller.php?action=showall&numero_pagina=1" class="textoAzul">USUARIOS</a></h5>
                     </div>
                 <?php } else { ?>
                     <div class="col-2 align-self-center text-center">

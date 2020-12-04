@@ -40,7 +40,10 @@ if(!IsAuthenticated()){
             break;
         case 'jerarquia': jerarquia();
             break;
-        case 'showall': showall();
+        case 'showall':
+            if (!isset($_GET['numero_pagina'])) { $numero_pagina = 1; }
+            else { $numero_pagina = $_GET['numero_pagina']; }
+            showall($numero_pagina);
             break;
         case 'logout': logout();
             break;
@@ -98,13 +101,34 @@ function login(){
 }
 
 
-function showall(){
+function showall($numero_pagina){
     $usuario = new USUARIO_Model('','','','','','','','','','','','','','','','');  //Crea un USUARIO vacio
     $AllUsuarios = $usuario->SHOWALL(); //En $AllUsuarios se guarda el array de USUARIOs que devuelve el SHOWALL con todos los USUSARIOs registrados
 
     $vectorUsuarios = [];
 
-    for ($i = 0; $i < count($AllUsuarios); $i++) {
+    $numero_usuarios = count($AllUsuarios);
+
+    $num_paginas_posibles = ceil($numero_usuarios/5);
+
+    if ($numero_pagina > $num_paginas_posibles) {
+        $numero_pagina = 1;
+    }
+
+    if ($numero_pagina == 1){
+        $inicioUsuarios = 0;
+    }
+    else{
+        $inicioUsuarios = (($numero_pagina-1)*5);
+    }
+
+    $finalUsuarios = $inicioUsuarios+5;
+
+    if($finalUsuarios > $numero_usuarios){
+        $finalUsuarios = $numero_usuarios;
+    }
+
+    for ($i = $inicioUsuarios; $i < $finalUsuarios; $i++) {
         $vectorUsuarios[$i]["login"] = $AllUsuarios[$i]->login;
         $vectorUsuarios[$i]["nombre"] = $AllUsuarios[$i]->nombre;
         $vectorUsuarios[$i]["apellidos"] = $AllUsuarios[$i]->apellidos;
@@ -114,30 +138,28 @@ function showall(){
         $vectorUsuarios[$i]["afiliacion"] = $AllUsuarios[$i]->afiliacion;
 
         if ($vectorUsuarios[$i]["afiliacion"] == "DOCENTE") {
-            $centro_model = new CENTRO_Model($AllUsuarios[$i]->centro_usuario, '','');
+            $centro_model = new CENTRO_Model($AllUsuarios[$i]->centro_usuario, '', '');
             $centro = $centro_model->rellenaDatos();
 
-            $departamento_model = new DEPARTAMENTO_Models($AllUsuarios[$i]->depart_usuario, '','','','','','','');
+            $departamento_model = new DEPARTAMENTO_Models($AllUsuarios[$i]->depart_usuario, '', '', '', '', '', '', '');
             $departamento = $departamento_model->rellenaDatos();
 
-            $vectorUsuarios[$i]["info_afiliacion"] = $departamento->getNombreDepartamento().", ".$centro->getNombreCentro();
-        }
-        else if ($vectorUsuarios[$i]["afiliacion"] == "INVESTIGADOR"){
-            $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($AllUsuarios[$i]->grupo_usuario, '','','','','','');
+            $vectorUsuarios[$i]["info_afiliacion"] = $departamento->getNombreDepartamento() . ", " . $centro->getNombreCentro();
+        } else if ($vectorUsuarios[$i]["afiliacion"] == "INVESTIGADOR") {
+            $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($AllUsuarios[$i]->grupo_usuario, '', '', '', '', '', '');
             $grupo = $grupo_investigacion_model->rellenaDatos();
 
             $vectorUsuarios[$i]["info_afiliacion"] = $grupo->getNombreGrupo();
-        }
-        else if ($vectorUsuarios[$i]["afiliacion"] == "ADMINISTRACION"){
-            $vectorUsuarios[$i]["info_afiliacion"] = $AllUsuarios[$i]->nivel_jerarquia.", ".$AllUsuarios[$i]->nombre_puesto;
-        }
-        else{
+        } else if ($vectorUsuarios[$i]["afiliacion"] == "ADMINISTRACION") {
+            $vectorUsuarios[$i]["info_afiliacion"] = $AllUsuarios[$i]->nivel_jerarquia . ", " . $AllUsuarios[$i]->nombre_puesto;
+        } else {
             $vectorUsuarios[$i]["info_afiliacion"] = "-";
         }
+
     }
 
     include '../Views/USUARIO_SHOWALL_View.php';    //Incluye fichero php con la vista SHOWALL
-    new USUARIO_SHOWALL_View($vectorUsuarios);//LLama al constructor de Usuario_Showall, que muestra la tabla
+    new USUARIO_SHOWALL_View($vectorUsuarios, $num_paginas_posibles);//LLama al constructor de Usuario_Showall, que muestra la tabla
 }
 
 function add(){

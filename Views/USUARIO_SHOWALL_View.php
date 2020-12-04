@@ -1,13 +1,18 @@
 <?php
 class USUARIO_SHOWALL_View{
 
+    var $arrayusuarios;
+    var $num_paginas_posibles;
+
     //Constructor de la clase, recibe un array de usuarios que muestra por pantalla en forma de tabla
-    function __construct($arrayUsuarios){
-        $this->render($arrayUsuarios);
+    function __construct($arrayUsuarios, $num_paginas_posibles){
+        $this->arrayusuarios = $arrayUsuarios;
+        $this->num_paginas_posibles = $num_paginas_posibles;
+        $this->render();
     }
 
     //Funcion que crea la tabla SHOWALL
-    function render($arrayUsuarios){
+    function render(){
 
         include '../Views/Header.php'; //Incluye la cabecera
 
@@ -64,8 +69,8 @@ class USUARIO_SHOWALL_View{
                         <th scope="col">DNI</th>
                         <th scope="col">Correo Electrónico</th>
                         <th scope="col">Afiliación</th>
-                        <th scope="col">Información de Afiliación</th>
-                        <th style="width: 10%" scope="col">Opciones</th>
+                        <th scope="col" style="width: 34%">Información de Afiliación</th>
+                        <th style="width: 20%" scope="col">Opciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -73,18 +78,18 @@ class USUARIO_SHOWALL_View{
 
                     <?php
 
-                    for ($i = 0; $i < count($arrayUsuarios); $i++){
+                    foreach ($this->arrayusuarios as $usuario){
 
                             echo '<tr>';
-                            echo '<th scope="row">'.$arrayUsuarios[$i]["login"].'</th>';
-                            echo '<th>'.$arrayUsuarios[$i]["nombre"].'</th>';
-                            echo '<th>'.$arrayUsuarios[$i]["apellidos"].'</th>';
-                            echo '<th>'.$arrayUsuarios[$i]["dni"].'</th>';
-                            echo '<th>'.$arrayUsuarios[$i]["email_usuario"].'</th>';
-                            echo '<th>'.$arrayUsuarios[$i]["afiliacion"].'</th>';
-                            echo '<th>'.$arrayUsuarios[$i]["info_afiliacion"].'</th>';
+                            echo '<th scope="row">'.$usuario["login"].'</th>';
+                            echo '<th>'.$usuario["nombre"].'</th>';
+                            echo '<th>'.$usuario["apellidos"].'</th>';
+                            echo '<th>'.$usuario["dni"].'</th>';
+                            echo '<th>'.$usuario["email_usuario"].'</th>';
+                            echo '<th>'.$usuario["afiliacion"].'</th>';
+                            echo '<th>'.$usuario["info_afiliacion"].'</th>';
                             echo '<th>
-                                        <a href="../Controllers/User_Controller.php?action=showcurrent&login_usuario='.$arrayUsuarios[$i]["login"].'">
+                                        <a href="../Controllers/User_Controller.php?action=showcurrent&login_usuario='.$usuario["login"].'">
                                             <svg style="color: green" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                               <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
                                               <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
@@ -96,7 +101,7 @@ class USUARIO_SHOWALL_View{
                                             </svg>
                                         </button>
                                         
-                                       <a id="eliminarUsuario" name="eliminarUsuario" data-enlace="../Controllers/User_Controller.php?action=delete&login_usuario='.$arrayUsuarios[$i]["login"].'" data-toggle="modal" data-target="#exampleModal">
+                                       <a id="eliminarUsuario" name="eliminarUsuario" data-enlace="../Controllers/User_Controller.php?action=delete&login_usuario='.$usuario["login"].'" data-toggle="modal" data-target="#exampleModal">
                                             <svg style="color: red" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                               <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -117,7 +122,7 @@ class USUARIO_SHOWALL_View{
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                       <a id="username" href="../Controllers/User_Controller.php?action=delete&login_usuario='.$arrayUsuarios[$i]["login"].'"><button type="button" class="btn btn-danger" >Eliminar</button></a> 
+                       <a id="username" href="../Controllers/User_Controller.php?action=delete&login_usuario='.$usuario["login"].'"><button type="button" class="btn btn-danger" >Eliminar</button></a> 
                     </div>
                 </div>
             </div>
@@ -132,6 +137,19 @@ class USUARIO_SHOWALL_View{
 
                     </tbody>
                 </table>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="paginacion">
+                        <ul class="pagination justify-content-end">
+                            <?php for ($i = 1; $i < $this->num_paginas_posibles + 1; $i++){
+                                echo '<li class="page-item"><a class="page-link" style="background-color: #073349; color: white" href="../Controllers/User_Controller.php?action=showall&numero_pagina='.$i.'">'.$i.'</a></li>';
+                            } ?>
+
+                        </ul>
+                    </nav>
+                </div>
             </div>
 
         </div>
