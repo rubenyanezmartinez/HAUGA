@@ -45,7 +45,7 @@ include_once 'Access_DB.php';
             $grupo = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($grupo != null){
-                return new GRUPO_INVESTIGACION_Model($grupo["nombre_grupo"],$grupo["telef_grupo"],$grupo["lineas_investigacion"],
+                return new GRUPO_INVESTIGACION_Model($grupo["grupo_id"], $grupo["nombre_grupo"],$grupo["telef_grupo"],$grupo["lineas_investigacion"],
                     $grupo["area_conoc_grupo"],$grupo["email_grupo"],$grupo["responsable_grupo"]);
             }else{
                 return  'Error inesperado al intentar cumplir su solicitud de consulta';

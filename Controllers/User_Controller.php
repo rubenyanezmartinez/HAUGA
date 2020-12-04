@@ -120,12 +120,13 @@ function showall(){
             $departamento_model = new DEPARTAMENTO_Models($AllUsuarios[$i]->depart_usuario, '','','','','','','');
             $departamento = $departamento_model->rellenaDatos();
 
-            $vectorUsuarios[$i]["info_afiliacion"] = $departamento["nombre_depart"].", ".$centro["nombre_centro"];
+            $vectorUsuarios[$i]["info_afiliacion"] = $departamento->getNombreDepartamento().", ".$centro->getNombreCentro();
         }
         else if ($vectorUsuarios[$i]["afiliacion"] == "INVESTIGADOR"){
             $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($AllUsuarios[$i]->grupo_usuario, '','','','','','');
             $grupo = $grupo_investigacion_model->rellenaDatos();
-            $vectorUsuarios[$i]["info_afiliacion"] = $grupo["nombre_grupo"];
+
+            $vectorUsuarios[$i]["info_afiliacion"] = $grupo->getNombreGrupo();
         }
         else if ($vectorUsuarios[$i]["afiliacion"] == "ADMINISTRACION"){
             $vectorUsuarios[$i]["info_afiliacion"] = $AllUsuarios[$i]->nivel_jerarquia.", ".$AllUsuarios[$i]->nombre_puesto;

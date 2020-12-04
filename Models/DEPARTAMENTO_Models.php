@@ -48,7 +48,7 @@ class DEPARTAMENTO_Models{
         $departamento = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($departamento != null){
-            return new DEPARTAMENTO_Models($departamento["nombre_depart"],$departamento["codigo_depart"],$departamento["telef_depart"],
+            return new DEPARTAMENTO_Models($departamento["depart_id"], $departamento["nombre_depart"],$departamento["codigo_depart"],$departamento["telef_depart"],
         $departamento["email_depart"],$departamento["area_conc_depart"],$departamento["responsable_depart"],$departamento["edificio_depart"]);
         }else {
             return  'Error inesperado al intentar cumplir su solicitud de consulta';
