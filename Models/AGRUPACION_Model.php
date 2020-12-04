@@ -23,14 +23,20 @@ class AGRUPACION_Model{
         $stmt = $this->db->prepare("SELECT *
                                     FROM agrupacion_edificio
                                     WHERE agrup_id = ?");
-        $stmt->execute(arra($this->agrup_id));
+        $stmt->execute(array($this->agrup_id));
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->agrup_id = $resultado["agrup_id"];
-        $this->nombre_agrup = $resultado["nombre_agrup"];
-        $this->ubicacion_agrup = $resultado["ubicacion_agrup"];
+        if($resultado != null){
+            $this->agrup_id = $resultado["agrup_id"];
+            $this->nombre_agrup = $resultado["nombre_agrup"];
+            $this->ubicacion_agrup = $resultado["ubicacion_agrup"];
 
-        return $resultado;
+            return $resultado;
+        } else {
+            return 'Error';
+        }
+
+
     }
 
     //Devuelve un array de agrupaciones con todas las agurpaciones de la tabla
@@ -49,6 +55,15 @@ class AGRUPACION_Model{
             );
         }
         return $allAgrup;
+    }
+
+    function add(){
+        $stmt = $this->db->prepare('INSERT INTO agrupacion_edificio VALUES (?,?,?)');
+        if($stmt->execute(array(null, $this->nombre_agrup, $this->ubicacion_agrup))){
+            return true;
+        } else {
+            return "Error insertando la agrupación";
+        }
     }
 }
 ?>
