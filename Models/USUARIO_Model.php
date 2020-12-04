@@ -299,9 +299,8 @@ include_once 'Access_DB.php';
             $stmt = $this->db->prepare("UPDATE usuario SET
                     password = ?, email_usuario = ?, telef_usuario = ?
 					WHERE login = ?");
-            $resultado = $this->db->execute(array($this->password, $this->email_usuario, $this->rol, $this->afiliacion, $this->nombre_puesto,
-                $this->nivel_jerarquia, $this->depart_usuario, $this->grupo_usuario, $this->centro_usuario,
-                $this->login));
+            $resultado = $this->db->execute(array($this->password, $this->email_usuario, $this->telef_usuario,
+                        $this->login));
 
             if($resultado === true){
                 return true;

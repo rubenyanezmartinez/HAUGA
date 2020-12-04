@@ -16,6 +16,9 @@ const TAM_PAG = 5;
 if(!IsAuthenticated()){
     login();
 }else{
+
+    var_dump($_SESSION['rol']);
+    exit();
     if(!isset($_GET['action'])){
         $action = '';
     } else{
@@ -24,20 +27,18 @@ if(!IsAuthenticated()){
 
     switch($action){
         //Comprobar si esta autenticado y si tiene el rol necesario
-        case 'consultarEdit':   //Caso para solicitar datos al modelo y mostrarselos al usuario para editar
-            $login_usuario = $_GET['login_usuario'];
-            showcurrentEdit($login_usuario);
-            break;
-        case 'edit':    //Caso para modificar los datos en la BD con los que vienen de la vista
-            if($_SESSION['rol']=='ADMIN'){
+        case 'edit':
+            if(!$_POST){
                 $login_usuario = $_GET['login_usuario'];
-                edit($login_usuario);
+                showcurrentEdit($login_usuario);
             }else{
-                $login_usuario = $_SESSION['login'];
+                if($_SESSION['rol']=='ADMIN'){
+                    $login_usuario = $_GET['login_usuario'];
+                }else{
+                    $login_usuario = $_SESSION['login'];
+                }
                 edit($login_usuario);
             }
-
-            edit($login_usuario);
             break;
         case 'jerarquia': jerarquia();
             break;
@@ -334,13 +335,18 @@ function jerarquia(){
 
 //Funcion para editar los datos
 function edit($login_usuario){
-    /*
-    $usuario_model = new USUARIO_Model('',$login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-    $usuario = $usuario_model->rellenaDatos();
-    */
 
-    //Recordar volver a formatear las cadenas de rol al formato de la BD
-    //new USUARIO_SHOWCURRENT_View($vectorUsuario);
+    $usuario_model = recuperarDatosForm();
+    if($_SESSION['rol']=='ADMIN'){
+        $respuesta = $usuario_model->adminEDIT();
+    }else{
+        $respuesta = $usuario_model->EDIT();
+    }
+    if($respuesta === true){
+        showcurrent($usuario_model->getLogin());
+    }else{
+        //"ERROR"
+    }
 
 }
 
@@ -391,6 +397,50 @@ function showcurrentEdit($login_usuario){
 }
 
 function recuperarDatosForm(){
+
+    $user_model = new USUARIO_Model();
+
+    $user_model->setNombre($_POST['nombre']);
+    $user_model->setApellidos($_POST['apellidos']);
+    $user_model->setPassword($_POST['password']);
+    $user_model->setFechaNacimiento($_POST['fecha_nacimiento']);
+    $user_model->setEmailUsuario($_POST['email_usuario']);
+    $user_model->setTelefUsuario($_POST['telef_usuario']);
+    $user_model->setDni($_POST['dni']);
+    $user_model->setRol($_POST['rol']);
+    $user_model->setAfiliacion($_POST['afiliacion']);
+
+    if($_POST['nombre_puesto']==""){
+        $user_model->setNombrePuesto(null);
+    }else{
+        $user_model->setNombrePuesto($_POST['nombre_puesto']);
+    }
+
+    if($_POST['nivel_jerarquia']==""){
+        $user_model->setNivelJerarquia(null);
+    }else{
+        $user_model->setNivelJerarquia( $_POST['nivel_jerarquia']);
+    }
+
+    if(!isset($_POST['depart_usuario'])){
+        $user_model->setDepartUsuario(null);
+    }else{
+        $user_model->setDepartUsuario($_POST['depart_usuario']);
+    }
+
+    if(!isset($_POST['grupo_usuario'])){
+        $user_model->setGrupoUsuario(null);
+    }else{
+        $user_model->setGrupoUsuario($_POST['grupo_usuario']);
+    }
+
+    if(!isset($_POST['centro_usuario'])){
+        $user_model->setCentroUsuario(null);
+
+    }else{
+        $user_model->setCentroUsuario($_POST['centro_usuario']);
+    }
+    return $user_model;
 
 }
 

@@ -124,7 +124,7 @@ GRANT ALL ON `hauga`.* TO 'admin_hauga'@'localhost';
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
-VALUES (null, 'rymartinez', 'Rubén', 'Yañez Martinez', '1234', '1998-07-27', 'rymartinez@gmail.com', '6661006666', '22222222A', 'ADMIN', 'ADMINISTRACION', 'Jefe de asuntos económicos', 1, null, null, null);
+VALUES (null, 'rymartinez', 'Rubén', 'Yañez Martinez', '1234', '1998-07-27', 'rymartinez@gmail.com', '666100666', '22222222A', 'ADMIN', 'ADMINISTRACION', 'Jefe de asuntos económicos', 1, null, null, null);
 
 INSERT INTO `hauga`.`usuario`
 (`usuario_id`, `login`, `nombre`, `apellidos`, `password`, `fecha_nacimiento`, `email_usuario`, `telef_usuario`, `dni`, `rol`, `afiliacion`, `nombre_puesto`, `nivel_jerarquia`, `depart_usuario`, `grupo_usuario`, `centro_usuario`)
