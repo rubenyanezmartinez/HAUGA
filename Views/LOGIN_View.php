@@ -59,23 +59,42 @@ class LOGIN_View{
 <body>
 
 <div class="container">
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4 align-self-center">
-            <form id="loginForm" method="POST" action="../Controllers/User_Controller.php">
-                <h2 class="text-center textoAzul">Iniciar sesión</h2>
 
+    <div class="row" style="padding-top: 2%;">
+        <div class="col text-center">
+            <h2 class="textoAzul">Iniciar sesión</h2>
+        </div>
+    </div>
+
+    <hr>
+
+    <form id="loginForm" method="POST" action="../Controllers/User_Controller.php">
+
+        <div class="row">
+            <div class="col-4"></div>
+
+            <div class="col-4 align-self-center">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text" style="background-color: #073349;">
-                            <svg style="color: white" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <svg style="color: white" width="1.5em" height="1.5em" viewBox="0 0 16 16"
+                                 class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                             </svg>
                         </div>
                     </div>
-                    <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario" value="<?php echo($this->datos['login'])?>" size="12" maxlength="12">
+                    <input type="text" class="form-control" name="login" id="login" placeholder="Nombre de usuario"
+                           value="<?php echo($this->datos['login']) ?>" size="12" maxlength="12">
                 </div>
+            </div>
 
+            <div class="col-4"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 align-self-center">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text" style="background-color: #073349;">
@@ -87,27 +106,54 @@ class LOGIN_View{
                     </div>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" value="<?php echo $this->datos['password']?>" size="64" maxlength="64">
                 </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
 
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 align-self-center">
                 <?php if($this->datos['login']!='' && $this->datos['password']!=''){ ?>
-                <div class="alert alert-danger"><?php echo($this->datos['respuesta'])?></div>
+                    <div class="alert alert-danger"><?php echo($this->datos['respuesta'])?></div>
                 <?php } ?>
+            </div>
+            <div class="col-4"></div>
+        </div>
 
-                <button id="botonLogin" type='submit' name='action' value='login' class="btn btn-primary" style="background-color: #073349;">
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-2 text-left">
+                <button id="botonLogin" type='submit' name='action' value='login' class="btn btn-primary"
+                        style="background-color: #073349;">
                     Iniciar sesión
-                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-right"
+                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                        <path fill-rule="evenodd"
+                              d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
                     </svg>
                 </button>
+            </div>
 
-            </form>
-
+            <div class="col-2 text-right">
+                <a id="botonAtras" href="../Controllers/Index_Controller.php" class="btn btn-light">
+                    Atrás
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="col-4"></div>
         </div>
-        <div class="col-4"></div>
 
-    </div>
+    </form>
 
 </div>
+</body>
 
 
 
