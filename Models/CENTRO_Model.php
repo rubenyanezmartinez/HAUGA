@@ -66,5 +66,39 @@ class CENTRO_Model{
     function getNombreCentro(){
         return $this->nombre_centro;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCentroId()
+    {
+        return $this->centro_id;
+    }
+
+    /**
+     * @param mixed $centro_id
+     */
+    public function setCentroId($centro_id)
+    {
+        $this->centro_id = $centro_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEdificioCentro()
+    {
+        return $this->edificio_centro;
+    }
+
+    /**
+     * @param mixed $edificio_centro
+     */
+    public function setEdificioCentro($edificio_centro)
+    {
+        $this->edificio_centro = $edificio_centro;
+    }
+
+
 }
 ?>

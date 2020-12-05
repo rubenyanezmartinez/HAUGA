@@ -9,6 +9,7 @@ include '../Models/CENTRO_Model.php';
 include '../Models/GRUPO_INVESTIGACION_Model.php';
 include '../Models/DEPARTAMENTO_Models.php';
 include '../Models/INCIDENCIA_Model.php';
+include '../Views/USUARIO_ADD_View.php';
 session_start();
 
 const TAM_PAG = 5;
@@ -26,10 +27,13 @@ if(!IsAuthenticated()){
     switch($action){
         //Comprobar si esta autenticado y si tiene el rol necesario
         case 'edit':
-            if(!$_POST){
+
+            if(!isset($_POST['nombre'])){
                 $login_usuario = $_GET['login_usuario'];
-                showcurrentEdit($login_usuario);
+                showEdit($login_usuario);
             }else{
+                var_dump("error else");
+                exit();
                 if($_SESSION['rol']=='ADMIN'){
                     $login_usuario = $_GET['login_usuario'];
                 }else{
@@ -168,14 +172,15 @@ function add(){
     $departamentos = $departamento->SHOWALL(); //En $Array con todos los departamento
     $centro = new CENTRO_Model('','','');  //Crea un centro vacio
     $centros = $centro->SHOWALL(); //En $Array con todos los centros
-    include '../Views/USUARIO_ADD_View.php';
-    if(!$_POST){//Antes de cubrir el formulario
-        $datos = ["nombre" => '', "apellidos" => '', "password" => '', "fecha_nacimiento" => '',
-            "email_usuario" => '', "telef_usuario" => '', "dni" => '', "rol" => '', "afiliacion" => '',
-            "nombre_puesto" => '', "nivel_jerarquia" => '', "depart_usuario" => '', "grupo_usuario" => '', "centro_usuario" => '',"respuesta"=>''];
-        new USUARIO_ADD_View($datos, $grupos, $departamentos, $centros);
-    } else {
+    $esModificar =false;
 
+    if(!isset($_POST['nombre'])){//Antes de cubrir el formulario
+        $datos = new USUARIO_Model(null,"","","","","",
+            "","","","","","","","",
+            "","");
+        $respuesta = false;
+        new USUARIO_ADD_View($datos, $grupos, $departamentos, $centros, $esModificar, $respuesta);
+    } else {
         if($_POST['nombre_puesto']==""){
             $nombre_puesto=null;
         }else{
@@ -215,10 +220,11 @@ function add(){
         if($respuesta === true){
             header('Location:../Controllers/User_Controller.php?action=showall');
         }else{
+            $esModificar = false;
             //Mostramos datos introducidos y mensaje de error
             $login = new USUARIO_ADD_View(["nombre" => $_POST['nombre'], "apellidos" => $_POST['apellidos'], "password" => $_POST['password'], "fecha_nacimiento" => $_POST['fecha_nacimiento'],
                 "email_usuario" => $_POST['email_usuario'], "telef_usuario" => $_POST['telef_usuario'], "dni" => $_POST['dni'], "rol" => $_POST['rol'], "afiliacion" => $_POST['afiliacion'],
-                "nombre_puesto" => $nombre_puesto, "nivel_jerarquia" => $nivel_jerarquia, "depart_usuario" => $depart_usuario, "grupo_usuario" => $grupo_usuario, "centro_usuario" => $centro_usuario,"respuesta"=>$respuesta], $grupos, $departamentos, $centros);
+                "nombre_puesto" => $nombre_puesto, "nivel_jerarquia" => $nivel_jerarquia, "depart_usuario" => $depart_usuario, "grupo_usuario" => $grupo_usuario, "centro_usuario" => $centro_usuario], $grupos, $departamentos, $centros, $esModificar, $esModificar, $respuesta);
         }
     }
 }
@@ -339,16 +345,56 @@ function edit($login_usuario){
 
 }
 
-//Funcion para recuperar datos de la BD y pasarselos a la vista para EDITAR
-function showcurrentEdit($login_usuario){
 
-    $esModificar = true;    //Indica a la vista que se van a poder editar datos
+//Funcion que muestra los datos para poder ser editados.
+function showEdit($login_usuario){
 
-    $usuario_model = new USUARIO_Model('',$login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-    $usuario = $usuario_model->rellenaDatos();
-    //TO DO: Si rellenaDatos devuelve el mensaje de error, llamar a la vista de error
+    $grupo = new GRUPO_INVESTIGACION_Model('','','','','','','');  //Crea un GRUPO vacio
+    $grupos = $grupo->SHOWALL(); //En $Array con todos los grupos
+    $departamento = new DEPARTAMENTO_Models('','','','','','','', '');  //Crea un DEPARTAMENTO vacio
+    $departamentos = $departamento->SHOWALL(); //En $Array con todos los departamento
+    $centro = new CENTRO_Model('','','');  //Crea un centro vacio
+    $centros = $centro->SHOWALL(); //En $Array con todos los centros
+    $user = new USUARIO_Model(null,$login_usuario,"","","","",
+        "","","","","","","","",
+        "","");
+    $user_model = $user->rellenaDatos();
+    $datos = formatDataModelToView($user_model);
+    $info_afiliacion = createInfoAfiliación($datos);
 
-    $fecha = explode("-", $usuario["fecha_nacimiento"]);
+    $esModificar = true;
+    new USUARIO_ADD_View($user_model, $grupos, $departamentos, $centros, $esModificar, $info_afiliacion);
+
+
+}
+
+function createInfoAfiliación($usuario){
+
+    if ($usuario->getAfiliacion() == "DOCENTE") {
+        $centro_model = new CENTRO_Model(null,"","");
+        $centro = $centro_model->rellenaDatos();
+        $departamento_model = new DEPARTAMENTO_Models(null,"","","","","","","");
+        $departamento = $departamento_model->rellenaDatos();
+        $info_afiliacion = $departamento->getNombreDepartamento(). ", " . $centro->getNombreCentro();
+    }elseif ($usuario->getAfiliacion() == "INVESTIGADOR"){
+        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario->getGrupoUsuario(), '', '', '', '', '', '');
+        $grupo = $grupo_investigacion_model->rellenaDatos();
+        $info_afiliacion = $grupo->getNombreGrupo();
+    }elseif ($usuario->getAfiliacion() == "ADMINISTRACION"){
+        $info_afiliacion = $usuario->getNivelJerarquia(). ", " .$usuario->getNombrePuesto();
+
+    }else{
+        $info_afiliacion = "-";
+    }
+  return $info_afiliacion;
+
+}
+
+
+
+//Cuando se obtienen los datos de rellenar datos se pasan por esta funcion para formatearlos
+function formatDataModelToView($usuario){
+    $fecha = explode("-", $usuario->getFechaNacimiento());
     $usuario->setFechaNacimiento($fecha[2]."/".$fecha[1]."/".$fecha[0]);
 
     if ($usuario->getRol() == "USUARIO_NORMAL"){
@@ -356,38 +402,17 @@ function showcurrentEdit($login_usuario){
     }
     else if ($usuario->getRol() == "ADMIN"){
         $usuario->setRol("Administrador");
-        $info_afiliacion = "-";
     }
 
-    else if ($usuario->getAfiliacion() == "DOCENTE") {
-        $centro_model = new CENTRO_Model($usuario->getCentroUsuario(), '', '');
-        $centro = $centro_model->rellenaDatos();
-
-        $departamento_model = new DEPARTAMENTO_Models($usuario->getDepartUsuario(), '', '', '', '', '', '', '');
-        $departamento = $departamento_model->rellenaDatos();
-
-        $info_afiliacion = $departamento->getNombreDepartamento(). ", " . $centro->getNombreCentro();
-
-    }
-    else if ($usuario->getAfiliacion() == "INVESTIGADOR") {
-        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario->getGrupoUsuario(), '', '', '', '', '', '');
-        $grupo = $grupo_investigacion_model->rellenaDatos();
-        $info_afiliacion = $grupo->getNombreGrupo();
-
-    }
-    else if ($usuario->getAfiliacion() == "ADMINISTRACION") {
-        $info_afiliacion = $usuario->getNivelJerarquia(). ", " .$usuario->getNombrePuesto();
-    }
-    else {
-        $info_afiliacion = "-";
-    }
-
-    new USUARIO_SHOWCURRENT_View($usuario, $info_afiliacion, $esModificar);
+    return $usuario;
 }
+
 
 function recuperarDatosForm(){
 
-    $user_model = new USUARIO_Model();
+    $user_model = new USUARIO_Model(null,"","","","","",
+        "","","","","","","","",
+        "","");
 
     $user_model->setNombre($_POST['nombre']);
     $user_model->setApellidos($_POST['apellidos']);

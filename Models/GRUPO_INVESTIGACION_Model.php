@@ -92,5 +92,103 @@ include_once 'Access_DB.php';
         function getNombreGrupo(){
             return $this->nombre_grupo;
         }
+
+        /**
+         * @return mixed
+         */
+        public function getGrupoId()
+        {
+            return $this->grupo_id;
+        }
+
+        /**
+         * @param mixed $grupo_id
+         */
+        public function setGrupoId($grupo_id)
+        {
+            $this->grupo_id = $grupo_id;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getTelefGrupo()
+        {
+            return $this->telef_grupo;
+        }
+
+        /**
+         * @param mixed $telef_grupo
+         */
+        public function setTelefGrupo($telef_grupo)
+        {
+            $this->telef_grupo = $telef_grupo;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getLineasInvestigacion()
+        {
+            return $this->lineas_investigacion;
+        }
+
+        /**
+         * @param mixed $lineas_investigacion
+         */
+        public function setLineasInvestigacion($lineas_investigacion)
+        {
+            $this->lineas_investigacion = $lineas_investigacion;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getAreaConocGrupo()
+        {
+            return $this->area_conoc_grupo;
+        }
+
+        /**
+         * @param mixed $area_conoc_grupo
+         */
+        public function setAreaConocGrupo($area_conoc_grupo)
+        {
+            $this->area_conoc_grupo = $area_conoc_grupo;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getEmailGrupo()
+        {
+            return $this->email_grupo;
+        }
+
+        /**
+         * @param mixed $email_grupo
+         */
+        public function setEmailGrupo($email_grupo)
+        {
+            $this->email_grupo = $email_grupo;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getResponsableGrupo()
+        {
+            return $this->responsable_grupo;
+        }
+
+        /**
+         * @param mixed $responsable_grupo
+         */
+        public function setResponsableGrupo($responsable_grupo)
+        {
+            $this->responsable_grupo = $responsable_grupo;
+        }
+
+
     }
 ?>

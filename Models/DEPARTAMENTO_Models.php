@@ -120,5 +120,139 @@ class DEPARTAMENTO_Models{
     function getNombreDepartamento(){
         return $this->nombre_depart;
     }
+
+    /**
+     * @return PDO|null
+     */
+
+
+    /**
+     * @return mixed
+     */
+    public function getDepartId()
+    {
+        return $this->depart_id;
+    }
+
+    /**
+     * @param mixed $depart_id
+     */
+    public function setDepartId($depart_id)
+    {
+        $this->depart_id = $depart_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreDepart()
+    {
+        return $this->nombre_depart;
+    }
+
+    /**
+     * @param mixed $nombre_depart
+     */
+    public function setNombreDepart($nombre_depart)
+    {
+        $this->nombre_depart = $nombre_depart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDepart()
+    {
+        return $this->codigo_depart;
+    }
+
+    /**
+     * @param mixed $codigo_depart
+     */
+    public function setCodigoDepart($codigo_depart)
+    {
+        $this->codigo_depart = $codigo_depart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelefDepart()
+    {
+        return $this->telef_depart;
+    }
+
+    /**
+     * @param mixed $telef_depart
+     */
+    public function setTelefDepart($telef_depart)
+    {
+        $this->telef_depart = $telef_depart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmailDepart()
+    {
+        return $this->email_depart;
+    }
+
+    /**
+     * @param mixed $email_depart
+     */
+    public function setEmailDepart($email_depart)
+    {
+        $this->email_depart = $email_depart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAreaConcDepart()
+    {
+        return $this->area_conc_depart;
+    }
+
+    /**
+     * @param mixed $area_conc_depart
+     */
+    public function setAreaConcDepart($area_conc_depart)
+    {
+        $this->area_conc_depart = $area_conc_depart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResponsableDepart()
+    {
+        return $this->responsable_depart;
+    }
+
+    /**
+     * @param mixed $responsable_depart
+     */
+    public function setResponsableDepart($responsable_depart)
+    {
+        $this->responsable_depart = $responsable_depart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEdificioDepart()
+    {
+        return $this->edificio_depart;
+    }
+
+    /**
+     * @param mixed $edificio_depart
+     */
+    public function setEdificioDepart($edificio_depart)
+    {
+        $this->edificio_depart = $edificio_depart;
+    }
+
 }
 ?>

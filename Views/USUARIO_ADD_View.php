@@ -6,12 +6,19 @@ var $datos;
 var $grupos;
 var $departamentos;
 var $centros;
+var $esModificar;
+var $info_afiliacion;
+var $respuesta;
+
 //Constructor de la clase
-function __construct($datos, $grupos, $departamentos, $centros){
+function __construct($datos, $grupos, $departamentos, $centros, $esModificar = false, $info_afiliacion = "", $respuesta = false){
     $this->datos = $datos;
     $this->grupos = $grupos;
     $this->departamentos = $departamentos;
     $this->centros = $centros;
+    $this->esModificar = $esModificar;
+    $this->info_afiliacion = $info_afiliacion;
+    $this->respuesta = $respuesta;
     $this->render();
 }
 //función que muestra la cabecera, inputs y el pie de la pagina de login
@@ -38,19 +45,19 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="<?php echo($this->datos['nombre'])?>" size="15" maxlength="15">
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="<?=$this->datos->getNombre()?>" size="15" maxlength="15">
                     </div>
 
                     <div class="col-md-6 form-group">
                         <select class=" form-control" id="rol" name="rol">
                             <?php
-                                if($this->datos['rol'] == 'ADMIN'){
+                                if($this->datos->getRol() == 'ADMIN'){
                                     ?>
                                     <option value="" disabled>Rol</option>
                                     <option value="ADMIN" selected>Administrador</option>
                                     <option value="USUARIO_NORMAL">Usuario normal</option>
                                     <?php
-                                }else if($this->datos['rol'] == 'USUARIO_NORMAL'){
+                                }else if($this->datos->getRol() == 'USUARIO_NORMAL'){
                             ?>
                             <option value="" disabled>Rol</option>
                             <option value="ADMIN">Administrador</option>
@@ -80,27 +87,27 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" size="25" maxlength="25" value="<?php echo($this->datos['apellidos'])?>">
+                        <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" size="25" maxlength="25" value="<?=$this->datos->getApellidos()?>">
                     </div>
 
                     <div class=" col-md-6 form-group">
                         <select class=" form-control" id="afiliacion" name="afiliacion">
                             <?php
-                            if($this->datos['afiliacion'] == 'DOCENTE'){
+                            if($this->datos->getAfiliacion() == 'DOCENTE'){
                                 ?>
                                 <option value="" disabled>Afiliación</option>
                                 <option value="DOCENTE" selected >Docente</option>
                                 <option value="INVESTIGADOR">Investigador</option>
                                 <option value="ADMINISTRACION">Administración</option>
                                 <?php
-                            }else if($this->datos['afiliacion'] == 'INVESTIGADOR'){
+                            }else if($this->datos->getAfiliacion() == 'INVESTIGADOR'){
                                 ?>
                                 <option value="" disabled>Afiliación</option>
                                 <option value="DOCENTE" >Docente</option>
                                 <option value="INVESTIGADOR" selected>Investigador</option>
                                 <option value="ADMINISTRACION">Administración</option>
                                 <?php
-                            }else if($this->datos['afiliacion'] == 'ADMINISTRACION'){
+                            }else if($this->datos->getAfiliacion() == 'ADMINISTRACION'){
                                 ?>
                                 <option value="" >Afiliación</option>
                                 <option value="DOCENTE" >Docente</option>
@@ -131,7 +138,7 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="password" class="form-control" id="password"  name="password" placeholder="Contraseña" size="64" maxlength="64" value="<?php echo($this->datos['password'])?>">
+                        <input type="password" class="form-control" id="password"  name="password" placeholder="Contraseña" size="64" maxlength="64" value="<?php echo($this->datos->getPassword())?>">
                     </div>
 
                     <div class="col-md-6 form-group" id="div_depart_usuario">
@@ -141,10 +148,10 @@ function render(){
 
                             <?php
                             foreach ($this->departamentos as $departamento){
-                                if($departamento->depart_id == $this->datos['depart_id']){?>
-                                    <option value="<?=$departamento->depart_id?>" selected><?php echo $departamento->nombre_depart ?></option>
+                                if($departamento->getDepartId() == $this->datos->getDepartUsuario()){?>
+                                    <option value="<?=$departamento->getDepartId()?>" selected><?= $departamento->getNombreDepart() ?></option>
                                 <?php }else{?>
-                                    <option value="<?=$departamento->depart_id?>"><?php echo $departamento->nombre_depart ?></option>
+                                    <option value="<?=$departamento->getDepartId()?>"><?= $departamento->getNombreDepart() ?></option>
                                 <?php }}?>
                         </select>
                     </div>
@@ -155,10 +162,10 @@ function render(){
 
                             <?php
                                 foreach ($this->grupos as $grupo){
-                                    if($grupo->grupo_id == $this->datos['grupo_id']){?>
-                                        <option value="<?=$grupo->grupo_id?>" selected><?php echo $grupo->nombre_grupo ?></option>
+                                    if($grupo->getGrupoId() == $this->datos->getGrupoUsuario){?>
+                                        <option value="<?=$grupo->getGrupoId()?>" selected><?= $grupo->getNombreGrupo() ?></option>
                                    <?php }else{?>
-                            <option value="<?=$grupo->grupo_id?>" ><?php echo $grupo->nombre_grupo ?></option>
+                            <option value="<?=$grupo->getGrupoId()?>" ><?= $grupo->getNombreGrupo() ?></option>
                                <?php }}?>
                         </select>
                     </div>
@@ -171,7 +178,7 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="nombre_puesto" name="nombre_puesto" placeholder="Nombre Puesto" size="60" maxlength="60" value="<?php echo($this->datos['nombre_puesto'])?>">
+                        <input type="text" class="form-control" id="nombre_puesto" name="nombre_puesto" placeholder="Nombre Puesto" size="60" maxlength="60" value="<?=$this->datos->getNombrePuesto()?>">
                     </div>
                 </div>
 
@@ -185,7 +192,7 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="date" class="form-control" onkeydown="return false"  id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha nacimiento" value="<?php echo($this->datos['fecha_nacimiento'])?>">
+                        <input type="date" class="form-control" onkeydown="return false"  id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha nacimiento" value="<?= $this->datos->getFechaNacimiento()?>">
                     </div>
 
                     <div class="col-md-6 form-group" id="div_centro_usuario">
@@ -195,10 +202,10 @@ function render(){
 
                             <?php
                             foreach ($this->centros as $centro){
-                                if($centro->centro_id == $this->datos['centro_id']){?>
-                                    <option value="<?=$centro->centro_id?>" selected><?php echo $centro->nombre_centro ?></option>
+                                if($centro->getCentroId() == $this->datos->getCentroUsuario()){?>
+                                    <option value="<?=$centro->getCentroId()?>" selected><?= $centro->getNombreCentro() ?></option>
                                 <?php }else{?>
-                                    <option value="<?=$centro->centro_id?>"><?php echo $centro->nombre_centro ?></option>
+                                    <option value="<?=$centro->getCentroId()?>"><?= $centro->getNombreCentro() ?></option>
                                 <?php }}?>
 
                         </select>
@@ -212,7 +219,7 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="number" class="form-control" id="nivel_jerarquia" name="nivel_jerarquia" placeholder="Nivel jerarquía" value="<?php echo($this->datos['nivel_jerarquia'])?>">
+                        <input type="number" class="form-control" id="nivel_jerarquia" name="nivel_jerarquia" placeholder="Nivel jerarquía" value="<?= $this->datos->getNivelJerarquia()?>">
                     </div>
                 </div>
 
@@ -226,7 +233,7 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="email" class="form-control" id="email_usuario" name="email_usuario" placeholder="Email" size="30" maxlength="30" value="<?php echo($this->datos['email_usuario'])?>">
+                        <input type="email" class="form-control" id="email_usuario" name="email_usuario" placeholder="Email" size="30" maxlength="30" value="<?= $this->datos->getEmailUsuario()?>">
                     </div>
 
                     <div class="col-md-6 input-group mb-2">
@@ -247,7 +254,7 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="tel" class="form-control" id="telef_usuario" name="telef_usuario" placeholder="Teléfono" pattern="[0-9]{9}" value="<?php echo($this->datos['telef_usuario'])?>">
+                        <input type="tel" class="form-control" id="telef_usuario" name="telef_usuario" placeholder="Teléfono" pattern="[0-9]{9}" value="<?= $this->datos->getTelefUsuario() ?>">
                     </div>
 
                     <div class="col-md-6 input-group mb-2">
@@ -269,7 +276,7 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="dni" name="dni" placeholder="DNI" size="9" maxlength="9" value="<?php echo($this->datos['dni'])?>">
+                        <input type="text" class="form-control" id="dni" name="dni" placeholder="DNI" size="9" maxlength="9" value="<?= $this->datos->getDni()?>">
 
                     </div>
 
@@ -279,8 +286,8 @@ function render(){
 
 
                 </div>
-                <?php if($this->datos['nombre']!=''){ ?>
-                    <div class="alert alert-danger"><?php echo($this->datos['respuesta'])?></div>
+                <?php if($this->datos->getNombre() != '' && $this->esModificar === false){ ?>
+                    <div class="alert alert-danger"><?=$this->respuesta?></div>
                 <?php } ?>
 
                 <div class ="row">
