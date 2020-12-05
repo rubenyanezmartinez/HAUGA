@@ -32,9 +32,13 @@ function render(){
     <div class="row">
        <!-- <div class="col-4"></div>-->
         <div class="col-12 align-self-center">
+            <?php if($this->esModificar === false){?>
             <form action="../Controllers/User_Controller.php?action=add" method="post" id="addUserForm">
                 <h2 class="text-center textoAzul mb-4">Crear Usuario</h2>
-
+            <?php } else{?>
+            <form action="../Controllers/User_Controller.php?action=edit&login_usuario=<?= $this->datos->getLogin()?>" method="post" id="addUserForm">
+                <h2 class="text-center textoAzul mb-4">Editar Usuario</h2>
+            <?php } ?>
                 <!-- Primera fila -->
                 <div class="row">
                     <div class="col-md-6 input-group mb-2" style="margin-bottom: 1rem!important;">
@@ -51,13 +55,13 @@ function render(){
                     <div class="col-md-6 form-group">
                         <select class=" form-control" id="rol" name="rol">
                             <?php
-                                if($this->datos->getRol() == 'ADMIN'){
+                                if($this->datos->getRol() == 'ADMIN' || $this->datos->getRol() == 'Administrador'){
                                     ?>
                                     <option value="" disabled>Rol</option>
                                     <option value="ADMIN" selected>Administrador</option>
                                     <option value="USUARIO_NORMAL">Usuario normal</option>
                                     <?php
-                                }else if($this->datos->getRol() == 'USUARIO_NORMAL'){
+                                }else if($this->datos->getRol() == 'USUARIO_NORMAL' || $this->datos->getRol() == 'Usuario Normal'){
                             ?>
                             <option value="" disabled>Rol</option>
                             <option value="ADMIN">Administrador</option>
@@ -234,10 +238,20 @@ function render(){
                             </div>
                         </div>
                         <input type="email" class="form-control" id="email_usuario" name="email_usuario" placeholder="Email" size="30" maxlength="30" value="<?= $this->datos->getEmailUsuario()?>">
+
                     </div>
 
-                    <div class="col-md-6 input-group mb-2">
-
+                    <div class="col-md-6 input-group mb-2" style="margin-bottom: 1rem!important;">
+                        <?php if($this->esModificar === true){ ?>
+                            <div class="input-group-prepend" >
+                                <div class="input-group-text" style="background-color: #073349;">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <input type="login" class="form-control" id="login_usuario" name="login_usuario" size="30" maxlength="12" value="<?= $this->datos->getLogin()?>">
+                        <?php } ?>
                     </div>
 
 
@@ -298,7 +312,7 @@ function render(){
                                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
                             </svg>
                         </button>
-
+                            <?php if($this->esModificar === false){?>
                             <button id="botonAddUser" type='submit' name='action' value='addUser' class="btn btn-success">
                                 Crear usuario
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -306,6 +320,15 @@ function render(){
                                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                 </svg>
                             </button>
+                            <?php } else{ ?>
+                                <button id="botonEditUser" type='submit' name='action' value='editUser' class="btn btn-success">
+                                    Editar usuario
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    </svg>
+                                </button>
+                            <?php } ?>
                     </div>
 
 

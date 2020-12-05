@@ -229,12 +229,14 @@ include_once 'Access_DB.php';
             $stmt->execute(array($this->login));
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if($user != null){
-                return new USUARIO_Model(
+                $usuario = new USUARIO_Model(
                     $user['usuario_id'],$user['login'],$user['nombre']
                     ,$user['apellidos'],$user['password'],$user['fecha_nacimiento'],$user['email_usuario']
                     ,$user['telef_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
                     ,$user['nivel_jerarquia'],$user['depart_usuario'],$user['grupo_usuario'],$user['centro_usuario']
                 );
+
+                return $usuario;
 
 
             }else{
@@ -282,9 +284,10 @@ include_once 'Access_DB.php';
                     password = ?, email_usuario = ?, telef_usuario = ?, rol = ?, afiliacion = ?,
                      nombre_puesto = ?, nivel_jerarquia = ?, depart_usuario = ?, grupo_usuario = ?, centro_usuario = ?
 					WHERE login = ?");
-            $resultado = $this->db->execute(array($this->password, $this->email_usuario, $this->telef_usuario, $this->rol, $this->afiliacion,
+            $resultado = $stmt->execute(array($this->password, $this->email_usuario, $this->telef_usuario, $this->rol, $this->afiliacion,
                 $this->nombre_puesto, $this->nivel_jerarquia, $this->depart_usuario, $this->grupo_usuario, $this->centro_usuario,
                 $this->login));
+
 
             if($resultado === true){
                 return true;
@@ -299,7 +302,7 @@ include_once 'Access_DB.php';
             $stmt = $this->db->prepare("UPDATE usuario SET
                     password = ?, email_usuario = ?, telef_usuario = ?
 					WHERE login = ?");
-            $resultado = $this->db->execute(array($this->password, $this->email_usuario, $this->telef_usuario,
+            $resultado = $stmt->execute(array($this->password, $this->email_usuario, $this->telef_usuario,
                         $this->login));
 
             if($resultado === true){

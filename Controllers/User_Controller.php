@@ -32,8 +32,6 @@ if(!IsAuthenticated()){
                 $login_usuario = $_GET['login_usuario'];
                 showEdit($login_usuario);
             }else{
-                var_dump("error else");
-                exit();
                 if($_SESSION['rol']=='ADMIN'){
                     $login_usuario = $_GET['login_usuario'];
                 }else{
@@ -211,7 +209,6 @@ function add(){
         }else{
             $centro_usuario = $_POST['centro_usuario'];
         }
-
         $usuario = new USUARIO_Model(null, '', $_POST['nombre'], $_POST['apellidos'],$_POST['password'], $_POST['fecha_nacimiento']
             ,$_POST['email_usuario'],$_POST['telef_usuario'],$_POST['dni'],$_POST['rol'],$_POST['afiliacion'],$nombre_puesto,
             $nivel_jerarquia,$depart_usuario,$grupo_usuario,$centro_usuario);//USUARIO con los datos introducidos en el formulario.
@@ -359,9 +356,9 @@ function showEdit($login_usuario){
         "","","","","","","","",
         "","");
     $user_model = $user->rellenaDatos();
+
     $datos = formatDataModelToView($user_model);
     $info_afiliacion = createInfoAfiliación($datos);
-
     $esModificar = true;
     new USUARIO_ADD_View($user_model, $grupos, $departamentos, $centros, $esModificar, $info_afiliacion);
 
@@ -414,6 +411,7 @@ function recuperarDatosForm(){
         "","","","","","","","",
         "","");
 
+    $user_model->setLogin($_POST['login_usuario']);
     $user_model->setNombre($_POST['nombre']);
     $user_model->setApellidos($_POST['apellidos']);
     $user_model->setPassword($_POST['password']);
