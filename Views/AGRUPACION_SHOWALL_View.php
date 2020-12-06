@@ -46,6 +46,7 @@ class AGRUPACION_SHOWALL_View{
                     <tr class="text-center" style="color: white;background-color: #073349;">
                         <th scope="col">Nombre de la Agrupación</th>
                         <th scope="col">Ubicación de la Agrupación</th>
+                        <th scope="col" width="10%">Nº edificios</th>
                         <th style="width: 10%" scope="col">Opciones</th>
                     </tr>
                     </thead>
@@ -55,7 +56,8 @@ class AGRUPACION_SHOWALL_View{
                         echo '<tr>';
                         echo '<th scope="row">' . $agrup['nombre_agrup'] . '</th>';
                         echo '<th>' . $agrup['ubicacion_agrup'] . '</th>';
-                        echo '<th>
+                        echo '<th style="text-align: center">' . $agrup['num_edificios'] . '</th>';
+                        echo '<th style="text-align: center">
                                         <a href="../Controllers/AGRUPACION_Controller.php?action=showcurrent&agrup_id='.$agrup['agrup_id'].'">
                                             <svg style="color: green" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                               <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>

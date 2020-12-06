@@ -41,6 +41,8 @@ function showall($num_pag){
         $vectorAgrup[$agrup->agrup_id]['agrup_id'] = $agrup->agrup_id;
         $vectorAgrup[$agrup->agrup_id]['nombre_agrup'] = $agrup->nombre_agrup;
         $vectorAgrup[$agrup->agrup_id]['ubicacion_agrup'] = $agrup->ubicacion_agrup;
+        //Llamar al modelo de EDIFICIOS y obtener el número de edificios de la agrupación
+        $vectorAgrup[$agrup->agrup_id]['num_edificios'] = 0;
     }
 
     $vectorAgrup = array_slice($vectorAgrup, $inicio, $final);
@@ -57,7 +59,7 @@ function showcurrent($agrup_id){
     if($agrupacion == 'Error'){
         new AGRUPACION_SHOWCURRENT_View();
     } else {
-        new AGRUPACION_SHOWCURRENT_View($agrupacion, true);
+        new AGRUPACION_SHOWCURRENT_View($agrupacion, false);
     }
 }
 
