@@ -65,5 +65,17 @@ class AGRUPACION_Model{
             return "Error insertando la agrupación";
         }
     }
+
+    function delete(){
+        $stmt = $this->db->prepare("DELETE
+					FROM agrupacion_edificio
+					WHERE agrup_id = ? ");
+
+        if( $stmt->execute(array($this->agrup_id))){
+            return true;
+        }else{
+            return "Error eliminando la agrupación de edificios";
+        }
+    }
 }
 ?>

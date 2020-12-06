@@ -22,6 +22,17 @@ switch ($action) {
             header('Location:../Controllers/AGRUPACION_Controller.php?action=showall');
         }
         break;
+    case 'delete':
+        if($_SESSION['rol'] == "ADMIN"){
+            if(isset($_GET["agrup_id"])){
+                $agrupacion_model = new AGRUPACION_Model($_GET["agrup_id"],"","");
+                $agrupacion_model->delete();
+                header('Location:../Controllers/AGRUPACION_Controller.php?action=showall');
+            }
+        }else{
+            //error
+        }
+        break;
     default:
         echo('default del switch de agrupacio controller');
         break;
