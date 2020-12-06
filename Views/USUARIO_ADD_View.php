@@ -305,34 +305,36 @@ function render(){
                 <?php } ?>
 
                 <div class ="row">
-                    <div class="col-md-6  mb-2" style="margin-bottom: 1rem!important;">
-                        <button id="botonAtras" type='submit' name='action' value='atras' class="btn btn-light mr-4">
-                            Atrás
-                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                            </svg>
-                        </button>
-                            <?php if($this->esModificar === false){?>
-                            <button id="botonAddUser" type='submit' name='action' value='addUser' class="btn btn-success">
+                    <div class="col-md-3  mb-2 text-left" style="margin-bottom: 1rem!important;">
+                        <?php if($this->esModificar === false){?>
+                            <button id="botonAddUser" type='submit' name='action' value='addUser' class="btn" style="background-color: #073349; color: white;">
                                 Crear usuario
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                 </svg>
                             </button>
-                            <?php } else{ ?>
-                                <button id="botonEditUser" type='submit' name='action' value='editUser' class="btn btn-success">
-                                    Editar usuario
-                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                    </svg>
-                                </button>
-                            <?php } ?>
+                        <?php } else{ ?>
+                            <button id="botonEditUser" type='submit' name='action' value='editUser' class="btn" style="background-color: #073349; color: white;">
+                                Editar usuario
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                </svg>
+                            </button>
+                        <?php } ?>
                     </div>
 
+                    <div class="col-md-3  mb-2 text-right" style="margin-bottom: 1rem!important;">
 
+                        <button id="botonAtras" type='submit' name='action' value='atras' class="btn btn-light mr-4">
+                            Atrás
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                            </svg>
+                        </button>
 
+                    </div>
 
                 </div>
 
