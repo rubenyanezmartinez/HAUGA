@@ -37,7 +37,7 @@ function render(){
                 <h2 class="text-center textoAzul mb-4">Crear Usuario</h2>
                 <hr>
             <?php } else{?>
-            <form action="../Controllers/User_Controller.php?action=edit&login_usuario=<?= $this->datos->getLogin()?>" method="post" id="addUserForm">
+            <form action="../Controllers/User_Controller.php?action=edit&login_usuario=<?= $this->datos->getLogin()?>" method="post" id="editUserForm">
                 <h2 class="text-center textoAzul mb-4">Editar Usuario</h2>
                 <hr>
             <?php } ?>
@@ -51,11 +51,13 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="<?=$this->datos->getNombre()?>" size="15" maxlength="15">
+
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="<?=$this->datos->getNombre()?>"
+                            <?php if($this->esModificar === true){ ?> readonly <?php }?>size="15" maxlength="15">
                     </div>
 
                     <div class="col-md-6 form-group">
-                        <select class=" form-control" id="rol" name="rol">
+                        <select class=" form-control" id="rol" name="rol" >
                             <?php
                                 if($this->datos->getRol() == 'ADMIN' || $this->datos->getRol() == 'Administrador'){
                                     ?>
@@ -93,11 +95,12 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" size="25" maxlength="25" value="<?=$this->datos->getApellidos()?>">
+                        <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" size="25" maxlength="25"
+                               value="<?=$this->datos->getApellidos()?>" <?php if($this->esModificar === true){ ?> readonly <?php }?>>
                     </div>
 
                     <div class=" col-md-6 form-group">
-                        <select class=" form-control" id="afiliacion" name="afiliacion">
+                        <select class=" form-control" id="afiliacion" name="afiliacion" >
                             <?php
                             if($this->datos->getAfiliacion() == 'DOCENTE'){
                                 ?>
@@ -184,7 +187,9 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="nombre_puesto" name="nombre_puesto" placeholder="Nombre Puesto" size="60" maxlength="60" value="<?=$this->datos->getNombrePuesto()?>">
+                        <input type="text" class="form-control" id="nombre_puesto" name="nombre_puesto" placeholder="Nombre Puesto"
+                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>
+                               size="60" maxlength="60" value="<?=$this->datos->getNombrePuesto()?>">
                     </div>
                 </div>
 
@@ -198,7 +203,8 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="date" class="form-control" onkeydown="return false"  id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha nacimiento" value="<?= $this->datos->getFechaNacimiento()?>">
+                        <input type="date" class="form-control" onkeydown="return false"  id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha nacimiento"
+                               value="<?= $this->datos->getFechaNacimiento()?>" <?php if($this->esModificar === true){ ?> readonly <?php }?>>
                     </div>
 
                     <div class="col-md-6 form-group" id="div_centro_usuario">
@@ -252,7 +258,8 @@ function render(){
                                     </svg>
                                 </div>
                             </div>
-                            <input type="login" class="form-control" id="login_usuario" name="login_usuario" size="30" maxlength="12" value="<?= $this->datos->getLogin()?>">
+                            <input type="login" class="form-control" id="login_usuario" name="login_usuario" size="30" maxlength="12"
+                                   value="<?= $this->datos->getLogin()?>" <?php if($this->esModificar === true){ ?> readonly <?php }?>>
                         <?php } ?>
                     </div>
 
@@ -292,7 +299,8 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="dni" name="dni" placeholder="DNI" size="9" maxlength="9" value="<?= $this->datos->getDni()?>">
+                        <input type="text" class="form-control" id="dni" name="dni" placeholder="DNI" size="9" maxlength="9"
+                               value="<?= $this->datos->getDni()?>" <?php if($this->esModificar === true){ ?> readonly <?php }?>>
 
                     </div>
 
@@ -317,9 +325,9 @@ function render(){
                                 </svg>
                             </button>
                         <?php } else{ ?>
-                            <button id="botonEditUser" type='submit' name='action' value='editUser' class="btn btn-success" style="background-color: #073349; color: white;">
+                            <button id="botonEditUser" type='submit' name='action' value='editUser' class="btn btn-warning" style="background-color: #073349; color: white;">
                                 Editar usuario
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                 </svg>

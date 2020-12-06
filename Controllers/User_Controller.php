@@ -52,6 +52,7 @@ if(!IsAuthenticated()){
         case 'add': add();
             break;
         case 'showcurrent':
+
             $login_usuario = $_GET['login_usuario'];
             showcurrent($login_usuario);
             break;
@@ -329,6 +330,7 @@ function jerarquia(){
 function edit($login_usuario){
 
     $usuario_model = recuperarDatosForm();
+
     if($_SESSION['rol']=='ADMIN'){
         $respuesta = $usuario_model->adminEDIT();
     }else{
@@ -337,7 +339,7 @@ function edit($login_usuario){
     if($respuesta === true){
         showcurrent($usuario_model->getLogin());
     }else{
-        //"ERROR"
+        exit("Fallo al editar");
     }
 
 }
@@ -356,6 +358,7 @@ function showEdit($login_usuario){
         "","","","","","","","",
         "","");
     $user_model = $user->rellenaDatos();
+
 
     $datos = formatDataModelToView($user_model);
     $info_afiliacion = createInfoAfiliación($datos);
@@ -391,8 +394,6 @@ function createInfoAfiliación($usuario){
 
 //Cuando se obtienen los datos de rellenar datos se pasan por esta funcion para formatearlos
 function formatDataModelToView($usuario){
-    $fecha = explode("-", $usuario->getFechaNacimiento());
-    $usuario->setFechaNacimiento($fecha[2]."/".$fecha[1]."/".$fecha[0]);
 
     if ($usuario->getRol() == "USUARIO_NORMAL"){
         $usuario->setRol("Usuario Normal");
