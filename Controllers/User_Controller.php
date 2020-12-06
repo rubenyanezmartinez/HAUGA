@@ -293,7 +293,7 @@ function delete(){
         $departamento = new DEPARTAMENTO_Models('','','','','','',$id_usuario, '');  //Crea un DEPARTAMENTO vacio
         $departamento -> actualizarResponsable();
         $incidencia = new INCIDENCIA_Model('','','','',$id_usuario);  //Crea un DEPARTAMENTO vacio
-        $incidencia -> actualizarResponsable();
+        $incidencia -> actualizarAutor();
         $usuario = new USUARIO_Model('',$_GET['login_usuario'],'','','','','','','','','', '', '', '', '', ''); //Crea un usuario con el login
         $respuesta = $usuario->DELETE(); //Elimina el usuario
         if($respuesta === true){

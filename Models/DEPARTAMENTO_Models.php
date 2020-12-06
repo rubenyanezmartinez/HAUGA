@@ -114,6 +114,19 @@ class DEPARTAMENTO_Models{
         return $alldepartamentos;
     }
 
+    function actualizarResponsable(){
+
+        $stmt = $this->db->prepare("UPDATE departamento set responsable_depart = ? where responsable_depart = ?");
+
+        if( $stmt->execute(array(NULL, $this->responsable_depart))){
+            return true;
+        }else{
+            return "Error ACTUALIZANDO";
+        }
+
+
+    }
+
     /**
      * @return mixed
      */
