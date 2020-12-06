@@ -158,9 +158,25 @@ INSERT INTO `hauga`.`edificio`
 (`edificio_id`, `nombre_edif`, `direccion_edif`, `telef_edif`, `num_plantas`, `agrup_edificio`)
 VALUES (null, 'Politécnico', 'direccion1', '333333333', 3, 1);
 
+INSERT INTO `hauga`.`edificio`
+(`edificio_id`, `nombre_edif`, `direccion_edif`, `telef_edif`, `num_plantas`, `agrup_edificio`)
+VALUES (null, 'Ciencias', 'direccion2', '333333334', 4, 1);
+
+INSERT INTO `hauga`.`edificio`
+(`edificio_id`, `nombre_edif`, `direccion_edif`, `telef_edif`, `num_plantas`, `agrup_edificio`)
+VALUES (null, 'Facultades', 'direccion3', '333333335', 4, 1);
+
 INSERT INTO `hauga`.`agrupacion_edificio`
 (`agrup_id`, `nombre_agrup`, `ubicacion_agrup`)
-VALUES (null, 'Campos de Ourense', 'ubicacion1');
+VALUES (null, 'Campus de Ourense', 'Edificio Facultades Campus As Lagoas Ourense');
+
+INSERT INTO `hauga`.`agrupacion_edificio`
+(`agrup_id`, `nombre_agrup`, `ubicacion_agrup`)
+VALUES (null, 'Campus de Vigo', 'Circunvalación ao Campus Universitario Vigo Pontevedra');
+
+INSERT INTO `hauga`.`agrupacion_edificio`
+(`agrup_id`, `nombre_agrup`, `ubicacion_agrup`)
+VALUES (null, 'Campus de Pontevedra', 'Campus Universitario A Xunqueira Calle Don Filiberto Pontevedra');
 
 INSERT INTO `hauga`.`centro`
 (`centro_id`, `nombre_centro`, `edificio_centro`)
