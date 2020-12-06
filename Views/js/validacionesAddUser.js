@@ -174,6 +174,11 @@ $(document).ready(function() {
         return this.optional(element);
     }, "DNI no válido");
 
+    jQuery.validator.addMethod('lettersonly', function(value, element) {
+        return this.optional(element) || /^[a-z áãâäàéêëèíîïìóõôöòúûüùçñ]+$/i.test(value);
+    }, "Letters and spaces only please");
+
+
     $("#botonAtras").click(function(){
         window.location.href = "../Controllers/User_Controller.php?action=showall";
         return false;
