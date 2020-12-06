@@ -66,8 +66,9 @@ CREATE TABLE `hauga`.`edificio` (
 	`direccion_edif` VARCHAR(50) NOT NULL,
 	`telef_edif` int NOT NULL,
 	`num_plantas` int NOT NULL,
-	`agrup_edificio` int NOT NULL,
+	`agrup_edificio` int,
 	PRIMARY KEY (`edificio_id`)
+
 );
 
 
@@ -204,7 +205,7 @@ ALTER TABLE `hauga`.`grupo_investigacion` ADD FOREIGN KEY (`responsable_grupo`) 
 ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY (`responsable_depart`) REFERENCES `hauga`.`usuario`(`usuario_id`);
 ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY	(`edificio_depart`) REFERENCES `hauga`.`edificio`(`edificio_id`);
 
-ALTER TABLE `hauga`.`edificio` ADD FOREIGN KEY	(`agrup_edificio`) REFERENCES `hauga`.`agrupacion_edificio`(`agrup_id`);
+ALTER TABLE `hauga`.`edificio` ADD FOREIGN KEY	(`agrup_edificio`) REFERENCES `hauga`.`agrupacion_edificio`(`agrup_id`) ON DELETE SET NULL;
 
 ALTER TABLE `hauga`.`centro` ADD FOREIGN KEY (`edificio_centro`) REFERENCES `hauga`.`edificio`(`edificio_id`);
 
