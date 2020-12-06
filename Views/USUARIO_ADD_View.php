@@ -35,9 +35,11 @@ function render(){
             <?php if($this->esModificar === false){?>
             <form action="../Controllers/User_Controller.php?action=add" method="post" id="addUserForm">
                 <h2 class="text-center textoAzul mb-4">Crear Usuario</h2>
+                <hr>
             <?php } else{?>
             <form action="../Controllers/User_Controller.php?action=edit&login_usuario=<?= $this->datos->getLogin()?>" method="post" id="addUserForm">
                 <h2 class="text-center textoAzul mb-4">Editar Usuario</h2>
+                <hr>
             <?php } ?>
                 <!-- Primera fila -->
                 <div class="row">
