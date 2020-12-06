@@ -28,6 +28,7 @@ switch ($action) {
 }
 
 function showall($num_pag){
+    include_once '../Models/EDIFICIO_Model.php';
     $agrupacion_model = new AGRUPACION_Model('','','');
     $allAgrup = $agrupacion_model->SHOWALL();
 
@@ -41,8 +42,9 @@ function showall($num_pag){
         $vectorAgrup[$agrup->agrup_id]['agrup_id'] = $agrup->agrup_id;
         $vectorAgrup[$agrup->agrup_id]['nombre_agrup'] = $agrup->nombre_agrup;
         $vectorAgrup[$agrup->agrup_id]['ubicacion_agrup'] = $agrup->ubicacion_agrup;
-        //Llamar al modelo de EDIFICIOS y obtener el número de edificios de la agrupación
-        $vectorAgrup[$agrup->agrup_id]['num_edificios'] = 0;
+        $edficio_modelo = new EDIFICIO_Model('','','','','',$agrup->agrup_id);
+
+        $vectorAgrup[$agrup->agrup_id]['num_edificios'] = $edficio_modelo->devolverNumeroEdificioAgrupacion();
     }
 
     $vectorAgrup = array_slice($vectorAgrup, $inicio, $final);

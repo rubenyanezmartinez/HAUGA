@@ -48,18 +48,6 @@ class AGRUPACION_SHOWCURRENT_View{
                                     <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="ubicacion_agrup" name="ubicacion_agrup" placeholder="Ubicación" value="<?php echo($this->agrupacion['ubicacion_agrup'])?>" size="100" maxlength="100">
                                 </div>
                             </div>
-                            <?php if(!$this->esNuevo) { ?>
-                                <div class="row">
-                                    <div class="col-md-12 input-group mb-2" style="margin-bottom: 1rem!important;">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text" style="background-color: #073349; color: white;">
-                                                Nº de edificios
-                                            </div>
-                                        </div>
-                                        <input disabled required type="text" class="form-control" id="ubicacion_agrup" name="ubicacion_agrup" placeholder="Ubicación" value="0" size="100" maxlength="100">
-                                    </div>
-                                </div>
-                            <?php } ?>
                             <div class="row">
                                 <?php if($this->esNuevo) {?>
                                     <div class="col-md-6 input-group mb-2" style="margin-bottom: 1rem!important;">

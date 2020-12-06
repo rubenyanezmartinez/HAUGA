@@ -70,6 +70,22 @@ class EDIFICIO_Model{
         }
         return $alledificios;
     }
+
+    function devolverNumeroEdificioAgrupacion(){
+        $stmt = $this->db->prepare("SELECT *
+                                                FROM edificio
+                                                WHERE agrup_edificio = ?");
+
+        $stmt->execute(array($this->getAgrup_edificio()));
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        if($resultado != null){
+            return count($resultado);
+        }else {
+            return  0;
+        }
+    }
 /*
     function actualizarResponsable(){
 
@@ -89,6 +105,10 @@ class EDIFICIO_Model{
      */
     function getNombreEdificio(){
         return $this->nombre_edif;
+    }
+
+    function getAgrup_edificio(){
+        return $this->agrup_edificio;
     }
 }
 ?>
