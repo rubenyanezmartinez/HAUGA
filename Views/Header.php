@@ -125,11 +125,12 @@ include_once '../Functions/esAdministrador.php';
                     <div class="col-2 align-self-center text-center">
                         <h4><a href="#" class="textoAzul">GRUPOS INVG.</a></h4>
                     </div>
-
-                    <div class="col-2 align-self-center text-center">
-                        <h4><a href="../Controllers/User_Controller.php?action=showcurrent&login_usuario=<?= $_SESSION['login']?>"
-                               class="textoAzul">MIS DATOS</a></h4>
-                    </div>
+                    <?php if(IsAuthenticated()){ ?>
+                        <div class="col-2 align-self-center text-center">
+                            <h4><a href="../Controllers/User_Controller.php?action=showcurrent&login_usuario=<?= $_SESSION['login']?>"
+                                   class="textoAzul">MIS DATOS</a></h4>
+                        </div>
+                    <?php } ?>
                 <?php } ?>
 
             </div>
