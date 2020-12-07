@@ -185,7 +185,12 @@ $(document).ready(function() {
 
 
     $("#botonAtras").click(function(){
-        window.location.href = "../Controllers/User_Controller.php?action=showall";
+        if($("#nombre_puesto").attr("readonly")){
+            window.location.href = "../Controllers/Index_Controller.php";
+        }
+        else{
+            window.location.href = "../Controllers/User_Controller.php?action=showall";
+        }
         return false;
     });
 
@@ -193,8 +198,5 @@ $(document).ready(function() {
         $("#rol").prop('disabled', false);
         $("#afiliacion").prop('disabled', false);
     });
-
-
-
 
 });
