@@ -134,9 +134,9 @@ include_once 'Access_DB.php';
 		function generarLogin(){
 			$surname = explode(" ", $this->apellidos);
 
-			$resultado_login = $this->nombre[0];
-			$resultado_login .= $surname[0][0];
-			$resultado_login .= $surname[1];
+			$resultado_login = strtolower($this->nombre[0]);
+			$resultado_login .= strtolower($surname[0][0]);
+			$resultado_login .= strtolower($surname[1]);
 
 			$login_number = 0;
 
