@@ -57,7 +57,8 @@ function render(){
                     </div>
 
                     <div class="col-md-6 form-group">
-                        <select class=" form-control" id="rol" name="rol" >
+                        <select class=" form-control" id="rol" name="rol"
+                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>>
                             <?php
                                 if($this->datos->getRol() == 'ADMIN' || $this->datos->getRol() == 'Administrador'){
                                     ?>
@@ -100,7 +101,8 @@ function render(){
                     </div>
 
                     <div class=" col-md-6 form-group">
-                        <select class=" form-control" id="afiliacion" name="afiliacion" >
+                        <select class=" form-control" id="afiliacion" name="afiliacion"
+                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>>
                             <?php
                             if($this->datos->getAfiliacion() == 'DOCENTE'){
                                 ?>
@@ -231,7 +233,9 @@ function render(){
                                 </svg>
                             </div>
                         </div>
-                        <input type="number" class="form-control" id="nivel_jerarquia" name="nivel_jerarquia" placeholder="Nivel jerarquía" value="<?= $this->datos->getNivelJerarquia()?>">
+                        <input type="number" class="form-control" id="nivel_jerarquia" name="nivel_jerarquia" placeholder="Nivel jerarquía"
+                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>
+                               value="<?= $this->datos->getNivelJerarquia()?>">
                     </div>
                 </div>
 
