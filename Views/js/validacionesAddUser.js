@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+    if($("#botonEditUser").length){
+        $("#rol").prop('disabled', true);
+        $("#afiliacion").prop('disabled', true);
+    }
+
     $("#div_depart_usuario").hide();
     $("#div_grupo_usuario").hide();
     $("#div_centro_usuario").hide();
@@ -183,4 +188,13 @@ $(document).ready(function() {
         window.location.href = "../Controllers/User_Controller.php?action=showall";
         return false;
     });
+
+    $("#botonEditUser").click(function (){
+        $("#rol").prop('disabled', false);
+        $("#afiliacion").prop('disabled', false);
+    });
+
+
+
+
 });
