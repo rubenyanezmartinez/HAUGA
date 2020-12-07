@@ -58,7 +58,7 @@ function render(){
 
                     <div class="col-md-6 form-group">
                         <select class=" form-control" id="rol" name="rol"
-                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>>
+                            <?php if($this->esModificar === true && ( $_SESSION['rol'] != "ADMIN" && $_SESSION['rol'] != "Administrador")){ ?> readonly <?php }?>>
                             <?php
                                 if($this->datos->getRol() == 'ADMIN' || $this->datos->getRol() == 'Administrador'){
                                     ?>
@@ -102,7 +102,7 @@ function render(){
 
                     <div class=" col-md-6 form-group">
                         <select class=" form-control" id="afiliacion" name="afiliacion"
-                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>>
+                            <?php if($this->esModificar === true && ( $_SESSION['rol'] != "ADMIN" && $_SESSION['rol'] != "Administrador")){ ?> readonly <?php }?>>
                             <?php
                             if($this->datos->getAfiliacion() == 'DOCENTE'){
                                 ?>
@@ -190,7 +190,7 @@ function render(){
                             </div>
                         </div>
                         <input type="text" class="form-control" id="nombre_puesto" name="nombre_puesto" placeholder="Nombre Puesto"
-                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>
+                            <?php if($this->esModificar === true && ( $_SESSION['rol'] != "ADMIN" && $_SESSION['rol'] != "Administrador")){ ?> readonly <?php }?>
                                size="60" maxlength="60" value="<?=$this->datos->getNombrePuesto()?>">
                     </div>
                 </div>
@@ -234,7 +234,7 @@ function render(){
                             </div>
                         </div>
                         <input type="number" class="form-control" id="nivel_jerarquia" name="nivel_jerarquia" placeholder="Nivel jerarquía"
-                            <?php if($this->esModificar === true && ( $this->datos->getRol() != "ADMIN" && $this->datos->getRol() != "Administrador")){ ?> readonly <?php }?>
+                            <?php if($this->esModificar === true && ( $_SESSION['rol'] != "ADMIN" && $_SESSION['rol'] != "Administrador")){ ?> readonly <?php }?>
                                value="<?= $this->datos->getNivelJerarquia()?>">
                     </div>
                 </div>
