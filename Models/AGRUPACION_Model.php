@@ -4,9 +4,9 @@ include_once 'Access_DB.php';
 class AGRUPACION_Model{
     private $db;
 
-    var $agrup_id;
-    var $nombre_agrup;
-    var $ubicacion_agrup;
+    private $agrup_id;
+    private $nombre_agrup;
+    private $ubicacion_agrup;
 
     //Crea un objeto AGRUPACIÓN
     function __construct($agrup_id, $nombre_agrup, $ubicacion_agrup)
@@ -76,6 +76,54 @@ class AGRUPACION_Model{
         }else{
             return "Error eliminando la agrupación de edificios";
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAgrupId()
+    {
+        return $this->agrup_id;
+    }
+
+    /**
+     * @param mixed $agrup_id
+     */
+    public function setAgrupId($agrup_id)
+    {
+        $this->agrup_id = $agrup_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreAgrup()
+    {
+        return $this->nombre_agrup;
+    }
+
+    /**
+     * @param mixed $nombre_agrup
+     */
+    public function setNombreAgrup($nombre_agrup)
+    {
+        $this->nombre_agrup = $nombre_agrup;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUbicacionAgrup()
+    {
+        return $this->ubicacion_agrup;
+    }
+
+    /**
+     * @param mixed $ubicacion_agrup
+     */
+    public function setUbicacionAgrup($ubicacion_agrup)
+    {
+        $this->ubicacion_agrup = $ubicacion_agrup;
     }
 }
 ?>

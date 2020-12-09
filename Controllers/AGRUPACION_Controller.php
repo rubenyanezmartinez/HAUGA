@@ -48,20 +48,18 @@ function showall($num_pag){
     $inicio = ($num_pag-1) * TAM_PAG;
     $final = $inicio + TAM_PAG;
 
-    $vectorAgrup = [];
-    foreach ($allAgrup as $agrup){
-        $vectorAgrup[$agrup->agrup_id]['agrup_id'] = $agrup->agrup_id;
-        $vectorAgrup[$agrup->agrup_id]['nombre_agrup'] = $agrup->nombre_agrup;
-        $vectorAgrup[$agrup->agrup_id]['ubicacion_agrup'] = $agrup->ubicacion_agrup;
-        $edficio_modelo = new EDIFICIO_Model('','','','','',$agrup->agrup_id);
+    $numEdificio = [];
 
-        $vectorAgrup[$agrup->agrup_id]['num_edificios'] = $edficio_modelo->devolverNumeroEdificioAgrupacion();
+    $allAgrup = array_slice($allAgrup, $inicio, $final);
+
+    foreach ($allAgrup as $agrup){
+        $edficio_modelo = new EDIFICIO_Model('','','','','',$agrup->getAgrupId());
+
+        $numEdificio[$agrup->getAgrupId()] = $edficio_modelo->devolverNumeroEdificioAgrupacion();
     }
 
-    $vectorAgrup = array_slice($vectorAgrup, $inicio, $final);
-
     include '../Views/AGRUPACION_SHOWALL_View.php';
-    new AGRUPACION_SHOWALL_View($vectorAgrup, $num_pags);
+    new AGRUPACION_SHOWALL_View($allAgrup, $numEdificio, $num_pags);
 }
 
 function showcurrent($agrup_id){
