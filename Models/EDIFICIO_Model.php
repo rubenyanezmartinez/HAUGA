@@ -100,6 +100,18 @@ class EDIFICIO_Model{
 
     }*/
 
+    function getNombreById(){
+        $stmt = $this->db->prepare("SELECT nombre_edif FROM edificio WHERE edificio_id = ?");
+        $stmt->execute(array($this->edificio_id));
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($resultado != null){
+            return $resultado['nombre_edif'];
+        }else{
+            return 'No existe el edificio en la BD';
+        }
+    }
+
     /**
      * @return mixed
      */

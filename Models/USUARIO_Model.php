@@ -329,6 +329,18 @@ include_once 'Access_DB.php';
             }
         }
 
+        function getLoginById(){
+		    $stmt = $this->db->prepare("SELECT login FROM usuario WHERE usuario_id = ?");
+		    $stmt->execute(array($this->usuario_id));
+		    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		    if($resultado != null){
+		        return $resultado['login'];
+            }else{
+		        return 'No existe el usuario en la BD';
+            }
+        }
+
 
         //----------------------------FUNCIONES SIN SQL---------------------------------------------
         /**
