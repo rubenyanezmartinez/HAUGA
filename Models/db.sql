@@ -39,7 +39,7 @@ CREATE TABLE `hauga`.`grupo_investigacion` (
 	`grupo_id` int NOT NULL AUTO_INCREMENT,
 	`nombre_grupo` VARCHAR(70) NOT NULL,
 	`telef_grupo` int NOT NULL,
-	`lineas_investigacion` int NOT NULL,
+	`lineas_investigacion` VARCHAR(200) NOT NULL,
 	`area_conoc_grupo` VARCHAR(30) NOT NULL,
 	`email_grupo` VARCHAR(30) NOT NULL,
 	`responsable_grupo` int,

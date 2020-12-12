@@ -5,6 +5,8 @@ include '../Functions/Desconectar.php';
 include '../Models/Access_DB.php';
 include '../Models/GRUPO_INVESTIGACION_Model.php';
 include '../Models/USUARIO_Model.php';
+
+include '../Views/GRUPOINVESTIGACION_ADD_View.php';
 session_start();
 
 const TAM_PAG = 5;
@@ -33,11 +35,15 @@ switch($action){
 function add(){
     $esModificar = false;
     if(!isset($_POST['nombre_grupo'])) {//Antes de cubrir el formulario
-        $datos = new GRUPO_INVESTIGACION_Model( null, '','','',
+        $grupo = new GRUPO_INVESTIGACION_Model( null, '','','',
             '', '','');
         $respuesta = false;
+        $usuariosModel = new USUARIO_Model('','','','','','',
+            '','','','','','','','',
+            '','');
+        $usuarios = $usuariosModel->SHOWALL();
         //Llamar al formulario ADD
-        new GRUPOINVESTIGACION_ADD_View($datos, $esModificar, $respuesta);
+        new GRUPOINVESTIGACION_ADD_View($grupo, $esModificar, $respuesta, $usuarios);
     }else{
         if(!isset($_POST['responsable_grupo'])){
             $responsable_grupo = null;

@@ -42,7 +42,6 @@ function add(){
     $edificios = $edificio->SHOWALL(); //En $Array con todos los edificio
     $usuario = new USUARIO_Model('','','','','','','', '','','','','','','','','');  //Crea un usuario vacio
     $usuarios = $usuario->SHOWALL(); //En $Array con todos los usuarios
-    include '../Views/DEPARTAMENTO_ADD_View.php';
     if(!$_POST){//Antes de cubrir el formulario
         $datos = ["nombre_depart" => '', "codigo_depart" => '', "telef_depart" => '', "email_depart" => '',
             "area_conc_depart" => '', "responsable_depart" => '', "edificio_depart" => '',"respuesta"=>''];

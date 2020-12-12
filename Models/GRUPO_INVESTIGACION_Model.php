@@ -4,13 +4,13 @@ include_once 'Access_DB.php';
     class GRUPO_INVESTIGACION_Model{
         private $db;
 
-        var $grupo_id;
-        var $nombre_grupo;
-        var $telef_grupo;
-        var $lineas_investigacion;
-        var $area_conoc_grupo;
-        var $email_grupo;
-        var $responsable_grupo;
+        private $grupo_id;
+        private $nombre_grupo;
+        private $telef_grupo;
+        private $lineas_investigacion;
+        private $area_conoc_grupo;
+        private $email_grupo;
+        private $responsable_grupo;
 
 
         //Crea un objeto GRUPO DE INVESTIGACION
