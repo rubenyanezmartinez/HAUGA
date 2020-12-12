@@ -8,14 +8,8 @@
 #!/bin/bash
 
 #Borrar proyecto si ya existe
-if [-d ./HAUGA/] then
-	#Envia mensaje afirmativo:
-	rm -r ./HAUGA/ ;
-fi
-if [-d /var/www/html/HAUGA/] then
-	#Envia mensaje afirmativo:
-	rm -r /var/www/html/HAUGA/ ;
-fi
+rm -r ./HAUGA/ ;
+rm -r /var/www/html/HAUGA/ ;
 
 #Si puede descarga el proyecto de github
 if git clone https://github.com/rubenyanezmartinez/HAUGA.git; then
