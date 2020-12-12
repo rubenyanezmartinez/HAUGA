@@ -6,6 +6,17 @@
 
 
 #!/bin/bash
+
+#Borrar proyecto si ya existe
+if [-d ./HAUGA/] then
+	#Envia mensaje afirmativo:
+	rm -r ./HAUGA/ ;
+fi
+if [-d /var/www/html/HAUGA/] then
+	#Envia mensaje afirmativo:
+	rm -r /var/www/html/HAUGA/ ;
+fi
+
 #Si puede descarga el proyecto de github
 if git clone https://github.com/rubenyanezmartinez/HAUGA.git; then
 	#Envia mensaje afirmativo:
