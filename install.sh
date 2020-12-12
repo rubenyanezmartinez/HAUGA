@@ -6,6 +6,16 @@
 
 
 #!/bin/bash
+#Si puede descarga el proyecto de github
+if git clone https://github.com/rubenyanezmartinez/HAUGA.git; then
+	#Envia mensaje afirmativo:
+	mv ./HAUGA /var/www/html/;
+	cd /var/www/html/HAUGA/;
+	printf 'Se ha descargado y colocado con éxito el proyecto\n'
+else
+	#En caso contrario envía mensaje de error:
+	printf 'ERROR: no ha sido posible descargar el proyecto\n'
+fi
 
 #Si puede conceder permisos:
 if chmod -R a+w Models/Imagenes_Espacios/; then
