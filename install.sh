@@ -1,15 +1,15 @@
-############################################
-#         FICHERO DE INSTALACIÓN           #
-############################################
+#########################################
+#	FICHERO DE INSTALACIÓN		#
+#########################################
 
-#Función: Script bash que se encarga de conceder permisos de escritura al directorio Files donde se van a almacenar los ficheros de la aplicación. Tambien se encarga de crear la BD con el script SQL.
+#Función: Script bash que se encarga descargar el proyecto y crear la base de datos
 
 
 #!/bin/bash
 
-#Borrar proyecto si ya existe
-rm -r ./HAUGA/ ;
-rm -r /var/www/html/HAUGA/ ;
+#Borrar proyecto si ya existe:
+rm -r ./HAUGA/;
+rm -r /var/www/html/HAUGA/;
 
 #Si puede descarga el proyecto de github
 if git clone https://github.com/rubenyanezmartinez/HAUGA.git; then
@@ -22,13 +22,13 @@ else
 	printf 'ERROR: no ha sido posible descargar el proyecto\n'
 fi
 
-#Si puede conceder permisos:
+#Si puede concede permisos:
 if chmod -R a+w Models/Imagenes_Espacios/; then
 	#Envia mensaje afirmativo:
-	printf 'Se ha concedido con exito permisos de escritura al directorio Imagenes_Espacios\n'
+	printf 'Se han concedido con éxito permisos de escritura al directorio Imagenes_Espacios\n'
 else
 	#En caso contrario envía mensaje de error:
-	printf 'ERROR: no ha sido posible conceder permisos de escritura al directorio Files\n'
+	printf 'ERROR: no ha sido posible conceder permisos de escritura al directorio Imagenes_Espacios\n'
 fi
 
 #Si puede crear la BD:
@@ -39,6 +39,3 @@ else
 	#En caso contrario envía mensaje de error:
 	printf 'ERROR: no se ha podido montar correctamente la BD\n'
 fi
-
-
-
