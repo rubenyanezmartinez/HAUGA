@@ -29,6 +29,9 @@ switch($action){
     case 'showall':
         showall(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_GET['num_pag']);
         break;
+    case 'showcurrent':
+        showcurrent($_GET['grupo_id']);
+        break;
     default:  echo('default del switch grupoInvestigacion_controller');
         break;
 }
@@ -65,7 +68,7 @@ function add(){
 }
 
 function showall($num_pag){
-    $grupo_investigacion_model = new DEPARTAMENTO_Models('','','','','','','','');
+    $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model('','','','','','','','');
     $allGruposInvestigacion = $grupo_investigacion_model->SHOWALL();
 
     $max_pags = ceil(count($allGruposInvestigacion) / TAM_PAG);
@@ -82,6 +85,23 @@ function showall($num_pag){
     }
 
     new GRUPOINVESTIGACION_SHOWALL_View($allGruposInvestigacion, $loginResponsable, $num_pag);
+}
+
+function showcurrent ($grupo_id){
+    $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($grupo_id,'','','','','','');
+    $grupo_investigacion = $grupo_investigacion_model->rellenaDatos();
+
+    if($grupo_investigacion != 'Error'){
+
+        $usuarioModel = new USUARIO_Model($grupo_investigacion->getResponsableGrupo(), '','','','','','','','','','','','','','','');
+        $responsableLogin = $usuarioModel->getLoginById();
+
+        new GRUPOINVESTIGACION_SHOWCURRENT_View($grupo_investigacion, $responsableLogin);
+    } else {
+        new GRUPOINVESTIGACION_SHOWCURRENT_View();
+    }
+
+
 }
 
 ?>
