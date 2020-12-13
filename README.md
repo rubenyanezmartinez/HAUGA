@@ -8,7 +8,6 @@ Proyecto para la asignatura PDP
 - Rodrigo Currás Ferradás
 - Manuel Vázquez Augusto
 - Rubén Yáñez Martínez
-- Pablo Lama Valencia
 
 
 
