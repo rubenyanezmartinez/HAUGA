@@ -65,31 +65,30 @@ function showall($num_pag){
 function showcurrent($agrup_id){
     include '../Views/AGRUPACION_SHOWCURRENT_View.php';
     $agrup_model = new AGRUPACION_Model($agrup_id, '','');
-    $agrupacion = $agrup_model->rellenaDatos();
+    $agrup_model->rellenaDatos();
 
-    if($agrupacion == 'Error'){
+    if($agrup_model == 'Error'){
         new AGRUPACION_SHOWCURRENT_View();
     } else {
-        new AGRUPACION_SHOWCURRENT_View($agrupacion, false);
+        new AGRUPACION_SHOWCURRENT_View($agrup_model, false);
     }
 }
 
 function add(){
     include '../Views/AGRUPACION_SHOWCURRENT_View.php';
     if(!$_POST){
-        $agrupacion = array('agrup_id' => '', 'nombre_agrup' => '', 'ubicacion_agrup' => '');
+        $agrupacion = new AGRUPACION_Model('', '', '');
         new AGRUPACION_SHOWCURRENT_View($agrupacion, true);
     } else {
         $nombre_agrup = $_POST['nombre_agrup']=='' ? null : $_POST['nombre_agrup'];
         $ubicacion_agrup = $_POST['ubicacion_agrup']=='' ? null : $_POST['ubicacion_agrup'];
 
-        $agrupacion_model = new AGRUPACION_Model(null, $nombre_agrup, $ubicacion_agrup);
-        $respuesta = $agrupacion_model->add();
+        $agrupacion = new AGRUPACION_Model(null, $nombre_agrup, $ubicacion_agrup);
+        $respuesta = $agrupacion->add();
 
         if($respuesta === true){
             header('Location:../Controllers/AGRUPACION_Controller.php?action=showall');
         } else{
-            $agrupacion = array('agrup_id' => '', 'nombre_agrup' => $nombre_agrup, 'ubicacion_agrup' => $ubicacion_agrup);
             new AGRUPACION_SHOWCURRENT_View($agrupacion, true);
         }
     }

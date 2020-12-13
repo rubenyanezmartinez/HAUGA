@@ -35,7 +35,7 @@ class AGRUPACION_SHOWCURRENT_View{
                                             Nombre
                                         </div>
                                     </div>
-                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="nombre_agrup" name="nombre_agrup" placeholder="Nombre" value="<?php echo($this->agrupacion['nombre_agrup'])?>" size="50" maxlength="50">
+                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="nombre_agrup" name="nombre_agrup" placeholder="Nombre" value="<?php echo($this->agrupacion->getNombreAgrup())?>" size="50" maxlength="50">
                                 </div>
                             </div>
                             <div class="row">
@@ -45,7 +45,7 @@ class AGRUPACION_SHOWCURRENT_View{
                                             Ubicación
                                         </div>
                                     </div>
-                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="ubicacion_agrup" name="ubicacion_agrup" placeholder="Ubicación" value="<?php echo($this->agrupacion['ubicacion_agrup'])?>" size="100" maxlength="100">
+                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="ubicacion_agrup" name="ubicacion_agrup" placeholder="Ubicación" value="<?php echo($this->agrupacion->getUbicacionAgrup())?>" size="100" maxlength="100">
                                 </div>
                             </div>
                             <div class="row">
