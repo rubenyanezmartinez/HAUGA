@@ -1,5 +1,5 @@
 <?php
-class DEPARTAMENTO_SHOWCURRENT_View{
+class GRUPOINVESTIGACION_SHOWCURRENT_View{
     var $grupoInvestigacion;
     var $responsableLogin;
 
@@ -32,31 +32,31 @@ class DEPARTAMENTO_SHOWCURRENT_View{
                 <ul>
                     <div class="row">
                         <div class="col text-left">
-                            <li><b>Nombre: </b><?=$this->departamento->getNombreGrupo() ?></li>
+                            <li><b>Nombre: </b><?=$this->grupoInvestigacion->getNombreGrupo() ?></li>
                         </div>
                     </div>
 
                     <div class="row" style="padding-top: 0.5%;">
                         <div class="col text-left">
-                            <li><b>Teléfono: </b><?=$this->departamento->getTelefGrupo() ?></li>
+                            <li><b>Teléfono: </b><?=$this->grupoInvestigacion->getTelefGrupo() ?></li>
                         </div>
                     </div>
 
                     <div class="row" style="padding-top: 0.5%;">
                         <div class="col text-left">
-                            <li><b>Líneas de investigación: </b><?=$this->departamento->getLineasInvestigacion() ?></li>
+                            <li><b>Líneas de investigación: </b><?=$this->grupoInvestigacion->getLineasInvestigacion() ?></li>
                         </div>
                     </div>
 
                     <div class="row" style="padding-top: 0.5%;">
                         <div class="col text-left">
-                            <li><b>Área de Conocimiento: </b><?=$this->departamento->getAreaConocGrupo() ?></li>
+                            <li><b>Área de Conocimiento: </b><?=$this->grupoInvestigacion->getAreaConocGrupo() ?></li>
                         </div>
                     </div>
 
                     <div class="row" style="padding-top: 0.5%;">
                         <div class="col text-left">
-                            <li><b>Correo electrónico </b><?=$this->departamento->getEmailGrupo() ?></li>
+                            <li><b>Correo electrónico </b><?=$this->grupoInvestigacion->getEmailGrupo() ?></li>
                         </div>
                     </div>
 

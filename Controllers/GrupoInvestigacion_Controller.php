@@ -8,6 +8,7 @@ include '../Models/USUARIO_Model.php';
 
 include '../Views/GRUPOINVESTIGACION_ADD_View.php';
 include '../Views/GRUPOINVESTIGACION_SHOWALL_View.php';
+include '../Views/GRUPOINVESTIGACION_SHOWCURRENT_View.php';
 session_start();
 
 const TAM_PAG = 5;
