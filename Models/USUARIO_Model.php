@@ -218,6 +218,20 @@ include_once 'Access_DB.php';
             return $resultado;
         }
 
+        //Si el departamento se borra se actualiza
+        function actualizaDepartamento(){
+
+            $stmt = $this->db->prepare("UPDATE usuario set depart_usuario = ? where depart_usuario = ?");
+
+            if( $stmt->execute(array(NULL, $this->depart_usuario))){
+                return true;
+            }else{
+                return "Error ACTUALIZANDO";
+            }
+
+
+        }
+
 
         //Recupera los datos de un usuario a partir de su login
         //Devuelve el modelo con los datos llenos si se encuentra el usuario, mensaje de error en caso contrario

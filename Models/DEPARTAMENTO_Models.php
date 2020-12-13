@@ -131,9 +131,9 @@ class DEPARTAMENTO_Models{
 
         $stmt = $this->db->prepare("DELETE
                 FROM departamento
-                WHERE login = ? ");
+                WHERE depart_id = ? ");
 
-        if( $stmt->execute(array($this->login))){
+        if( $stmt->execute(array($this->depart_id))){
             return true;
         }else{
             return "Error eliminando el departamento";

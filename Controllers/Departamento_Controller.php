@@ -32,6 +32,11 @@ switch($action){
     case 'showcurrent':
         showcurrent($_GET['depart_id']);
         break;
+    case 'delete':
+        if($_SESSION['rol']=='ADMIN') {
+            delete();
+        }
+        break;
     default: echo('default del switch departamento_controller');
         break;
 }
@@ -101,4 +106,18 @@ function showcurrent($depart_id){
 
 
 }
+
+function delete(){
+    if(isset($_GET['depart_id'])){//Antes de confirmar el borrado
+        $departamento = new DEPARTAMENTO_Models($_GET['depart_id'], '', '', '','', ''
+            ,'','');
+        $usuario = new USUARIO_Model('','','','','','','','','','','', '', '', $_GET['depart_id'], '', ''); //Crea un usuario con el departamento en cuestión
+        $usuario->actualizaDepartamento();
+        $respuesta = $departamento->DELETE(); //Elimina el departamento
+        if($respuesta === true){
+            header('Location:../Controllers/Departamento_Controller.php?action=showall');
+        }
+    }
+}
+
 ?>
