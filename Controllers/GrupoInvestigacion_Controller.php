@@ -7,6 +7,7 @@ include '../Models/GRUPO_INVESTIGACION_Model.php';
 include '../Models/USUARIO_Model.php';
 
 include '../Views/GRUPOINVESTIGACION_ADD_View.php';
+include '../Views/GRUPOINVESTIGACION_SHOWALL_View.php';
 session_start();
 
 const TAM_PAG = 5;
@@ -26,7 +27,7 @@ switch($action){
         }
         break;
     case 'showall':
-        echo('showall de grupos de investigacion');
+        showall(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_GET['num_pag']);
         break;
     default:  echo('default del switch grupoInvestigacion_controller');
         break;
@@ -62,3 +63,25 @@ function add(){
         }
     }
 }
+
+function showall($num_pag){
+    $grupo_investigacion_model = new DEPARTAMENTO_Models('','','','','','','','');
+    $allGruposInvestigacion = $grupo_investigacion_model->SHOWALL();
+
+    $max_pags = ceil(count($allGruposInvestigacion) / TAM_PAG);
+    $num_pag = $num_pag > $max_pags || $num_pag <= 0 ? 1 : $num_pag;
+    $inicio = ($num_pag-1) * TAM_PAG;
+    $final = $inicio + TAM_PAG;
+
+    $allGruposInvestigacion = array_slice($allGruposInvestigacion, $inicio, $final);
+
+    $loginResponsable = array();
+    foreach ($allGruposInvestigacion as $grupo) {
+        $usuario_model = new USUARIO_Model($grupo->getResponsableGrupo(), '', '','','','','','','','','','','','','','');
+        $loginResponsable[$grupo->getGrupoId()] = $usuario_model->getLoginById();
+    }
+
+    new GRUPOINVESTIGACION_SHOWALL_View($allGruposInvestigacion, $loginResponsable, $num_pag);
+}
+
+?>

@@ -101,7 +101,7 @@ include_once '../Functions/esAdministrador.php';
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h5><a href="#" class="textoAzul">GRUPOS INVG.</a></h5>
+                        <h5><a href="../Controllers/GrupoInvestigacion_Controller.php?action=showall" class="textoAzul">GRUPOS INVG.</a></h5>
                     </div>
                     <div class="col-2 align-self-center text-center">
                         <h5><a href="../Controllers/User_Controller.php?action=showall&numero_pagina=1" class="textoAzul">USUARIOS</a></h5>
@@ -124,7 +124,7 @@ include_once '../Functions/esAdministrador.php';
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h4><a href="#" class="textoAzul">GRUPOS INVG.</a></h4>
+                        <h4><a href="../Controllers/GrupoInvestigacion_Controller.php?action=showall" class="textoAzul">GRUPOS INVG.</a></h4>
                     </div>
                     <?php if(IsAuthenticated()){ ?>
                         <div class="col-2 align-self-center text-center">
