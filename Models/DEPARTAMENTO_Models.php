@@ -127,6 +127,19 @@ class DEPARTAMENTO_Models{
 
     }
 
+    function DELETE(){
+
+        $stmt = $this->db->prepare("DELETE
+                FROM departamento
+                WHERE login = ? ");
+
+        if( $stmt->execute(array($this->login))){
+            return true;
+        }else{
+            return "Error eliminando el departamento";
+        }
+    }
+
     /**
      * @return mixed
      */
