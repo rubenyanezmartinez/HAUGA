@@ -28,7 +28,7 @@ class SOLICITUD_RESPONSABILIDAD_Model
     }
 
     function SHOWALL(){
-        $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE espacio_id = ? and estado_solic LIKE ?");
+        $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE espacio_id = ? and estado_solic LIKE ? ORDER BY fecha DESC");
         $stmt->execute(array($this->espacio_id, 'HISTOR'));
         $stmt->execute();
         $solicitudes_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
