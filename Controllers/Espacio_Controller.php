@@ -5,9 +5,13 @@ const TAM_PAG = 5;
 
 //INCLUDES
 include_once '../Models/ESPACIO_Model.php';
+include_once '../Models/AGRUPACION_Model.php';
 include_once '../Models/USUARIO_Model.php';
 include_once '../Models/EDIFICIO_Model.php';
 include_once '../Models/SOLICITUD_RESPONSABILIDAD_Model.php';
+include '../Models/CENTRO_Model.php';
+include '../Models/GRUPO_INVESTIGACION_Model.php';
+include '../Models/DEPARTAMENTO_Models.php';
 include '../Views/ESPACIO_SHOWALL_View.php';
 include '../Views/ESPACIO_SHOWCURRENT_View.php';
 
@@ -26,11 +30,75 @@ switch ($action) {
 }
 
 function showcurrent($espacio_id){
-
+    //Datos del espacio
     $espacio_model = new ESPACIO_Model($espacio_id,'','', '', '', '', '');
     $espacio = $espacio_model->rellenaDatos();
 
-    new ESPACIO_SHOWCURRENT_View($espacio);
+    //Nombre Responsable
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','');
+    $responsable_id = $solicitud_model->buscarResponsable();
+    $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');
+    $aux = $usuario_model->getNombreApellidosById();
+
+    $nombresResponsable = "";
+    if($aux == 'No existe el usuario en la BD'){
+        $nombresResponsable = 'Sin responsable';
+    }
+    else{
+        $nombresResponsable = $aux;
+    }
+
+
+    //Nombre edificio
+    $edificio_model = new EDIFICIO_Model($espacio->getEdificioEsp(),'','','','','');
+    $edificio = $edificio_model->rellenaDatos();
+    $nombreEdificioYPlanta = $edificio->getNombreEdificio(). ', planta '. $espacio->getPlantaEsp();
+
+
+    //Nombre agrupación edificios
+    $agrupacion_model = new AGRUPACION_Model($edificio->getAgrup_edificio(), '','');
+    $agrupacion_model->rellenaDatos();
+    $nombreAgrupacion = $agrupacion_model->getNombreAgrup();
+
+
+
+    //Información afiliación del responsable
+    $usuario_model = new USUARIO_Model($responsable_id,'','','','','','','','','','','','','','','');
+    $usuario = $usuario_model->rellenaDatosById();
+
+    if ($usuario == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+        $info_afiliacion = "-";
+    }
+    else if ($usuario->getAfiliacion() == "DOCENTE") {
+
+        $centro_model = new CENTRO_Model($usuario->getCentroUsuario(), '', '');
+        $centro = $centro_model->rellenaDatos();
+
+        $departamento_model = new DEPARTAMENTO_Models($usuario->getDepartUsuario(), '', '', '', '', '', '', '');
+        $departamento = $departamento_model->rellenaDatos();
+
+        $info_afiliacion = $departamento->getNombreDepartamento() . ", " . $centro->getNombreCentro();
+
+    }
+    else if ($usuario->getAfiliacion() == "INVESTIGADOR") {
+
+        $grupo_investigacion_model = new GRUPO_INVESTIGACION_Model($usuario->getGrupoUsuario(), '', '', '', '', '', '');
+        $grupo = $grupo_investigacion_model->rellenaDatos();
+
+        $info_afiliacion = $grupo->getNombreGrupo();
+
+    }
+    else if ($usuario->getAfiliacion() == "ADMINISTRACION") {
+
+        $info_afiliacion = $usuario->getNivelJerarquia() . ", " . $usuario->getNombrePuesto();
+
+    }
+    else {
+        $info_afiliacion = "-";
+    }
+
+
+    new ESPACIO_SHOWCURRENT_View($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion, $info_afiliacion);
 }
 
 function showall($num_pag){

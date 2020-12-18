@@ -213,11 +213,11 @@ VALUES (1, 1, '2020-11-29', 'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (2, 1, '2018-12-05', 'DEFIN');
+VALUES (2, 2, '2018-12-05', 'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (3, 1, '2020-09-24', 'DEFIN');
+VALUES (3, 3, '2020-09-24', 'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)

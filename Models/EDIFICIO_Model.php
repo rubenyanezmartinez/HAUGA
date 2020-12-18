@@ -42,7 +42,7 @@ class EDIFICIO_Model{
         $edificio = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($edificio != null){
-            return new EDIFICIO_Model($edificio["nombre_edif"],$edificio["direccion_edif"],$edificio["telef_edif"],
+            return new EDIFICIO_Model($this->edificio_id, $edificio["nombre_edif"],$edificio["direccion_edif"],$edificio["telef_edif"],
                 $edificio["num_plantas"],$edificio["agrup_edificio"]);
         }else {
             return  'Error inesperado al intentar cumplir su solicitud de consulta';

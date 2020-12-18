@@ -259,6 +259,30 @@ include_once 'Access_DB.php';
 
         }
 
+        function rellenaDatosById(){
+            $stmt = $this->db->prepare("SELECT *
+                                                    FROM usuario
+                                                    WHERE usuario_id = ?");
+
+            $stmt->execute(array($this->usuario_id));
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($user != null){
+                $usuario = new USUARIO_Model(
+                    $user['usuario_id'],$user['login'],$user['nombre']
+                    ,$user['apellidos'],$user['password'],$user['fecha_nacimiento'],$user['email_usuario']
+                    ,$user['telef_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
+                    ,$user['nivel_jerarquia'],$user['depart_usuario'],$user['grupo_usuario'],$user['centro_usuario']
+                );
+
+                return $usuario;
+
+
+            }else{
+                return  'Error inesperado al intentar cumplir su solicitud de consulta';
+            }
+
+        }
+
         //Recupera el rol de un usuario determinado
         //Devuelve el rol del usuario si lo encuentra en la BD, mensaje de error en caso contrario
         function consultarRol(){
