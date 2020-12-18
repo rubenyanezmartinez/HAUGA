@@ -90,7 +90,7 @@ CREATE TABLE `hauga`.`centro` (
 
 CREATE TABLE `hauga`.`espacio` (
 	`espacio_id` int NOT NULL AUTO_INCREMENT,
-	`nombre_esp` VARCHAR(15) NOT NULL,
+	`nombre_esp` VARCHAR(50) NOT NULL,
 	`ruta_imagen` VARCHAR(50) NOT NULL,
 	`tarifa_esp` int NOT NULL,
 	`categoria_esp` enum('DOCENCIA', 'INVESTIGACION', 'PAS', 'COMUN') NOT NULL,
@@ -185,7 +185,23 @@ VALUES (null, 'ESEI', 1);
 
 INSERT INTO `hauga`.`espacio`
 (`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
-VALUES (null, 'Aula 2.1','../Models/Imagenes_Espacios/fotoEjemplo.PNG', 300, 'DOCENCIA', 2, 1);
+VALUES (null, 'Aula 2.1','../Models/Imagenes_Espacios/Aula_2_1.PNG', 300, 'DOCENCIA', 2, 1);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Aula 2.2','../Models/Imagenes_Espacios/Aula_2_2.PNG', 400, 'DOCENCIA', 2, 1);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Aula Libre Acceso','../Models/Imagenes_Espacios/Aula_Libre_Acceso.PNG', 600, 'DOCENCIA', -1, 2);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Aula SO5','../Models/Imagenes_Espacios/Aula_Sotano_5.PNG', 210, 'DOCENCIA', -1, 2);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Laboratorio L39','../Models/Imagenes_Espacios/Aula_2_1.PNG', 800, 'INVESTIGACION', 2, 3);
 
 INSERT INTO `hauga`.`incidencia`
 (`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)
@@ -193,7 +209,27 @@ VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (1, 1, '2020-11-29', 'TEMP');
+VALUES (1, 1, '2020-11-29', 'DEFIN');
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
+VALUES (2, 1, '2018-12-05', 'DEFIN');
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
+VALUES (3, 1, '2020-09-24', 'DEFIN');
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
+VALUES (4, 1, '2020-05-25', 'DEFIN');
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
+VALUES (5, 1, '2020-09-18', 'DEFIN');
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
+VALUES (1, 2, '2019-11-01', 'HISTOR');
 
 
 ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`depart_usuario`) REFERENCES `hauga`.`departamento`(`depart_id`);
