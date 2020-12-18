@@ -27,6 +27,24 @@ class SOLICITUD_RESPONSABILIDAD_Model
         $this->db = PDOConnection::getInstance();
     }
 
+    function SHOWALL(){
+        $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE espacio_id = ? and estado_solic LIKE ?");
+        $stmt->execute(array($this->espacio_id, 'HISTOR'));
+        $stmt->execute();
+        $solicitudes_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allSolicitudes = array();
+
+
+        foreach ($solicitudes_db as $solicitud){
+            array_push($allSolicitudes,
+                new SOLICITUD_RESPONSABILIDAD_Model(
+                    $solicitud['espacio_id'], $solicitud['usuario_id'], $solicitud['fecha'], $solicitud['estado_solic']
+                )
+            );
+        }
+        return $allSolicitudes;
+    }
+
     /**
      * Devuelve el id del usuario que figura como responsable del espacio, en caso de no existir devuelve un mensaje de error
      * @return mixed|integer

@@ -14,6 +14,7 @@ include '../Models/GRUPO_INVESTIGACION_Model.php';
 include '../Models/DEPARTAMENTO_Models.php';
 include '../Views/ESPACIO_SHOWALL_View.php';
 include '../Views/ESPACIO_SHOWCURRENT_View.php';
+include '../Views/ESPACIO_HISTORIAL_View.php';
 
 session_start();
 
@@ -27,6 +28,58 @@ switch ($action) {
         $espacio_id = $_GET['espacio_id'];
         showcurrent($espacio_id);
         break;
+    case 'verHistorial':
+        $espacio_id = $_GET['espacio_id'];
+        $nombre_espacio = $_GET['nombre_espacio'];
+        $num_pag = (!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_GET['num_pag']);
+        verHistorial($espacio_id, $nombre_espacio, $num_pag);
+        break;
+}
+
+function verHistorial ($espacio_id, $nombre_espacio, $num_pag){
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','');
+    $allResponsables = $solicitud_model->SHOWALL();
+
+    $num_pags = ceil(count($allResponsables) / TAM_PAG);
+    $num_pag = $num_pag > $num_pags || $num_pag <= 0 ? 1 : $num_pag;
+    $inicio = ($num_pag-1) * TAM_PAG;
+    $final = $inicio + TAM_PAG;
+
+    $responsables = array_slice($allResponsables, $inicio, $final);
+
+    $nombresResponsables = [];
+    $tarifasEspacios = [];
+    foreach ($responsables as $responsable){
+        //Nombre y Apellidos del responsable
+        $usuario_model = new USUARIO_Model($responsable->getUsuarioId(), '','', '','','','','','','','','','','', '', '');
+        $aux = $usuario_model->getNombreApellidosById();
+        if($aux == 'No existe el usuario en la BD'){
+            $nombresResponsables[$responsable->getUsuarioId()] = 'Sin responsable';
+        }
+        else{
+            $nombresResponsables[$responsable->getUsuarioId()] = $aux;
+        }
+
+        //Tarifa del espacio
+        $espacio_model = new ESPACIO_Model($responsable->getEspacioId(),'','','','','','');
+        $espacio = $espacio_model->rellenaDatos();
+
+        if($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+            $tarifasEspacios[$responsable->getEspacioId()] = '-';
+        }
+        else{
+            $tarifasEspacios[$responsable->getEspacioId()] = $espacio->getTarifaEsp();
+        }
+
+    }
+
+
+    foreach ($responsables as $responsable){
+        $fecha = explode("-", $responsable->getFecha());
+        $responsable->setFecha($fecha[2]."/".$fecha[1]."/".$fecha[0]);
+    }
+
+    new ESPACIO_HISTORIAL_View($espacio_id, $nombre_espacio, $responsables, $num_pag, $nombresResponsables, $tarifasEspacios);
 }
 
 function showcurrent($espacio_id){

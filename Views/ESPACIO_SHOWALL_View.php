@@ -104,7 +104,7 @@ class ESPACIO_SHOWALL_View
                     <nav aria-label="paginacion">
                         <ul class="pagination justify-content-end">
                             <?php for ($i = 1; $i < $this->num_pag + 1; $i++){
-                                echo '<li class="page-item"><a class="page-link" style="background-color: #073349; color: white" href="../Controllers/AGRUPACION_Controller.php?action=showall&num_pag='.$i.'">'.$i.'</a></li>';
+                                echo '<li class="page-item"><a class="page-link" style="background-color: #073349; color: white" href="../Controllers/Espacio_Controller.php?action=showall&num_pag='.$i.'">'.$i.'</a></li>';
                             } ?>
 
                         </ul>
