@@ -204,6 +204,10 @@ INSERT INTO `hauga`.`espacio`
 (`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
 VALUES (null, 'Laboratorio L39','../Models/Imagenes_Espacios/Aula_2_1.PNG', 800, 'INVESTIGACION', 2, 3);
 
+INSERT INTO `hauga`.`incidencia`
+(`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)
+VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
+
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
 VALUES (1, 5, '2020-11-29', '', 'DEFIN', null);
@@ -250,10 +254,10 @@ ALTER TABLE `hauga`.`edificio` ADD FOREIGN KEY	(`agrup_edificio`) REFERENCES `ha
 
 ALTER TABLE `hauga`.`centro` ADD FOREIGN KEY (`edificio_centro`) REFERENCES `hauga`.`edificio`(`edificio_id`);
 
-ALTER TABLE `hauga`.`espacio` ADD FOREIGN KEY	(`edificio_esp`) REFERENCES `hauga`.`edificio`(`edificio_id`);
+ALTER TABLE `hauga`.`espacio` ADD FOREIGN KEY	(`edificio_esp`) REFERENCES `hauga`.`edificio`(`edificio_id`) ON DELETE CASCADE;
 
-ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`espacio_afectado`) REFERENCES `hauga`.`espacio`(`espacio_id`);
-ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`autor_incidencia`) REFERENCES `hauga`.`usuario`(`usuario_id`);
+ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`espacio_afectado`) REFERENCES `hauga`.`espacio`(`espacio_id`) ON DELETE CASCADE;
+ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`autor_incidencia`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE CASCADE;
 
-ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY	(`espacio_id`) REFERENCES `hauga`.`espacio`(`espacio_id`);
-ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY (`usuario_id`) REFERENCES `hauga`.`usuario`(`usuario_id`);
+ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY	(`espacio_id`) REFERENCES `hauga`.`espacio`(`espacio_id`) ON DELETE CASCADE;
+ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY (`usuario_id`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE CASCADE;
