@@ -8,16 +8,14 @@ class ESPACIO_HISTORIAL_View
     var $responsables;
     var $num_pag;
     var $nombresResponsables;
-    var $tarifasEspacios;
 
-    function __construct($espacio_id, $nombre_espacio, $responsables, $num_pag, $nombresResponsables, $tarifasEspacios)
+    function __construct($espacio_id, $nombre_espacio, $responsables, $num_pag, $nombresResponsables)
     {
         $this->espacio_id = $espacio_id;
         $this->nombre_espacio = $nombre_espacio;
         $this->responsables = $responsables;
         $this->num_pag = $num_pag;
         $this->nombresResponsables = $nombresResponsables;
-        $this->tarifasEspacios = $tarifasEspacios;
         $this->render();
     }
 
@@ -57,7 +55,7 @@ class ESPACIO_HISTORIAL_View
                             <th scope="row"><?=$this->nombresResponsables[$responsable->getUsuarioId()]?></th>
                             <th><?=$responsable->getFechaInicio()?></th>
                             <th><?=$responsable->getFechaFin()?></th>
-                            <th><?=$this->tarifasEspacios[$responsable->getEspacioId()]?>€</th>
+                            <th><?=$responsable->getTarifaHistorica()?>€</th>
                         </tr>
                         <?php
                     }

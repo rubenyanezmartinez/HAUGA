@@ -10,22 +10,17 @@ class SOLICITUD_RESPONSABILIDAD_Model
     var $fecha_inicio;
     var $fecha_fin;
     var $estado_solic;
+    var $tarifa_historica;
 
-    /**
-     * SOLICITUD_RESPONSABILIDAD_Model constructor.
-     * @param $espacio_id
-     * @param $usuario_id
-     * @param $fecha_inicio
-     * @param $fecha_fin
-     * @param $estado_solic
-     */
-    public function __construct($espacio_id, $usuario_id, $fecha_inicio, $fecha_fin, $estado_solic)
+
+    public function __construct($espacio_id, $usuario_id, $fecha_inicio, $fecha_fin, $estado_solic, $tarifa_historica)
     {
         $this->espacio_id = $espacio_id;
         $this->usuario_id = $usuario_id;
         $this->fecha_inicio = $fecha_inicio;
         $this->fecha_fin = $fecha_fin;
         $this->estado_solic = $estado_solic;
+        $this->tarifa_historica = $tarifa_historica;
 
         $this->db = PDOConnection::getInstance();
     }
@@ -42,7 +37,7 @@ class SOLICITUD_RESPONSABILIDAD_Model
         foreach ($solicitudes_db as $solicitud){
             array_push($allSolicitudes,
                 new SOLICITUD_RESPONSABILIDAD_Model(
-                    $solicitud['espacio_id'], $solicitud['usuario_id'], $solicitud['fecha_inicio'], $solicitud['fecha_fin'], $solicitud['estado_solic']
+                    $solicitud['espacio_id'], $solicitud['usuario_id'], $solicitud['fecha_inicio'], $solicitud['fecha_fin'], $solicitud['estado_solic'], $solicitud['tarifa_historica']
                 )
             );
         }
@@ -105,6 +100,23 @@ class SOLICITUD_RESPONSABILIDAD_Model
     {
         return $this->fecha_inicio;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTarifaHistorica()
+    {
+        return $this->tarifa_historica;
+    }
+
+    /**
+     * @param mixed $tarifa_historica
+     */
+    public function setTarifaHistorica($tarifa_historica)
+    {
+        $this->tarifa_historica = $tarifa_historica;
+    }
+
 
     /**
      * @return mixed

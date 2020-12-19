@@ -37,7 +37,7 @@ switch ($action) {
 }
 
 function verHistorial ($espacio_id, $nombre_espacio, $num_pag){
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '', '');
     $allResponsables = $solicitud_model->SHOWALL();
 
     $num_pags = ceil(count($allResponsables) / TAM_PAG);
@@ -48,7 +48,6 @@ function verHistorial ($espacio_id, $nombre_espacio, $num_pag){
     $responsables = array_slice($allResponsables, $inicio, $final);
 
     $nombresResponsables = [];
-    $tarifasEspacios = [];
     foreach ($responsables as $responsable){
         //Nombre y Apellidos del responsable
         $usuario_model = new USUARIO_Model($responsable->getUsuarioId(), '','', '','','','','','','','','','','', '', '');
@@ -59,18 +58,6 @@ function verHistorial ($espacio_id, $nombre_espacio, $num_pag){
         else{
             $nombresResponsables[$responsable->getUsuarioId()] = $aux;
         }
-
-        //Tarifa del espacio
-        $espacio_model = new ESPACIO_Model($responsable->getEspacioId(),'','','','','','');
-        $espacio = $espacio_model->rellenaDatos();
-
-        if($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
-            $tarifasEspacios[$responsable->getEspacioId()] = '-';
-        }
-        else{
-            $tarifasEspacios[$responsable->getEspacioId()] = $espacio->getTarifaEsp();
-        }
-
     }
 
 
@@ -82,7 +69,7 @@ function verHistorial ($espacio_id, $nombre_espacio, $num_pag){
         $responsable->setFechaFin($fecha_fin[2]."/".$fecha_fin[1]."/".$fecha_fin[0]);
     }
 
-    new ESPACIO_HISTORIAL_View($espacio_id, $nombre_espacio, $responsables, $num_pag, $nombresResponsables, $tarifasEspacios);
+    new ESPACIO_HISTORIAL_View($espacio_id, $nombre_espacio, $responsables, $num_pag, $nombresResponsables);
 }
 
 function showcurrent($espacio_id){
@@ -91,7 +78,7 @@ function showcurrent($espacio_id){
     $espacio = $espacio_model->rellenaDatos();
 
     //Nombre Responsable
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '', '');
     $responsable_id = $solicitud_model->buscarResponsable();
     $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');
     $aux = $usuario_model->getNombreApellidosById();
@@ -177,7 +164,7 @@ function showall($num_pag){
         $nombreEdificios[$espacio->getEdificioEsp()] = $edificio_model->getNombreById();
 
 
-        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(),'','','', '');
+        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(),'','','', '', '');
         $responsable_id = $solicitud_model->buscarResponsable();
         if ($responsable_id != 'Sin responsable'){
             $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');
