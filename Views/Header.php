@@ -34,6 +34,7 @@ include_once '../Functions/esAdministrador.php';
     <script type="text/javascript" src="../Views/js/validacionesAddDepartamento.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddAgrupacion.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddGrupoInvestigacion.js"></script>
+    <script type="text/javascript" src="../Views/js/validacionesAddEspacio.js"></script>
 
 
     <nav id="barra-fija-superior" class="nav">

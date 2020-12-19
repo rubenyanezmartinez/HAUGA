@@ -74,6 +74,15 @@ class SOLICITUD_RESPONSABILIDAD_Model
         }
     }
 
+    function add(){
+        $stmt = $this->db->prepare("INSERT into solicitud_responsabilidad VALUES (?,?,?,?,?,?)");
+        if($stmt->execute(array($this->espacio_id, $this->usuario_id, $this->fecha_inicio, $this->fecha_fin, $this->estado_solic, $this->tarifa_historica))){
+            return true;
+        } else {
+            return 'Error';
+        }
+    }
+
     /**
      * @return mixed
      */

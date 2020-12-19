@@ -17,6 +17,8 @@ include '../Views/ESPACIO_SHOWCURRENT_View.php';
 include '../Views/ESPACIO_ADD_View.php';
 include '../Views/ESPACIO_HISTORIAL_View.php';
 
+include '../Functions/Authentication.php';
+
 session_start();
 
 $action = !isset($_GET['action']) ? '' : $_GET['action'];
@@ -47,7 +49,11 @@ switch ($action) {
         delete($espacio_id, $login_usuario);
         break;
     case 'add':
-        add();
+        if(IsAuthenticated()){
+            add();
+        } else {
+            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        }
         break;
     default:
         echo "default del controlador de espacios";
@@ -543,6 +549,47 @@ function add(){
         $usuarios = $usuario_model->SHOWALL();
 
         new ESPACIO_ADD_View($espacio, $edificios, $usuarios);
+    } else {
+        if(isset($_POST['esResponsable'])){;
+            $directorio_imagenes = "../Models/Imagenes_Espacios/";
+            $nombre_imagen = $_POST['nombre_esp'];
+            $nombre_imagen_aux = $nombre_imagen;
+
+            $i = 1;
+            while(file_exists($directorio_imagenes . $nombre_imagen_aux . '.' . strtolower(pathinfo($_FILES['imagen_espacio']['name'],PATHINFO_EXTENSION)))){
+                $nombre_imagen_aux = $nombre_imagen . $i;
+                $i++;
+            }
+            $nombre_imagen = $nombre_imagen_aux;
+            $ruta_imagen = $directorio_imagenes . $nombre_imagen . '.' . strtolower(pathinfo($_FILES['imagen_espacio']['name'],PATHINFO_EXTENSION));
+
+            $espacio = new ESPACIO_Model(null, $_POST['nombre_esp'], $ruta_imagen, $_POST['tarifa_esp'],$_POST['categoria_esp'], $_POST['planta_esp'],$_POST['edificio_esp']);
+            $respuesta_espacio = $espacio->add();
+
+            if($_POST['esResponsable'] == 'si'){
+                $responsable = $_SESSION['login'];
+
+                $usuario_model = new USUARIO_Model('',$responsable, '','','','','','','','','','','','','','');
+                $usuario_model = $usuario_model->rellenaDatos();
+                $responsable = $usuario_model->getUsuarioId();
+
+                $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(), $responsable, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
+                $solicitud->add();
+            }
+
+            if($respuesta_espacio === true){
+                move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $ruta_imagen);
+                header('Location:../Controllers/Espacio_Controller.php?action=showall');
+            } else {
+                $edificio_model = new EDIFICIO_Model('','','','','','');
+                $edificios = $edificio_model->SHOWALL();
+
+                $usuario_model = new USUARIO_Model('','','','','','','','','','','','','','','','');
+                $usuarios = $usuario_model->SHOWALL();
+                new ESPACIO_ADD_View($espacio, $edificios, $usuarios);
+            }
+        }
+
     }
 
 }

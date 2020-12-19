@@ -93,6 +93,16 @@ class ESPACIO_Model
 
     }
 
+    function add(){
+        $stmt = $this->db->prepare("INSERT into espacio VALUES (?,?,?,?,?,?,?)");
+        if($stmt->execute(array(null, $this->nombre_esp, $this->ruta_imagen, $this->tarifa_esp, $this->categoria_esp, $this->planta_esp, $this->edificio_esp))){
+            $this->espacio_id = $this->db->lastInsertId();
+            return true;
+        } else {
+            return "Error Insertando";
+        }
+    }
+
     /**
      * @return mixed
      */
