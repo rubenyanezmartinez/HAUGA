@@ -429,7 +429,7 @@ function showcurrent($espacio_id)
         $nombreAgrupacion = '-';
     }
     else{
-        $nombreAgrupacion = $agrupacion->getNombreAgrup();
+        $nombreAgrupacion = $agrupacion_model->getNombreAgrup();
     }
 
 
