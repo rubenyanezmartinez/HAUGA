@@ -14,6 +14,7 @@ include '../Models/GRUPO_INVESTIGACION_Model.php';
 include '../Models/DEPARTAMENTO_Models.php';
 include '../Views/ESPACIO_SHOWALL_View.php';
 include '../Views/ESPACIO_SHOWCURRENT_View.php';
+include '../Views/ESPACIO_ADD_View.php';
 include '../Views/ESPACIO_HISTORIAL_View.php';
 
 session_start();
@@ -339,6 +340,22 @@ function showall($num_pag){
     }
 
     new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, 'No aceptado', 0);
+}
+
+function add(){
+
+    if(!$_POST){
+        $espacio = new ESPACIO_Model('','','','','','','');
+
+        $edificio_model = new EDIFICIO_Model('','','','','','');
+        $edificios = $edificio_model->SHOWALL();
+
+        $usuario_model = new USUARIO_Model('','','','','','','','','','','','','','','','');
+        $usuarios = $usuario_model->SHOWALL();
+
+        new ESPACIO_ADD_View($espacio, $edificios, $usuarios);
+    }
+
 }
 
 ?>
