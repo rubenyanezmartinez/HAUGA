@@ -113,9 +113,10 @@ CREATE TABLE `hauga`.`incidencia` (
 CREATE TABLE `hauga`.`solicitud_responsabilidad` (
 	`espacio_id` int NOT NULL,
 	`usuario_id` int NOT NULL,
-	`fecha` DATE NOT NULL,
+	`fecha_inicio` DATE NOT NULL,
+	`fecha_fin` DATE NOT NULL,
 	`estado_solic` enum('HISTOR', 'DEFIN', 'TEMP'),
-	PRIMARY	KEY (`espacio_id`, `usuario_id`, `fecha`)
+	PRIMARY	KEY (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`)
 );
 
 
@@ -208,72 +209,36 @@ INSERT INTO `hauga`.`incidencia`
 VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (1, 1, '2020-11-29', 'DEFIN');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (1, 1, '2020-11-29', '', 'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (2, 2, '2018-12-05', 'DEFIN');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (2, 2, '2018-12-05', '', 'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (3, 3, '2020-09-24', 'DEFIN');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (3, 3, '2020-09-24', '',  'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (4, 1, '2020-05-25', 'DEFIN');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (4, 1, '2020-05-25', '',  'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (5, 1, '2020-09-18', 'DEFIN');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (5, 1, '2020-09-18', '', 'DEFIN');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (1, 1, '2019-11-01', 'HISTOR');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (1, 2, '2018-10-01', '2018-12-31', 'HISTOR');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (2, 2, '2019-11-01', 'HISTOR');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (1, 3, '2019-01-01', '2019-07-01', 'HISTOR');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (3, 3, '2018-11-01', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (4, 4, '2017-11-01', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (1, 1, '2015-11-01', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (2, 2, '2019-05-01', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (3, 3, '2019-08-01', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (4, 4, '2019-11-12', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (1, 3, '2012-11-12', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (2, 1, '2010-11-01', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (3, 4, '1999-11-01', 'HISTOR');
-
-INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (4, 2, '1998-11-01', 'HISTOR');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`)
+VALUES (1, 4, '2019-08-01', '2020-10-01', 'HISTOR');
 
 
 ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`depart_usuario`) REFERENCES `hauga`.`departamento`(`depart_id`);

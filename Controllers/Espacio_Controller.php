@@ -37,7 +37,7 @@ switch ($action) {
 }
 
 function verHistorial ($espacio_id, $nombre_espacio, $num_pag){
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '');
     $allResponsables = $solicitud_model->SHOWALL();
 
     $num_pags = ceil(count($allResponsables) / TAM_PAG);
@@ -75,8 +75,11 @@ function verHistorial ($espacio_id, $nombre_espacio, $num_pag){
 
 
     foreach ($responsables as $responsable){
-        $fecha = explode("-", $responsable->getFecha());
-        $responsable->setFecha($fecha[2]."/".$fecha[1]."/".$fecha[0]);
+        $fecha_inicio = explode("-", $responsable->getFechaInicio());
+        $responsable->setFechaInicio($fecha_inicio[2]."/".$fecha_inicio[1]."/".$fecha_inicio[0]);
+
+        $fecha_fin = explode("-", $responsable->getFechaFin());
+        $responsable->setFechaFin($fecha_fin[2]."/".$fecha_fin[1]."/".$fecha_fin[0]);
     }
 
     new ESPACIO_HISTORIAL_View($espacio_id, $nombre_espacio, $responsables, $num_pag, $nombresResponsables, $tarifasEspacios);
@@ -88,7 +91,7 @@ function showcurrent($espacio_id){
     $espacio = $espacio_model->rellenaDatos();
 
     //Nombre Responsable
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '');
     $responsable_id = $solicitud_model->buscarResponsable();
     $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');
     $aux = $usuario_model->getNombreApellidosById();
@@ -174,7 +177,7 @@ function showall($num_pag){
         $nombreEdificios[$espacio->getEdificioEsp()] = $edificio_model->getNombreById();
 
 
-        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(),'','','');
+        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(),'','','', '');
         $responsable_id = $solicitud_model->buscarResponsable();
         if ($responsable_id != 'Sin responsable'){
             $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');

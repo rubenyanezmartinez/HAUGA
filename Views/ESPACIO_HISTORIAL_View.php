@@ -43,7 +43,8 @@ class ESPACIO_HISTORIAL_View
                     <thead>
                     <tr class="text-center" style="color: white;background-color: #073349;">
                         <th scope="col">Responsable</th>
-                        <th scope="col">Fecha</th>
+                        <th scope="col">Fecha Inicio</th>
+                        <th scope="col">Fecha Finalización</th>
                         <th scope="col">Tarifa</th>
 
                     </tr>
@@ -54,7 +55,8 @@ class ESPACIO_HISTORIAL_View
 
                         <tr>
                             <th scope="row"><?=$this->nombresResponsables[$responsable->getUsuarioId()]?></th>
-                            <th><?=$responsable->getFecha()?></th>
+                            <th><?=$responsable->getFechaInicio()?></th>
+                            <th><?=$responsable->getFechaFin()?></th>
                             <th><?=$this->tarifasEspacios[$responsable->getEspacioId()]?>€</th>
                         </tr>
                         <?php

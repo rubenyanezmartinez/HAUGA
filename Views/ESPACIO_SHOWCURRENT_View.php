@@ -37,7 +37,7 @@ class ESPACIO_SHOWCURRENT_View
             <div class="row">
 
                 <div class="col" >
-                    <img src="<?=$this->espacio->getRutaImagen()?>" class="img-fluid">
+                    <img src="<?=$this->espacio->getRutaImagen()?>" class="img-thumbnail">
                 </div>
 
                 <div class="col">

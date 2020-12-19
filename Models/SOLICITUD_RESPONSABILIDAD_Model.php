@@ -7,28 +7,32 @@ class SOLICITUD_RESPONSABILIDAD_Model
     private $db;
     var $espacio_id;
     var $usuario_id;
-    var $fecha;
+    var $fecha_inicio;
+    var $fecha_fin;
     var $estado_solic;
 
     /**
      * SOLICITUD_RESPONSABILIDAD_Model constructor.
      * @param $espacio_id
      * @param $usuario_id
-     * @param $fecha
+     * @param $fecha_inicio
+     * @param $fecha_fin
      * @param $estado_solic
      */
-    public function __construct($espacio_id, $usuario_id, $fecha, $estado_solic)
+    public function __construct($espacio_id, $usuario_id, $fecha_inicio, $fecha_fin, $estado_solic)
     {
         $this->espacio_id = $espacio_id;
         $this->usuario_id = $usuario_id;
-        $this->fecha = $fecha;
+        $this->fecha_inicio = $fecha_inicio;
+        $this->fecha_fin = $fecha_fin;
         $this->estado_solic = $estado_solic;
 
         $this->db = PDOConnection::getInstance();
     }
 
+
     function SHOWALL(){
-        $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE espacio_id = ? and estado_solic LIKE ? ORDER BY fecha DESC");
+        $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE espacio_id = ? and estado_solic LIKE ? ORDER BY fecha_inicio DESC");
         $stmt->execute(array($this->espacio_id, 'HISTOR'));
         $stmt->execute();
         $solicitudes_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,7 +42,7 @@ class SOLICITUD_RESPONSABILIDAD_Model
         foreach ($solicitudes_db as $solicitud){
             array_push($allSolicitudes,
                 new SOLICITUD_RESPONSABILIDAD_Model(
-                    $solicitud['espacio_id'], $solicitud['usuario_id'], $solicitud['fecha'], $solicitud['estado_solic']
+                    $solicitud['espacio_id'], $solicitud['usuario_id'], $solicitud['fecha_inicio'], $solicitud['fecha_fin'], $solicitud['estado_solic']
                 )
             );
         }
@@ -97,18 +101,35 @@ class SOLICITUD_RESPONSABILIDAD_Model
     /**
      * @return mixed
      */
-    public function getFecha()
+    public function getFechaInicio()
     {
-        return $this->fecha;
+        return $this->fecha_inicio;
     }
 
     /**
-     * @param mixed $fecha
+     * @return mixed
      */
-    public function setFecha($fecha)
+    public function getFechaFin()
     {
-        $this->fecha = $fecha;
+        return $this->fecha_fin;
     }
+
+    /**
+     * @param mixed $fecha_inicio
+     */
+    public function setFechaInicio($fecha_inicio)
+    {
+        $this->fecha_inicio = $fecha_inicio;
+    }
+
+    /**
+     * @param mixed $fecha_fin
+     */
+    public function setFechaFin($fecha_fin)
+    {
+        $this->fecha_fin = $fecha_fin;
+    }
+
 
     /**
      * @return mixed
