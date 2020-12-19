@@ -50,6 +50,18 @@ class EDIFICIO_Model{
 
     }
 
+    //Añade un nuevo edificio a la base de datos
+    function add(){
+        $stmt = $this->db->prepare('INSERT INTO edificio VALUES (?,?,?,?,?,?)');
+        if($stmt->execute(array(null, $this->nombre_edif,$this->direccion_edif,
+            $this->telef_edif, $this->num_plantas, $this->agrup_edificio))){
+            $this->edificio_id = $this->db->lastInsertId();
+            return true;
+        }else{
+            return 'Error insertando el edificio';
+        }
+    }
+
     //Devuelve un array de edificio con todos los edificios de la tabla.
     function SHOWALL(){
 
@@ -86,19 +98,6 @@ class EDIFICIO_Model{
             return  0;
         }
     }
-/*
-    function actualizarResponsable(){
-
-        $stmt = $this->db->prepare("UPDATE departamento set responsable_depart = ? where responsable_depart = ?");
-
-        if( $stmt->execute(array(NULL, $this->responsable_depart))){
-            return true;
-        }else{
-            return "Error ACTUALIZANDO";
-        }
-
-
-    }*/
 
     function getNombreById(){
         $stmt = $this->db->prepare("SELECT nombre_edif FROM edificio WHERE edificio_id = ?");
