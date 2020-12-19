@@ -37,6 +37,19 @@ class ESPACIO_Model
         $this->db = PDOConnection::getInstance();
     }
 
+
+    function DELETE(){
+        $stmt = $this->db->prepare("DELETE
+					FROM espacio
+					WHERE espacio_id = ? ");
+
+        if( $stmt->execute(array($this->espacio_id))){
+            return true;
+        }else{
+            return "Error eliminando espacio.";
+        }
+    }
+
     function SHOWALL(){
         $stmt = $this->db->prepare("SELECT * FROM espacio ORDER BY edificio_esp");
         $stmt->execute();

@@ -26,6 +26,19 @@ class SOLICITUD_RESPONSABILIDAD_Model
     }
 
 
+    function deleteById(){
+        $stmt = $this->db->prepare("DELETE
+					FROM solicitud_responsabilidad
+					WHERE espacio_id = ? ");
+
+        if( $stmt->execute(array($this->espacio_id))){
+            return true;
+        }else{
+            return "Error eliminando solicitudes.";
+        }
+    }
+
+
     function SHOWALL(){
         $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE espacio_id = ? and estado_solic LIKE ? ORDER BY fecha_inicio DESC");
         $stmt->execute(array($this->espacio_id, 'HISTOR'));

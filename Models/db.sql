@@ -68,7 +68,6 @@ CREATE TABLE `hauga`.`edificio` (
 	`num_plantas` int NOT NULL,
 	`agrup_edificio` int,
 	PRIMARY KEY (`edificio_id`)
-
 );
 
 
@@ -151,11 +150,11 @@ VALUES (null, 'nghervella', 'Noelia', 'García Hervella', '1234', '1998-12-31', 
 
 INSERT INTO `hauga`.`grupo_investigacion`
 (`grupo_id`, `nombre_grupo`, `telef_grupo`, `lineas_investigacion`, `area_conoc_grupo`, `email_grupo`, `responsable_grupo`)
-VALUES (null, 'LIA2', '111111111', 2, 'Realidad virtual', 'lia2@gmail.com', 1);
+VALUES (null, 'LIA2', '111111111', 2, 'Realidad virtual', 'lia2@gmail.com', 6);
 
 INSERT INTO `hauga`.`departamento`
 (`depart_id`, `nombre_depart`, `codigo_depart`, `telef_depart`, `email_depart`, `area_conc_depart`, `responsable_depart`, `edificio_depart`)
-VALUES (null, 'Departamento de Informática', 'deptinfo', '222222222', 'informatica@gmail.com', 'sistemas informaticos', 4, 1);
+VALUES (null, 'Departamento de Informática', 'deptinfo', '222222222', 'informatica@gmail.com', 'sistemas informaticos', 5, 1);
 
 INSERT INTO `hauga`.`edificio`
 (`edificio_id`, `nombre_edif`, `direccion_edif`, `telef_edif`, `num_plantas`, `agrup_edificio`)
@@ -211,23 +210,23 @@ VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (1, 1, '2020-11-29', '', 'DEFIN', null);
+VALUES (1, 5, '2020-11-29', '', 'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (2, 2, '2018-12-05', '', 'DEFIN', null);
+VALUES (2, 5, '2018-12-05', '', 'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (3, 3, '2020-09-24', '',  'DEFIN', null);
+VALUES (3, 5, '2020-09-24', '',  'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (4, 1, '2020-05-25', '',  'DEFIN', null);
+VALUES (4, 5, '2020-05-25', '',  'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (5, 1, '2020-09-18', '', 'DEFIN', null);
+VALUES (5, 6, '2020-09-18', '', 'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
