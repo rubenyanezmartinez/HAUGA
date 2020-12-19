@@ -204,10 +204,6 @@ INSERT INTO `hauga`.`espacio`
 (`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
 VALUES (null, 'Laboratorio L39','../Models/Imagenes_Espacios/Aula_2_1.PNG', 800, 'INVESTIGACION', 2, 3);
 
-INSERT INTO `hauga`.`incidencia`
-(`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)
-VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
-
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
 VALUES (1, 5, '2020-11-29', '', 'DEFIN', null);

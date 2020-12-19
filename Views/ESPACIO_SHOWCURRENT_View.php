@@ -112,7 +112,7 @@ class ESPACIO_SHOWCURRENT_View
                         </div>
                     </div>
 
-                    <?php if(IsAuthenticated()) {?>
+                    <?php if(IsAuthenticated() && $this->nombresResponsable == 'Sin responsable') {?>
                         <div class="row" style="padding-top: 3%">
                             <div class="col" >
                                 <a id="botonSolicitarEspacio" href="#" class="btn btn-primary">

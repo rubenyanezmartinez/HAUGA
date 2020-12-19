@@ -43,7 +43,7 @@ class ESPACIO_Model
 					FROM espacio
 					WHERE espacio_id = ? ");
 
-        if( $stmt->execute(array($this->espacio_id))){
+        if($stmt->execute(array($this->espacio_id))){
             return true;
         }else{
             return "Error eliminando espacio.";

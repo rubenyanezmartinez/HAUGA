@@ -43,7 +43,8 @@ switch ($action) {
         break;
     case 'delete':
         $espacio_id = $_GET['espacio_id'];
-        delete($espacio_id);
+        $login_usuario = $_SESSION['login'];
+        delete($espacio_id, $login_usuario);
         break;
     case 'add':
         add();
@@ -53,26 +54,202 @@ switch ($action) {
         break;
 }
 
-function delete ($espacio_id){
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
-    $respuesta = $solicitud_model->deleteById();
+function delete ($espacio_id, $login_usuario){
 
-    if ($respuesta === true){
-        $espacio_model = new ESPACIO_Model($espacio_id, '','','','','','');
-        $espacio = $espacio_model->rellenaDatos();
+    //COMRPOBACION DE SI EL USUARIO TIENE LOS PERMISOS PARA PODER REALIZAR EL BORRADO DEL ESPACIO:
+    $espacio_model = new ESPACIO_Model($espacio_id, '', '', '', '', '', '');
+    $espacio = $espacio_model->rellenaDatos();
 
-        if ($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
-            header('Location:../Controllers/Espacio_Controller.php?action=showall');
-        }else{
-            $respuesta = $espacio->DELETE();
-
-            if($respuesta === true){
-                header('Location:../Controllers/Espacio_Controller.php?action=showall');
-            }
-        }
+    //SI NO EXISTE EL ESPACIO REEDIRIGIR A LA PÁGINA PRINCIPAL
+    if($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+        header('Location:../Controllers/Espacio_Controller.php?action=showall');
     }
 
-    header('Location:../Controllers/Espacio_Controller.php?action=showall');
+    //EN CASO CONTRARIO COMPROBAR SI TIENE PERMISOS PARA PODER REALIZAR EL BORRADO
+    else{
+        //UN USUARIO CON EL ROL DE ADMINISTRADOR SIEMPRE TIENE PERMISOS PARA REALIZAR EL BORRADO
+        if ($_SESSION['rol'] == "ADMIN"){
+
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
+            $respuesta = $solicitud_model->deleteById();
+
+            if ($respuesta === true){
+                $espacio_model = new ESPACIO_Model($espacio_id, '','','','','','');
+                $espacio = $espacio_model->rellenaDatos();
+
+
+                if ($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+                    header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                }else{
+                    $respuesta = $espacio->DELETE();
+                    print_r($respuesta);
+
+                    if($respuesta === true){
+                        header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                    }
+                }
+            }
+
+            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        }
+        //EN CASO CONTARIO COMPROBAR SI EL QUE INTENTA ELIMINAR ES EL RESPONSABLE DEL CENTRO, DEPARTAMENTO, GRUPO DE INVESTIGACIÓN, TIENE MAYOR PUESTO O ES CONSERJERIA
+        else{
+            $categoria_espacio = $espacio->getCategoriaEsp();
+
+            //Buscar quien es el responsable del espacio:
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '', '');
+            $responsable_id = $solicitud_model->buscarResponsable();
+
+            if ($responsable_id == 'Sin responsable' || $responsable_id == NULL){
+                header('Location:../Controllers/Espacio_Controller.php?action=showall');
+            }
+            else{
+                $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');
+                $responsable_espacio = $usuario_model->rellenaDatosById();
+
+                //Buscar usuario logueado:
+                $usuario_model = new USUARIO_Model('', $login_usuario,'', '','','','','','','','','','','', '', '');
+                $usuario_autenticado = $usuario_model->rellenaDatos();
+
+                switch ($categoria_espacio){
+                    case 'DOCENCIA':
+                        //Comprobar el departamento:
+                        $departamento_id = $responsable_espacio->getDepartUsuario();
+
+                        $departamento_model = new DEPARTAMENTO_Models($departamento_id,'','','','','','','');
+                        $departamento = $departamento_model->rellenaDatos();
+
+                        if ($departamento->getResponsableDepart() == $usuario_autenticado->getUsuarioId()) {
+                            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
+                            $respuesta = $solicitud_model->deleteById();
+
+                            if ($respuesta === true){
+                                $espacio_model = new ESPACIO_Model($espacio_id, '','','','','','');
+                                $espacio = $espacio_model->rellenaDatos();
+
+
+                                if ($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+                                    header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                }else{
+                                    $respuesta = $espacio->DELETE();
+                                    print_r($respuesta);
+
+                                    if($respuesta === true){
+                                        header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                    }
+                                }
+                            }
+
+                        }
+                        else{
+                            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                        }
+                        break;
+                    case 'INVESTIGACION':
+                        //Comprobar grupo de investigación
+                        $grupo_id = $responsable_espacio->getGrupoUsuario();
+
+                        $grupo_model = new GRUPO_INVESTIGACION_Model($grupo_id, '','','','','','');
+                        $grupo = $grupo_model->rellenaDatos();
+
+                        if ($grupo->getResponsableGrupo() == $usuario_autenticado->getUsuarioId()) {
+                            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
+                            $respuesta = $solicitud_model->deleteById();
+
+                            if ($respuesta === true){
+                                $espacio_model = new ESPACIO_Model($espacio_id, '','','','','','');
+                                $espacio = $espacio_model->rellenaDatos();
+
+
+                                if ($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+                                    header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                }else{
+                                    $respuesta = $espacio->DELETE();
+                                    print_r($respuesta);
+
+                                    if($respuesta === true){
+                                        header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                    }
+                                }
+                            }
+
+                        }
+                        else{
+                            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                        }
+
+                        break;
+                    case 'PAS':
+                        if ($responsable_espacio->getNivelJerarquia() > $usuario_autenticado->getNivelJerarquia()) {
+                            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
+                            $respuesta = $solicitud_model->deleteById();
+
+                            if ($respuesta === true){
+                                $espacio_model = new ESPACIO_Model($espacio_id, '','','','','','');
+                                $espacio = $espacio_model->rellenaDatos();
+
+
+                                if ($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+                                    header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                }else{
+                                    $respuesta = $espacio->DELETE();
+                                    print_r($respuesta);
+
+                                    if($respuesta === true){
+                                        header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                    }
+                                }
+                            }
+
+                        }
+                        else{
+                            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                        }
+                        break;
+                    case 'COMUN':
+                        if ($usuario_autenticado->getNombrePuesto() == 'Conserjería'
+                            || $usuario_autenticado->getNombrePuesto() == 'Conserjeria'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserjería'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserjeria'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserje'
+                            || $usuario_autenticado->getNombrePuesto() == 'Conserje') {
+                            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
+                            $respuesta = $solicitud_model->deleteById();
+
+                            if ($respuesta === true){
+                                $espacio_model = new ESPACIO_Model($espacio_id, '','','','','','');
+                                $espacio = $espacio_model->rellenaDatos();
+
+
+                                if ($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+                                    header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                }else{
+                                    $respuesta = $espacio->DELETE();
+                                    print_r($respuesta);
+
+                                    if($respuesta === true){
+                                        header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                                    }
+                                }
+                            }
+
+                        }
+                        else{
+                            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                        }
+                        break;
+                    default:
+                        header('Location:../Controllers/Espacio_Controller.php?action=showall');
+                        break;
+                }
+
+                header('Location:../Controllers/Espacio_Controller.php?action=showall');
+            }
+
+        }
+
+    }
+
 }
 
 function comprobarPermisoBorrado ($espacio_id, $login_usuario, $num_pag){
@@ -115,8 +292,7 @@ function comprobarPermisoBorrado ($espacio_id, $login_usuario, $num_pag){
 
     //SI NO EXISTE EL ESPACIO REEDIRIGIR A LA PÁGINA PRINCIPAL
     if($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta'){
-        $borrado = 'No aceptado';
-        new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, $borrado, $espacio_id);
+        new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, 'No aceptado', $espacio_id);
     }
 
     //EN CASO CONTRARIO COMPROBAR SI TIENE PERMISOS PARA PODER REALIZAR EL BORRADO
@@ -133,70 +309,77 @@ function comprobarPermisoBorrado ($espacio_id, $login_usuario, $num_pag){
             //Buscar quien es el responsable del espacio:
             $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','', '', '');
             $responsable_id = $solicitud_model->buscarResponsable();
-            $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');
-            $responsable_espacio = $usuario_model->rellenaDatosById();
 
-            //Buscar usuario logueado:
-            $usuario_model = new USUARIO_Model('', $login_usuario,'', '','','','','','','','','','','', '', '');
-            $usuario_autenticado = $usuario_model->rellenaDatos();
+            if ($responsable_id == 'Sin responsable' || $responsable_id == NULL){
+                new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, 'No aceptado', $espacio_id);
+            }
+            else{
+                $usuario_model = new USUARIO_Model($responsable_id, '','', '','','','','','','','','','','', '', '');
+                $responsable_espacio = $usuario_model->rellenaDatosById();
 
-            switch ($categoria_espacio){
-                case 'DOCENCIA':
-                    //Comprobar el departamento:
-                    $departamento_id = $responsable_espacio->getDepartUsuario();
+                //Buscar usuario logueado:
+                $usuario_model = new USUARIO_Model('', $login_usuario,'', '','','','','','','','','','','', '', '');
+                $usuario_autenticado = $usuario_model->rellenaDatos();
 
-                    $departamento_model = new DEPARTAMENTO_Models($departamento_id,'','','','','','','');
-                    $departamento = $departamento_model->rellenaDatos();
+                switch ($categoria_espacio){
+                    case 'DOCENCIA':
+                        //Comprobar el departamento:
+                        $departamento_id = $responsable_espacio->getDepartUsuario();
 
-                    if ($departamento->getResponsableDepart() == $usuario_autenticado->getUsuarioId()) {
-                        $borrado = 'Pendiente de confirmacion';
-                    }
-                    else{
+                        $departamento_model = new DEPARTAMENTO_Models($departamento_id,'','','','','','','');
+                        $departamento = $departamento_model->rellenaDatos();
+
+                        if ($departamento->getResponsableDepart() == $usuario_autenticado->getUsuarioId()) {
+                            $borrado = 'Pendiente de confirmacion';
+                        }
+                        else{
+                            $borrado = 'No aceptado';
+                        }
+                        break;
+                    case 'INVESTIGACION':
+                        //Comprobar grupo de investigación
+                        $grupo_id = $responsable_espacio->getGrupoUsuario();
+
+                        $grupo_model = new GRUPO_INVESTIGACION_Model($grupo_id, '','','','','','');
+                        $grupo = $grupo_model->rellenaDatos();
+
+                        if ($grupo->getResponsableGrupo() == $usuario_autenticado->getUsuarioId()) {
+                            $borrado = 'Pendiente de confirmacion';
+                        }
+                        else{
+                            $borrado = 'No aceptado';
+                        }
+
+                        break;
+                    case 'PAS':
+                        if ($responsable_espacio->getNivelJerarquia() > $usuario_autenticado->getNivelJerarquia()) {
+                            $borrado = 'Pendiente de confirmacion';
+                        }
+                        else{
+                            $borrado = 'No aceptado';
+                        }
+                        break;
+                    case 'COMUN':
+                        if ($usuario_autenticado->getNombrePuesto() == 'Conserjería'
+                            || $usuario_autenticado->getNombrePuesto() == 'Conserjeria'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserjería'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserjeria'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserje'
+                            || $usuario_autenticado->getNombrePuesto() == 'Conserje') {
+                            $borrado = 'Pendiente de confirmacion';
+                        }
+                        else{
+                            $borrado = 'No aceptado';
+                        }
+                        break;
+                    default:
                         $borrado = 'No aceptado';
-                    }
-                    break;
-                case 'INVESTIGACION':
-                    //Comprobar grupo de investigación
-                    $grupo_id = $responsable_espacio->getGrupoUsuario();
+                        break;
+                }
 
-                    $grupo_model = new GRUPO_INVESTIGACION_Model($grupo_id, '','','','','','');
-                    $grupo = $grupo_model->rellenaDatos();
-
-                    if ($grupo->getResponsableGrupo() == $usuario_autenticado->getUsuarioId()) {
-                        $borrado = 'Pendiente de confirmacion';
-                    }
-                    else{
-                        $borrado = 'No aceptado';
-                    }
-
-                    break;
-                case 'PAS':
-                    if ($responsable_espacio->getNivelJerarquia() > $usuario_autenticado->getNivelJerarquia()) {
-                        $borrado = 'Pendiente de confirmacion';
-                    }
-                    else{
-                        $borrado = 'No aceptado';
-                    }
-                    break;
-                case 'COMUN':
-                    if ($usuario_autenticado->getNombrePuesto() == 'Conserjería'
-                        || $usuario_autenticado->getNombrePuesto() == 'Conserjeria'
-                        || $usuario_autenticado->getNombrePuesto() == 'conserjería'
-                        || $usuario_autenticado->getNombrePuesto() == 'conserjeria'
-                        || $usuario_autenticado->getNombrePuesto() == 'conserje'
-                        || $usuario_autenticado->getNombrePuesto() == 'Conserje') {
-                        $borrado = 'Pendiente de confirmacion';
-                    }
-                    else{
-                        $borrado = 'No aceptado';
-                    }
-                    break;
-                default:
-                    $borrado = 'No aceptado';
-                    break;
+                new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, $borrado, $espacio_id);
             }
 
-            new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, $borrado, $espacio_id);
         }
 
     }
@@ -345,7 +528,7 @@ function showall($num_pag){
         }
     }
 
-    new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, 'No aceptado', 0);
+    new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
 }
 
 function add(){
