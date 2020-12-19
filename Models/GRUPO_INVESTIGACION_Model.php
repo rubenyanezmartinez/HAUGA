@@ -91,6 +91,19 @@ include_once 'Access_DB.php';
             return $allgrupos;
         }
 
+        //Elimina a un grupo de investigación determinado por su id
+        function DELETE(){
+            $stmt = $this->db->prepare("DELETE
+                FROM grupo_investigacion
+                WHERE grupo_id = ? ");
+
+            if( $stmt->execute(array($this->grupo_id))){
+                return true;
+            }else{
+                return "Error eliminando el grupo de investigacion";
+            }
+        }
+
         function actualizarResponsable(){
 
             $stmt = $this->db->prepare("UPDATE grupo_investigacion set responsable_grupo = ? where responsable_grupo = ?");

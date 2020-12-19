@@ -33,6 +33,11 @@ switch($action){
     case 'showcurrent':
         showcurrent($_GET['grupo_id']);
         break;
+    case 'delete':
+        if($_SESSION['rol']=='ADMIN') {
+            delete();
+        }
+        break;
     default:  echo('default del switch grupoInvestigacion_controller');
         break;
 }
@@ -103,6 +108,19 @@ function showcurrent ($grupo_id){
     }
 
 
+}
+
+function delete(){
+    if(isset($_GET['grupo_id'])) {//Antes de confirmar el borrado
+        $grupo = new GRUPO_INVESTIGACION_Model($_GET['grupo_id'],'','','','',
+            '','');
+        $respuesta = $grupo->DELETE();
+        if($respuesta === true){
+            header('Location:../Controllers/GrupoInvestigacion_Controller.php?action=showall');
+        }else{
+            header('Location:../Controllers/Index_Controller.php');
+        }
+    }
 }
 
 ?>
