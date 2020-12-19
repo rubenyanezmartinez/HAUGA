@@ -45,6 +45,12 @@ switch ($action) {
         $espacio_id = $_GET['espacio_id'];
         delete($espacio_id);
         break;
+    case 'add':
+        add();
+        break;
+    default:
+        echo "default del controlador de espacios";
+        break;
 }
 
 function delete ($espacio_id){
