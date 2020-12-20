@@ -11,7 +11,7 @@ include_once '../Functions/esAdministrador.php';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Portada</title>
+    <title>Gestión Espacios</title>
 
     <!-- Estilos propios -->
     <link href="../libraries/estilos.css" rel="stylesheet">
