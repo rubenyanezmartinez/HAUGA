@@ -103,7 +103,7 @@ class DEPARTAMENTO_SHOWALL_View{
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    ¿Está seguro de qué desea el departamento?
+                                    ¿Está seguro de qué desea eliminar el departamento?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">

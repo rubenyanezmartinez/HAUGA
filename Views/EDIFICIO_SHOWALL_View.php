@@ -36,7 +36,7 @@ class EDIFICIO_SHOWALL_View
                 <div class="col text-left">
                     <?php
                     include_once '../Functions/Authentication.php';
-                    if(IsAuthenticated()){ ?>
+                    if(IsAuthenticated() && $_SESSION['rol']=='ADMIN'){ ?>
                         <a class="btn btn-primary" style="background-color: #073349;" href="../Controllers/Edificio_Controller.php?action=add">
                             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -86,7 +86,7 @@ class EDIFICIO_SHOWALL_View
                                     </svg>
                                 </a>
 
-                                <?php if(IsAuthenticated()) {?>
+                                <?php if(IsAuthenticated() && $_SESSION['rol']=='ADMIN') {?>
                                     <a href="../Controllers/Edificio_Controller.php?action=edit&edificio_id=<?=$edificio['edificio_id']?>">
                                         <svg style="color: yellow" width="1.5em" height="1.5em" viewBox="0 0 16 16"
                                              class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
