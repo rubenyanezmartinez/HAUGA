@@ -35,7 +35,7 @@ class AGRUPACION_SHOWCURRENT_View{
                                             Nombre
                                         </div>
                                     </div>
-                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="nombre_agrup" name="nombre_agrup" placeholder="Nombre" value="<?php echo($this->agrupacion['nombre_agrup'])?>" size="50" maxlength="50">
+                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="nombre_agrup" name="nombre_agrup" placeholder="Nombre" value="<?php echo($this->agrupacion->getNombreAgrup())?>" size="50" maxlength="50">
                                 </div>
                             </div>
                             <div class="row">
@@ -45,7 +45,7 @@ class AGRUPACION_SHOWCURRENT_View{
                                             Ubicación
                                         </div>
                                     </div>
-                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="ubicacion_agrup" name="ubicacion_agrup" placeholder="Ubicación" value="<?php echo($this->agrupacion['ubicacion_agrup'])?>" size="100" maxlength="100">
+                                    <input <?php echo !$this->esNuevo ? 'disabled' : ''; ?> required type="text" class="form-control" id="ubicacion_agrup" name="ubicacion_agrup" placeholder="Ubicación" value="<?php echo($this->agrupacion->getUbicacionAgrup())?>" size="100" maxlength="100">
                                 </div>
                             </div>
                             <div class="row">
@@ -61,7 +61,7 @@ class AGRUPACION_SHOWCURRENT_View{
                                     </div>
                                 <?php } else { ?>
                                     <div class="col-md-6 mb-2 text-left" style="margin-bottom: 1rem!important;">
-                                        <a id="botonVerEdificios" href="#" class="btn btn-light">
+                                        <a id="botonVerEdificios" href="../Controllers/Edificio_Controller.php?action=showall&agrupacion_id=<?=$this->agrupacion->getAgrupId()?>" class="btn btn-light">
                                             Ver edificios
                                             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-building" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694L1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>

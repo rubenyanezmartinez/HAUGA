@@ -4,13 +4,13 @@ include_once 'Access_DB.php';
     class GRUPO_INVESTIGACION_Model{
         private $db;
 
-        var $grupo_id;
-        var $nombre_grupo;
-        var $telef_grupo;
-        var $lineas_investigacion;
-        var $area_conoc_grupo;
-        var $email_grupo;
-        var $responsable_grupo;
+        private $grupo_id;
+        private $nombre_grupo;
+        private $telef_grupo;
+        private $lineas_investigacion;
+        private $area_conoc_grupo;
+        private $email_grupo;
+        private $responsable_grupo;
 
 
         //Crea un objeto GRUPO DE INVESTIGACION
@@ -52,6 +52,24 @@ include_once 'Access_DB.php';
             }
         }
 
+        //Realiza un ADD sobre la tabla grupo_investigacion. Devuelve un mensaje informando del resultado.
+        function registrar(){
+
+            $stmt = $this->db->prepare("INSERT into grupo_investigacion 
+                    ( grupo_id, nombre_grupo, telef_grupo, lineas_investigacion, area_conoc_grupo, email_grupo, responsable_grupo) 
+					VALUES
+					(?,?,?,?,?,?,?)");
+
+            if( $stmt->execute(array(null, $this->getNombreGrupo(), $this->getTelefGrupo(), $this->getLineasInvestigacion(),
+                $this->getAreaConocGrupo(), $this->getEmailGrupo(), $this->getResponsableGrupo()))){
+                return true;
+            }else{
+                return "Error insertando el grupo de investigacion";
+            }
+
+
+        }
+
         //Devuelve un array de GRUPOS con todos los GRUPOS de la tabla.
         function SHOWALL(){
 
@@ -71,6 +89,19 @@ include_once 'Access_DB.php';
                 );
             }
             return $allgrupos;
+        }
+
+        //Elimina a un grupo de investigación determinado por su id
+        function DELETE(){
+            $stmt = $this->db->prepare("DELETE
+                FROM grupo_investigacion
+                WHERE grupo_id = ? ");
+
+            if( $stmt->execute(array($this->grupo_id))){
+                return true;
+            }else{
+                return "Error eliminando el grupo de investigacion";
+            }
         }
 
         function actualizarResponsable(){

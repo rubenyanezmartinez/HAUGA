@@ -11,7 +11,7 @@ include_once '../Functions/esAdministrador.php';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Portada</title>
+    <title>Gestión Espacios</title>
 
     <!-- Estilos propios -->
     <link href="../libraries/estilos.css" rel="stylesheet">
@@ -33,6 +33,8 @@ include_once '../Functions/esAdministrador.php';
     <script type="text/javascript" src="../Views/js/validacionesAddUser.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddDepartamento.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddAgrupacion.js"></script>
+    <script type="text/javascript" src="../Views/js/validacionesAddGrupoInvestigacion.js"></script>
+    <script type="text/javascript" src="../Views/js/validacionesAddEspacio.js"></script>
 
 
     <nav id="barra-fija-superior" class="nav">
@@ -92,15 +94,15 @@ include_once '../Functions/esAdministrador.php';
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h5><a href="#" class="textoAzul">ESPACIOS</a></h5>
+                        <h5><a href="../Controllers/Espacio_Controller.php?action=showall" class="textoAzul">ESPACIOS</a></h5>
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h5><a href="#" class="textoAzul">DEPARTAMENTOS</a></h5>
+                        <h5><a href="../Controllers/Departamento_Controller.php?action=showall" class="textoAzul">DEPARTAMENTOS</a></h5>
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h5><a href="#" class="textoAzul">GRUPOS INVG.</a></h5>
+                        <h5><a href="../Controllers/GrupoInvestigacion_Controller.php?action=showall" class="textoAzul">GRUPOS INVG.</a></h5>
                     </div>
                     <div class="col-2 align-self-center text-center">
                         <h5><a href="../Controllers/User_Controller.php?action=showall&numero_pagina=1" class="textoAzul">USUARIOS</a></h5>
@@ -115,15 +117,15 @@ include_once '../Functions/esAdministrador.php';
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h4><a href="#" class="textoAzul">ESPACIOS</a></h4>
+                        <h4><a href="../Controllers/Espacio_Controller.php?action=showall" class="textoAzul">ESPACIOS</a></h4>
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h4><a href="#" class="textoAzul">DEPARTAMENTOS</a></h4>
+                        <h4><a href="../Controllers/Departamento_Controller.php?action=showall" class="textoAzul">DEPARTAMENTOS</a></h4>
                     </div>
 
                     <div class="col-2 align-self-center text-center">
-                        <h4><a href="#" class="textoAzul">GRUPOS INVG.</a></h4>
+                        <h4><a href="../Controllers/GrupoInvestigacion_Controller.php?action=showall" class="textoAzul">GRUPOS INVG.</a></h4>
                     </div>
                     <?php if(IsAuthenticated()){ ?>
                         <div class="col-2 align-self-center text-center">

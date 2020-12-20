@@ -48,50 +48,47 @@ function showall($num_pag){
     $inicio = ($num_pag-1) * TAM_PAG;
     $final = $inicio + TAM_PAG;
 
-    $vectorAgrup = [];
-    foreach ($allAgrup as $agrup){
-        $vectorAgrup[$agrup->agrup_id]['agrup_id'] = $agrup->agrup_id;
-        $vectorAgrup[$agrup->agrup_id]['nombre_agrup'] = $agrup->nombre_agrup;
-        $vectorAgrup[$agrup->agrup_id]['ubicacion_agrup'] = $agrup->ubicacion_agrup;
-        $edficio_modelo = new EDIFICIO_Model('','','','','',$agrup->agrup_id);
+    $numEdificio = [];
 
-        $vectorAgrup[$agrup->agrup_id]['num_edificios'] = $edficio_modelo->devolverNumeroEdificioAgrupacion();
+    $allAgrup = array_slice($allAgrup, $inicio, $final);
+
+    foreach ($allAgrup as $agrup){
+        $edficio_modelo = new EDIFICIO_Model('','','','','',$agrup->getAgrupId());
+
+        $numEdificio[$agrup->getAgrupId()] = $edficio_modelo->devolverNumeroEdificioAgrupacion();
     }
 
-    $vectorAgrup = array_slice($vectorAgrup, $inicio, $final);
-
     include '../Views/AGRUPACION_SHOWALL_View.php';
-    new AGRUPACION_SHOWALL_View($vectorAgrup, $num_pags);
+    new AGRUPACION_SHOWALL_View($allAgrup, $numEdificio, $num_pags);
 }
 
 function showcurrent($agrup_id){
     include '../Views/AGRUPACION_SHOWCURRENT_View.php';
     $agrup_model = new AGRUPACION_Model($agrup_id, '','');
-    $agrupacion = $agrup_model->rellenaDatos();
+    $agrup_model->rellenaDatos();
 
-    if($agrupacion == 'Error'){
+    if($agrup_model == 'Error'){
         new AGRUPACION_SHOWCURRENT_View();
     } else {
-        new AGRUPACION_SHOWCURRENT_View($agrupacion, false);
+        new AGRUPACION_SHOWCURRENT_View($agrup_model, false);
     }
 }
 
 function add(){
     include '../Views/AGRUPACION_SHOWCURRENT_View.php';
     if(!$_POST){
-        $agrupacion = array('agrup_id' => '', 'nombre_agrup' => '', 'ubicacion_agrup' => '');
+        $agrupacion = new AGRUPACION_Model('', '', '');
         new AGRUPACION_SHOWCURRENT_View($agrupacion, true);
     } else {
         $nombre_agrup = $_POST['nombre_agrup']=='' ? null : $_POST['nombre_agrup'];
         $ubicacion_agrup = $_POST['ubicacion_agrup']=='' ? null : $_POST['ubicacion_agrup'];
 
-        $agrupacion_model = new AGRUPACION_Model(null, $nombre_agrup, $ubicacion_agrup);
-        $respuesta = $agrupacion_model->add();
+        $agrupacion = new AGRUPACION_Model(null, $nombre_agrup, $ubicacion_agrup);
+        $respuesta = $agrupacion->add();
 
         if($respuesta === true){
             header('Location:../Controllers/AGRUPACION_Controller.php?action=showall');
         } else{
-            $agrupacion = array('agrup_id' => '', 'nombre_agrup' => $nombre_agrup, 'ubicacion_agrup' => $ubicacion_agrup);
             new AGRUPACION_SHOWCURRENT_View($agrupacion, true);
         }
     }

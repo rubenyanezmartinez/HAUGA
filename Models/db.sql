@@ -39,7 +39,7 @@ CREATE TABLE `hauga`.`grupo_investigacion` (
 	`grupo_id` int NOT NULL AUTO_INCREMENT,
 	`nombre_grupo` VARCHAR(70) NOT NULL,
 	`telef_grupo` int NOT NULL,
-	`lineas_investigacion` int NOT NULL,
+	`lineas_investigacion` VARCHAR(200) NOT NULL,
 	`area_conoc_grupo` VARCHAR(30) NOT NULL,
 	`email_grupo` VARCHAR(30) NOT NULL,
 	`responsable_grupo` int,
@@ -68,7 +68,6 @@ CREATE TABLE `hauga`.`edificio` (
 	`num_plantas` int NOT NULL,
 	`agrup_edificio` int,
 	PRIMARY KEY (`edificio_id`)
-
 );
 
 
@@ -90,7 +89,7 @@ CREATE TABLE `hauga`.`centro` (
 
 CREATE TABLE `hauga`.`espacio` (
 	`espacio_id` int NOT NULL AUTO_INCREMENT,
-	`nombre_esp` VARCHAR(15) NOT NULL,
+	`nombre_esp` VARCHAR(50) NOT NULL,
 	`ruta_imagen` VARCHAR(50) NOT NULL,
 	`tarifa_esp` int NOT NULL,
 	`categoria_esp` enum('DOCENCIA', 'INVESTIGACION', 'PAS', 'COMUN') NOT NULL,
@@ -113,9 +112,11 @@ CREATE TABLE `hauga`.`incidencia` (
 CREATE TABLE `hauga`.`solicitud_responsabilidad` (
 	`espacio_id` int NOT NULL,
 	`usuario_id` int NOT NULL,
-	`fecha` DATE NOT NULL,
+	`fecha_inicio` DATE NOT NULL,
+	`fecha_fin` DATE NOT NULL,
 	`estado_solic` enum('HISTOR', 'DEFIN', 'TEMP'),
-	PRIMARY	KEY (`espacio_id`, `usuario_id`, `fecha`)
+	`tarifa_historica` int,
+	PRIMARY	KEY (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`)
 );
 
 
@@ -149,11 +150,11 @@ VALUES (null, 'nghervella', 'Noelia', 'García Hervella', '1234', '1998-12-31', 
 
 INSERT INTO `hauga`.`grupo_investigacion`
 (`grupo_id`, `nombre_grupo`, `telef_grupo`, `lineas_investigacion`, `area_conoc_grupo`, `email_grupo`, `responsable_grupo`)
-VALUES (null, 'LIA2', '111111111', 2, 'Realidad virtual', 'lia2@gmail.com', 1);
+VALUES (null, 'LIA2', '111111111', 2, 'Realidad virtual', 'lia2@gmail.com', 6);
 
 INSERT INTO `hauga`.`departamento`
 (`depart_id`, `nombre_depart`, `codigo_depart`, `telef_depart`, `email_depart`, `area_conc_depart`, `responsable_depart`, `edificio_depart`)
-VALUES (null, 'Departamento de Informática', 'deptinfo', '222222222', 'informatica@gmail.com', 'sistemas informaticos', 4, 1);
+VALUES (null, 'Departamento de Informática', 'deptinfo', '222222222', 'informatica@gmail.com', 'sistemas informaticos', 5, 1);
 
 INSERT INTO `hauga`.`edificio`
 (`edificio_id`, `nombre_edif`, `direccion_edif`, `telef_edif`, `num_plantas`, `agrup_edificio`)
@@ -185,34 +186,78 @@ VALUES (null, 'ESEI', 1);
 
 INSERT INTO `hauga`.`espacio`
 (`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
-VALUES (null, 'Aula 2.1','../Models/Imagenes_Espacios/fotoEjemplo.PNG', 300, 'DOCENCIA', 2, 1);
+VALUES (null, 'Aula 2.1','../Models/Imagenes_Espacios/Aula_2_1.PNG', 300, 'DOCENCIA', 2, 1);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Aula 2.2','../Models/Imagenes_Espacios/Aula_2_2.PNG', 400, 'DOCENCIA', 2, 1);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Aula Libre Acceso','../Models/Imagenes_Espacios/Aula_Libre_Acceso.PNG', 600, 'DOCENCIA', -1, 2);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Aula SO5','../Models/Imagenes_Espacios/Aula_Sotano_5.PNG', 210, 'DOCENCIA', -1, 2);
+
+INSERT INTO `hauga`.`espacio`
+(`espacio_id`, `nombre_esp`, `ruta_imagen`, `tarifa_esp`, `categoria_esp`, `planta_esp`, `edificio_esp`)
+VALUES (null, 'Laboratorio L39','../Models/Imagenes_Espacios/Aula_2_1.PNG', 800, 'INVESTIGACION', 2, 3);
 
 INSERT INTO `hauga`.`incidencia`
 (`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)
 VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha`, `estado_solic`)
-VALUES (1, 1, '2020-11-29', 'TEMP');
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (1, 5, '2020-11-29', '', 'DEFIN', null);
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (2, 5, '2018-12-05', '', 'DEFIN', null);
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (3, 5, '2020-09-24', '',  'DEFIN', null);
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (4, 5, '2020-05-25', '',  'DEFIN', null);
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (5, 6, '2020-09-18', '', 'DEFIN', null);
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (1, 2, '2018-10-01', '2018-12-31', 'HISTOR', 300);
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (1, 3, '2019-01-01', '2019-07-01', 'HISTOR', 400);
+
+INSERT INTO `hauga`.`solicitud_responsabilidad`
+(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (1, 4, '2019-08-01', '2020-10-01', 'HISTOR', 500);
 
 
-ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`depart_usuario`) REFERENCES `hauga`.`departamento`(`depart_id`);
-ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`grupo_usuario`) REFERENCES `hauga`.`grupo_investigacion`(`grupo_id`);
-ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`centro_usuario`) REFERENCES `hauga`.`centro`(`centro_id`);
+ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`depart_usuario`) REFERENCES `hauga`.`departamento`(`depart_id`) ON DELETE SET NULL;
+ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`grupo_usuario`) REFERENCES `hauga`.`grupo_investigacion`(`grupo_id`) ON DELETE SET NULL;
+ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`centro_usuario`) REFERENCES `hauga`.`centro`(`centro_id`) ON DELETE SET NULL;
 
-ALTER TABLE `hauga`.`grupo_investigacion` ADD FOREIGN KEY (`responsable_grupo`) REFERENCES `hauga`.`usuario`(`usuario_id`);
+ALTER TABLE `hauga`.`grupo_investigacion` ADD FOREIGN KEY (`responsable_grupo`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE SET NULL;
 
 ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY (`responsable_depart`) REFERENCES `hauga`.`usuario`(`usuario_id`);
-ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY	(`edificio_depart`) REFERENCES `hauga`.`edificio`(`edificio_id`);
+ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY	(`edificio_depart`) REFERENCES `hauga`.`edificio`(`edificio_id`) ON DELETE CASCADE;
 
 ALTER TABLE `hauga`.`edificio` ADD FOREIGN KEY	(`agrup_edificio`) REFERENCES `hauga`.`agrupacion_edificio`(`agrup_id`) ON DELETE SET NULL;
 
-ALTER TABLE `hauga`.`centro` ADD FOREIGN KEY (`edificio_centro`) REFERENCES `hauga`.`edificio`(`edificio_id`);
+ALTER TABLE `hauga`.`centro` ADD FOREIGN KEY (`edificio_centro`) REFERENCES `hauga`.`edificio`(`edificio_id`) on DELETE CASCADE;
 
-ALTER TABLE `hauga`.`espacio` ADD FOREIGN KEY	(`edificio_esp`) REFERENCES `hauga`.`edificio`(`edificio_id`);
+ALTER TABLE `hauga`.`espacio` ADD FOREIGN KEY	(`edificio_esp`) REFERENCES `hauga`.`edificio`(`edificio_id`) ON DELETE CASCADE;
 
-ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`espacio_afectado`) REFERENCES `hauga`.`espacio`(`espacio_id`);
-ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`autor_incidencia`) REFERENCES `hauga`.`usuario`(`usuario_id`);
+ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`espacio_afectado`) REFERENCES `hauga`.`espacio`(`espacio_id`) ON DELETE CASCADE;
+ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`autor_incidencia`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE CASCADE;
 
-ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY	(`espacio_id`) REFERENCES `hauga`.`espacio`(`espacio_id`);
-ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY (`usuario_id`) REFERENCES `hauga`.`usuario`(`usuario_id`);
+ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY	(`espacio_id`) REFERENCES `hauga`.`espacio`(`espacio_id`) ON DELETE CASCADE;
+ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY (`usuario_id`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE CASCADE;

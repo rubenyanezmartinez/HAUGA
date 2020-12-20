@@ -57,7 +57,9 @@ if(!IsAuthenticated()){
             showcurrent($login_usuario);
             break;
         case 'delete':
-            delete();
+            if($_SESSION['rol']=='ADMIN') {
+                delete();
+            }
             break;
         //Caso default para vista de error generico
         default: echo('default del switch user_controller');

@@ -218,6 +218,20 @@ include_once 'Access_DB.php';
             return $resultado;
         }
 
+        //Si el departamento se borra se actualiza
+        function actualizaDepartamento(){
+
+            $stmt = $this->db->prepare("UPDATE usuario set depart_usuario = ? where depart_usuario = ?");
+
+            if( $stmt->execute(array(NULL, $this->depart_usuario))){
+                return true;
+            }else{
+                return "Error ACTUALIZANDO";
+            }
+
+
+        }
+
 
         //Recupera los datos de un usuario a partir de su login
         //Devuelve el modelo con los datos llenos si se encuentra el usuario, mensaje de error en caso contrario
@@ -227,6 +241,30 @@ include_once 'Access_DB.php';
 					WHERE login = ?");
 
             $stmt->execute(array($this->login));
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($user != null){
+                $usuario = new USUARIO_Model(
+                    $user['usuario_id'],$user['login'],$user['nombre']
+                    ,$user['apellidos'],$user['password'],$user['fecha_nacimiento'],$user['email_usuario']
+                    ,$user['telef_usuario'],$user['dni'],$user['rol'],$user['afiliacion'],$user['nombre_puesto']
+                    ,$user['nivel_jerarquia'],$user['depart_usuario'],$user['grupo_usuario'],$user['centro_usuario']
+                );
+
+                return $usuario;
+
+
+            }else{
+                return  'Error inesperado al intentar cumplir su solicitud de consulta';
+            }
+
+        }
+
+        function rellenaDatosById(){
+            $stmt = $this->db->prepare("SELECT *
+                                                    FROM usuario
+                                                    WHERE usuario_id = ?");
+
+            $stmt->execute(array($this->usuario_id));
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if($user != null){
                 $usuario = new USUARIO_Model(
@@ -328,6 +366,31 @@ include_once 'Access_DB.php';
                 return 'No existe el usuario en la BD';
             }
         }
+
+        function getLoginById(){
+		    $stmt = $this->db->prepare("SELECT login FROM usuario WHERE usuario_id = ?");
+		    $stmt->execute(array($this->usuario_id));
+		    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		    if($resultado != null){
+		        return $resultado['login'];
+            }else{
+		        return 'No existe el usuario en la BD';
+            }
+        }
+
+        function getNombreApellidosById(){
+            $stmt = $this->db->prepare("SELECT nombre, apellidos FROM usuario WHERE usuario_id = ?");
+            $stmt->execute(array($this->usuario_id));
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($resultado != null){
+                return  $resultado['apellidos'] .', '. $resultado['nombre'];
+            }else{
+                return 'No existe el usuario en la BD';
+            }
+        }
+
 
 
         //----------------------------FUNCIONES SIN SQL---------------------------------------------
