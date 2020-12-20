@@ -1,10 +1,15 @@
 <?php
+
+//DECLARACIÓN DE CONSTANTES
+const TAM_PAG = 5;
+
 //INCLUDES
 include_once '../Models/EDIFICIO_Model.php';
 include_once '../Models/ESPACIO_Model.php';
 include_once '../Models/AGRUPACION_Model.php';
 
 include '../Views/EDIFICIO_ADD_View.php';
+include '../Views/EDIFICIO_SHOWALL_View.php';
 
 include '../Functions/Authentication.php';
 
@@ -18,6 +23,9 @@ switch ($action) {
         if ($_SESSION['rol']=='ADMIN'){
             add();
         }
+        break;
+    case 'showall':
+        showall((!isset($_GET['num_pag']) || ($_GET['num_pag'] == '' ? 1 : $_GET['num_pag'])), $_GET['agrupacion_id']);
         break;
     case 'delete':
         if($_SESSION['rol']=='ADMIN') {
@@ -68,5 +76,24 @@ function delete(){
         }
 
     }
+}
+
+function showall($num_pag, $agrupacion_id)
+{
+
+    $edificio_model = new EDIFICIO_Model('', '', '', '', '', $agrupacion_id);
+    $allEdificios = $edificio_model->devolverEdificiosPorAgrupacion();
+
+    $num_pags = ceil($edificio_model->devolverNumeroEdificioAgrupacion() / TAM_PAG);
+    $num_pag = $num_pag > $num_pags || $num_pag <= 0 ? 1 : $num_pag;
+    $inicio = ($num_pag - 1) * TAM_PAG;
+    $final = $inicio + TAM_PAG;
+
+    $allEdificios = array_slice($allEdificios, $inicio, $final);
+
+    $agrupacion_model = new AGRUPACION_Model($agrupacion_id, '', '');
+    $agrupacion = $agrupacion_model->rellenaDatos();
+
+    new EDIFICIO_SHOWALL_View($allEdificios, $agrupacion, $num_pags, '');
 }
 ?>

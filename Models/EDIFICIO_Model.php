@@ -100,6 +100,21 @@ class EDIFICIO_Model{
         }
     }
 
+    function devolverEdificiosPorAgrupacion(){
+        $stmt = $this->db->prepare("SELECT *
+                                                FROM edificio
+                                                WHERE agrup_edificio = ?");
+
+        $stmt->execute(array($this->getAgrup_edificio()));
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if($resultado != null){
+            return $resultado;
+        }else {
+            return  0;
+        }
+    }
+
     function getNombreById(){
         $stmt = $this->db->prepare("SELECT nombre_edif FROM edificio WHERE edificio_id = ?");
         $stmt->execute(array($this->edificio_id));
