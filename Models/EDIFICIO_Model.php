@@ -127,15 +127,39 @@ class EDIFICIO_Model{
         }
     }
 
+    //Modifica los datos del edificio
+    //Devuelve true si se ejecuta la sentencia, mensaje de error en caso contrario
+    function EDIT(){
+        $stmt = $this->db->prepare("UPDATE edificio SET
+                    nombre_edif = ?, telef_edif = ?, agrup_edificio = ?
+					WHERE edificio_id = ?");
+        $resultado = $stmt->execute(array($this->nombre_edif, $this->telef_edif, $this->agrup_edificio,
+            $this->edificio_id));
+
+        if($resultado === true){
+            return true;
+        }else{
+            return 'Error inesperado al intentar cumplir su solicitud de modificacion';
+        }
+    }
+
     /**
      * @return mixed
      */
     function getNombreEdificio(){
         return $this->nombre_edif;
     }
-
+    /**
+     * @return mixed
+     */
     function getAgrup_edificio(){
         return $this->agrup_edificio;
+    }
+    /**
+     * @param mixed $edificio_id
+     */
+    function setAgrup_edificio($agrup_edificio){
+        $this->agrup_edificio = $agrup_edificio;
     }
 
     /**

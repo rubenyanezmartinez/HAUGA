@@ -32,6 +32,19 @@ switch ($action) {
             delete();
         }
         break;
+    case 'edit':
+        if($_SESSION['rol']=='ADMIN') {
+            if (!isset($_POST['direccion_edif'])) {
+                $edificio = $_GET['edificio_id'];
+                showEdit($edificio);
+            } else {
+                $edificio = $_GET['edificio_id'];
+                edit($edificio);
+            }
+        }else{
+            header('Location:../Controllers/Index_Controller');
+        }
+        break;
     default:
         echo "default del controlador de edificios";
         break;
@@ -95,5 +108,48 @@ function showall($num_pag, $agrupacion_id)
     $agrupacion = $agrupacion_model->rellenaDatos();
 
     new EDIFICIO_SHOWALL_View($allEdificios, $agrupacion, $num_pags, '');
+}
+
+//Funcion que muestra los datos para poder ser editados.
+function showEdit($edificio){
+    $esModificar = true;
+    //Mostrar formulario de modificar edificio
+    $datos = new EDIFICIO_Model($edificio,'','','','','');
+    $agrupacion_model = new AGRUPACION_Model('','','');
+    $agrupaciones = $agrupacion_model->SHOWALL();
+    $edificio_model = $datos->rellenaDatos();
+    new EDIFICIO_ADD_View($datos, $agrupaciones, $esModificar);
+
+}
+
+//Funcion para editar los datos
+function edit($edificio){
+
+    $edificio_model = recuperarDatosForm($edificio);
+
+    if($_SESSION['rol']=='ADMIN'){
+
+        $respuesta = $edificio_model->EDIT();
+    }
+    if($respuesta === true){
+        showcurrent($edificio_model->getEdificioId());
+    }else{
+        exit("Fallo al editar");
+    }
+
+}
+
+function recuperarDatosForm($edificio){
+
+    $edificio_model = new EDIFICIO_Model($edificio,"","","","","");
+
+    $edificio_model->setNombreEdif($_POST['nombre_edif']);
+    $edificio_model->setDireccionEdif($_POST['direccion_edif']);
+    $edificio_model->setTelefEdif($_POST['telef_edif']);
+    $edificio_model->setNumPlantas($_POST['num_plantas']);
+    $edificio_model->setAgrup_edificio($_POST['agrup_edificio']);
+
+    return $edificio_model;
+
 }
 ?>
