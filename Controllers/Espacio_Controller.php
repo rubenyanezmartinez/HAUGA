@@ -91,10 +91,19 @@ function edit($espacio_id){
     if(!$_POST){
         new ESPACIO_ADD_View($espacio, $edificios, $responsable,false);
     } else {
+        $ruta_antigua = $espacio->getRutaImagen();
+        if(file_exists($_FILES['imagen_espacio']['tmp_name'])) {
+            $imagen_subida = pathinfo($_FILES['imagen_espacio']['name']);
+            $nueva_extension = $imagen_subida['extension'];
+            $ruta_nueva = pathinfo($ruta_antigua);
+            $ruta_nueva = $ruta_nueva['dirname'] . '/' . $ruta_nueva['filename'] . '.' . $nueva_extension;
+            $espacio->setRutaImagen($ruta_nueva);
+        }
 
         $espacio->setCategoriaEsp($_POST['categoria_esp']);
         $espacio->setNombreEsp($_POST['nombre_esp']);
         $espacio->setTarifaEsp($_POST['tarifa_esp']);
+
 
         if (isset($_POST['esResponsable']) && $_POST['esResponsable'] == 'si') {
             $responsable = $_SESSION['login'];
@@ -115,8 +124,8 @@ function edit($espacio_id){
         $respuesta_espacio = $espacio->edit();
         if($respuesta_espacio === true){
             if(file_exists($_FILES['imagen_espacio']['tmp_name'])) {
-                print_r(unlink($espacio->getRutaImagen()));
-                move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $espacio->getRutaImagen());
+                unlink($ruta_antigua);
+                move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $ruta_nueva);
             }
             header('Location:../Controllers/Espacio_Controller.php?action=showall');
         } else {

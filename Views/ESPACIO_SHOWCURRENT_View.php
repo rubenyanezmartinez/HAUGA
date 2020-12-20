@@ -36,8 +36,8 @@ class ESPACIO_SHOWCURRENT_View
 
             <div class="row">
 
-                <div class="col" >
-                    <img src="<?=$this->espacio->getRutaImagen()?>" class="img-thumbnail">
+                <div class="col" style="height: 500px; text-align: center">
+                    <img src="<?=$this->espacio->getRutaImagen()?>" class="img-thumbnail" style="height: 100%">
                 </div>
 
                 <div class="col">
