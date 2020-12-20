@@ -145,7 +145,7 @@ function showEdit($edificio){
     $agrupacion_model = new AGRUPACION_Model('','','');
     $agrupaciones = $agrupacion_model->SHOWALL();
     $edificio_model = $datos->rellenaDatos();
-    new EDIFICIO_ADD_View($datos, $agrupaciones, $esModificar);
+    new EDIFICIO_ADD_View($edificio_model, $agrupaciones, $esModificar);
 
 }
 
@@ -159,7 +159,7 @@ function edit($edificio){
         $respuesta = $edificio_model->EDIT();
     }
     if($respuesta === true){
-        showcurrent($edificio_model->getEdificioId());
+        showcurrent($edificio_model->getEdificioId(), $edificio_model->getAgrup_edificio());
     }else{
         exit("Fallo al editar");
     }

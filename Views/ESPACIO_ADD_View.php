@@ -26,6 +26,7 @@ class ESPACIO_ADD_View{
         <div class="container">
             <div class="row">
                 <!-- <div class="col-4"></div>-->
+
                 <div class="col-12 align-self-center">
                     <form enctype="multipart/form-data" action="../Controllers/Espacio_Controller.php?action=<?=$this->esNuevo ? 'add' : 'edit&espacio_id=' . $this->espacio->getEspacioId()?>" method="post" id="addEspacioForm">
                         <h2 class="text-center textoAzul mb-4"><?=$this->esNuevo ? 'Dar de Alta Espacio' : 'Modificar Espacio'?></h2>

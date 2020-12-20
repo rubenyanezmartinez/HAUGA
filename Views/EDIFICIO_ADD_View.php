@@ -21,7 +21,6 @@ include '../Views/Header.php'; //Incluye la cabecera
     <!doctype html>
     <html lang="es">
 
-
     <div class="container">
         <div class="row">
             <div class="col-12 align-self-center">

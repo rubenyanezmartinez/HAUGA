@@ -125,7 +125,7 @@ class EDIFICIO_SHOWALL_View
                             </button>
                         </div>
                         <div class="modal-body">
-                            ¿Está seguro de qué desea el edificio?
+                            ¿Está seguro de qué desea eliminar el edificio?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
