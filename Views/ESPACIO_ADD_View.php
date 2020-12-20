@@ -92,15 +92,14 @@ class ESPACIO_ADD_View{
                         <!-- Tercera fila -->
                         <div class="row">
                             <div class="col-md-6 input-group mb-2" style="margin-bottom: 1rem!important;">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="si" id="esResponsable" name="esResponsable">
-                                    <label class="form-check-label" for="esResponsable">
-                                        Soy el responsable
-                                        <?php if($this->responsable != ''){?>
-                                            (actual: <?=$this->responsable?>)
-                                        <?php } ?>
-                                    </label>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text" style="background-color: #073349;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16" style="color:white">
+                                            <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9c0 .013 0 .027.002.04V12l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094L15 9.499V3.5a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm4.502 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                        </svg>
+                                    </div>
                                 </div>
+                                <input type='file' name='imagen_espacio' id='imagen_espacio'>
                             </div>
 
                             <div class="col-md-6 input-group mb-2" style="margin-bottom: 1rem!important;">
@@ -117,14 +116,15 @@ class ESPACIO_ADD_View{
                         <!-- Cuarta fila -->
                         <div class="row">
                             <div class="col-md-6 input-group mb-2" style="margin-bottom: 1rem!important;">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text" style="background-color: #073349;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ladder" viewBox="0 0 16 16" style="color:white">
-                                            <path fill-rule="evenodd" d="M4.5 1a.5.5 0 0 1 .5.5V2h6v-.5a.5.5 0 0 1 1 0v14a.5.5 0 0 1-1 0V15H5v.5a.5.5 0 0 1-1 0v-14a.5.5 0 0 1 .5-.5zM5 14h6v-2H5v2zm0-3h6V9H5v2zm0-3h6V6H5v2zm0-3h6V3H5v2z"/>
-                                        </svg>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="si" id="esResponsable" name="esResponsable">
+                                    <label class="form-check-label" for="esResponsable">
+                                        Soy el responsable
+                                        <?php if($this->responsable != ''){?>
+                                            (actual: <?=$this->responsable?>)
+                                        <?php } ?>
+                                    </label>
                                 </div>
-                                <input type='file' name='imagen_espacio' id='imagen_espacio'>
                             </div>
                         </div>
 
