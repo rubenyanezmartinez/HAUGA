@@ -31,6 +31,7 @@ class EDIFICIO_Model{
         $this->db = PDOConnection::getInstance();
     }
 
+
     //Recupera los datos de un edificio a partir de su edificio_id
     function rellenaDatos(){
 
@@ -120,6 +121,86 @@ class EDIFICIO_Model{
 
     function getAgrup_edificio(){
         return $this->agrup_edificio;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEdificioId()
+    {
+        return $this->edificio_id;
+    }
+
+    /**
+     * @param mixed $edificio_id
+     */
+    public function setEdificioId($edificio_id)
+    {
+        $this->edificio_id = $edificio_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreEdif()
+    {
+        return $this->nombre_edif;
+    }
+
+    /**
+     * @param mixed $nombre_edif
+     */
+    public function setNombreEdif($nombre_edif)
+    {
+        $this->nombre_edif = $nombre_edif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDireccionEdif()
+    {
+        return $this->direccion_edif;
+    }
+
+    /**
+     * @param mixed $direccion_edif
+     */
+    public function setDireccionEdif($direccion_edif)
+    {
+        $this->direccion_edif = $direccion_edif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelefEdif()
+    {
+        return $this->telef_edif;
+    }
+
+    /**
+     * @param mixed $telef_edif
+     */
+    public function setTelefEdif($telef_edif)
+    {
+        $this->telef_edif = $telef_edif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumPlantas()
+    {
+        return $this->num_plantas;
+    }
+
+    /**
+     * @param mixed $num_plantas
+     */
+    public function setNumPlantas($num_plantas)
+    {
+        $this->num_plantas = $num_plantas;
     }
 }
 ?>
