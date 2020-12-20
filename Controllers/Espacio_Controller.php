@@ -431,7 +431,7 @@ function comprobarPermisoBorrado($espacio_id, $login_usuario, $num_pag)
                         $departamento_model = new DEPARTAMENTO_Models($departamento_id, '', '', '', '', '', '', '');
                         $departamento = $departamento_model->rellenaDatos();
 
-                        if ($departamento->getResponsableDepart() == $usuario_autenticado->getUsuarioId()) {
+                        if ($usuario_autenticado->getRol() == 'DOCENTE' && $departamento->getResponsableDepart() == $usuario_autenticado->getUsuarioId()) {
                             $borrado = 'Pendiente de confirmacion';
                         } else {
                             $borrado = 'No aceptado';
