@@ -5,8 +5,13 @@ const TAM_PAG = 5;
 
 //INCLUDES
 include_once '../Models/EDIFICIO_Model.php';
+include_once '../Models/USUARIO_Model.php';
 include_once '../Models/ESPACIO_Model.php';
 include_once '../Models/AGRUPACION_Model.php';
+include_once '../Models/DEPARTAMENTO_Models.php';
+include_once '../Models/CENTRO_Model.php';
+include_once '../Models/INCIDENCIA_Model.php';
+include_once '../Models/SOLICITUD_RESPONSABILIDAD_Model.php';
 
 include '../Views/EDIFICIO_ADD_View.php';
 include '../Views/EDIFICIO_SHOWALL_View.php';
@@ -83,14 +88,12 @@ function add(){
 function delete(){
     if(isset($_GET['edificio_id'])){//Antes de confirmar el borrado
         $edificio = new EDIFICIO_Model($_GET['edificio_id'], '', '', '','', '');
-        $espacio = new ESPACIO_Model('','','','','','',$_GET['edificio_id']); //Crea espacios del edificio
-        $respuestaEspacios = $espacio->borrarEspaciosEdificio();
-        if($respuestaEspacios === true){
-            $respuesta = $edificio->DELETE(); //Elimina el edificio
-            if($respuesta === true){
-                header('Location:../Controllers/AGRUPACION_Controller.php?action=showall');
-            }
+        $ed = $edificio->rellenaDatos();
+        $respuesta = $edificio->DELETE(); //Elimina el edificio
+        if($respuesta === true){
+            header('Location:../Controllers/Edificio_Controller.php?action=showall&agrupacion_id=' . $ed->getAgrup_edificio());
         }
+
 
     }
 }

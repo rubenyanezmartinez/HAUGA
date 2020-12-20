@@ -392,6 +392,7 @@ include_once 'Access_DB.php';
         }
 
 
+
         //----------------------------FUNCIONES SIN SQL---------------------------------------------
         /**
          * @return mixed
