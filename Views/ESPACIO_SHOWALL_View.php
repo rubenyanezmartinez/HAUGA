@@ -54,7 +54,7 @@ class ESPACIO_SHOWALL_View
                             </button>
                         </div>
                         <div class="modal-body">
-                            No puede eliminar este espacio, no es administrador el superior del responsable del espacio.
+                            No puede eliminar ni modificar este espacio, no es administrador el superior del responsable del espacio.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -115,7 +115,7 @@ class ESPACIO_SHOWALL_View
                                 </a>
 
                                 <?php if(IsAuthenticated()) {?>
-                                    <a href="#">
+                                    <a href="../Controllers/Espacio_Controller.php?action=edit&espacio_id=<?=$espacio->getEspacioId()?>">
                                         <svg style="color: yellow" width="1.5em" height="1.5em" viewBox="0 0 16 16"
                                              class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -251,7 +251,8 @@ class ESPACIO_SHOWALL_View
                                 </a>
 
                                 <?php if(IsAuthenticated()) {?>
-                                    <a href="#">
+
+                                    <a href="../Controllers/Espacio_Controller.php?action=edit&espacio_id=<?=$espacio->getEspacioId()?>">
                                         <svg style="color: yellow" width="1.5em" height="1.5em" viewBox="0 0 16 16"
                                              class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -350,7 +351,7 @@ class ESPACIO_SHOWALL_View
                                 </a>
 
                                 <?php if(IsAuthenticated()) {?>
-                                    <a href="#">
+                                    <a href="../Controllers/Espacio_Controller.php?action=edit&espacio_id=<?=$espacio->getEspacioId()?>">
                                         <svg style="color: yellow" width="1.5em" height="1.5em" viewBox="0 0 16 16"
                                              class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"

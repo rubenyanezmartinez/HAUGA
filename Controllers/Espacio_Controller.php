@@ -55,9 +55,125 @@ switch ($action) {
             header('Location:../Controllers/Espacio_Controller.php?action=showall');
         }
         break;
+    case 'edit':
+        if(isset($_GET['espacio_id'])){
+            if(IsAuthenticated() && tienePermisos($_SESSION['login'], $_GET['espacio_id'])) {
+                edit($_GET['espacio_id']);
+            } else {
+                list($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables) = preparar_showall(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_GET['num_pag']);
+                new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables,$num_pags,'No aceptado', $_GET['espacio_id']);
+            }
+        } else {
+            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        }
+        break;
     default:
         echo "default del controlador de espacios";
         break;
+}
+
+function edit($espacio_id){
+    $espacio = new ESPACIO_Model($espacio_id, '','','','','','');
+    $espacio = $espacio->rellenaDatos();
+
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
+    $responsable_id = $solicitud_model->buscarResponsable();
+    if($responsable_id != 'Sin responsable') {
+        $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+        $responsable = $usuario_model->getNombreApellidosById();
+    } else {
+        $responsable = '';
+    }
+
+    $edificio_model = new EDIFICIO_Model('','','','','','');
+    $edificios = $edificio_model->SHOWALL();
+
+    if(!$_POST){
+        new ESPACIO_ADD_View($espacio, $edificios, $responsable,false);
+    } else {
+
+        $espacio->setCategoriaEsp($_POST['categoria_esp']);
+        $espacio->setNombreEsp($_POST['nombre_esp']);
+        $espacio->setTarifaEsp($_POST['tarifa_esp']);
+
+        if (isset($_POST['esResponsable']) && $_POST['esResponsable'] == 'si') {
+            $responsable = $_SESSION['login'];
+
+            $usuario_model = new USUARIO_Model('', $responsable, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            $usuario_model = $usuario_model->rellenaDatos();
+            $responsable_nuevo = $usuario_model->getUsuarioId();
+
+            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, $responsable_nuevo, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
+            $solicitud->add();
+
+            if($responsable != '') {
+                $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+                $solicitud->eliminarResponsable();
+            }
+        }
+
+        $respuesta_espacio = $espacio->edit();
+        if($respuesta_espacio === true){
+            if(file_exists($_FILES['imagen_espacio']['tmp_name'])) {
+                print_r(unlink($espacio->getRutaImagen()));
+                move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $espacio->getRutaImagen());
+            }
+            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        } else {
+            new ESPACIO_ADD_View($espacio, $edificios, $responsable,false);
+        }
+    }
+}
+
+function add()
+{
+
+    if (!$_POST) {
+        $espacio = new ESPACIO_Model('', '', '', '', '', '', '');
+
+        $edificio_model = new EDIFICIO_Model('', '', '', '', '', '');
+        $edificios = $edificio_model->SHOWALL();
+
+        new ESPACIO_ADD_View($espacio, $edificios, '',true);
+    } else {
+
+        $directorio_imagenes = "../Models/Imagenes_Espacios/";
+        $nombre_imagen = $_POST['nombre_esp'];
+        $nombre_imagen_aux = $nombre_imagen;
+
+        $i = 1;
+        while (file_exists($directorio_imagenes . $nombre_imagen_aux . '.' . strtolower(pathinfo($_FILES['imagen_espacio']['name'], PATHINFO_EXTENSION)))) {
+            $nombre_imagen_aux = $nombre_imagen . $i;
+            $i++;
+        }
+        $nombre_imagen = $nombre_imagen_aux;
+        $ruta_imagen = $directorio_imagenes . $nombre_imagen . '.' . strtolower(pathinfo($_FILES['imagen_espacio']['name'], PATHINFO_EXTENSION));
+
+        $espacio = new ESPACIO_Model(null, $_POST['nombre_esp'], $ruta_imagen, $_POST['tarifa_esp'], $_POST['categoria_esp'], $_POST['planta_esp'], $_POST['edificio_esp']);
+        $respuesta_espacio = $espacio->add();
+
+        if (isset($_POST['esResponsable']) && $_POST['esResponsable'] == 'si') {
+            $responsable = $_SESSION['login'];
+
+            $usuario_model = new USUARIO_Model('', $responsable, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            $usuario_model = $usuario_model->rellenaDatos();
+            $responsable = $usuario_model->getUsuarioId();
+
+            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(), $responsable, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
+            $solicitud->add();
+        }
+
+        if ($respuesta_espacio === true) {
+            move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $ruta_imagen);
+            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        } else {
+            $edificio_model = new EDIFICIO_Model('', '', '', '', '', '');
+            $edificios = $edificio_model->SHOWALL();
+
+            new ESPACIO_ADD_View($espacio, $edificios, '',true);
+        }
+    }
+
 }
 
 function delete($espacio_id, $login_usuario)
@@ -490,6 +606,17 @@ function showcurrent($espacio_id)
 function showall($num_pag)
 {
 
+    list($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables) = preparar_showall($num_pag);
+
+    new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
+}
+
+/**
+ * @param $num_pag
+ * @return array
+ */
+function preparar_showall($num_pag)
+{
     $espacio_model = new ESPACIO_Model('', '', '', '', '', '', '');
     $allEspacios = $espacio_model->SHOWALL();
 
@@ -520,67 +647,92 @@ function showall($num_pag)
             }
         }
     }
-
-    new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
+    return array($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables);
 }
 
-function add()
-{
 
-    if (!$_POST) {
-        $espacio = new ESPACIO_Model('', '', '', '', '', '', '');
+function tienePermisos($login_usuario, $espacio_id){
+    //COMRPOBACION DE SI EL USUARIO TIENE LOS PERMISOS PARA PODER REALIZAR EL BORRADO DEL ESPACIO:
+    $espacio_model = new ESPACIO_Model($espacio_id, '', '', '', '', '', '');
+    $espacio = $espacio_model->rellenaDatos();
 
-        $edificio_model = new EDIFICIO_Model('', '', '', '', '', '');
-        $edificios = $edificio_model->SHOWALL();
+    //SI NO EXISTE EL ESPACIO REEDIRIGIR A LA PÁGINA PRINCIPAL
+    if ($espacio == 'Error inesperado al intentar cumplir su solicitud de consulta') {
+        return false;
+    } //EN CASO CONTRARIO COMPROBAR SI TIENE PERMISOS PARA PODER REALIZAR EL BORRADO
+    else {
+        //UN USUARIO CON EL ROL DE ADMINISTRADOR SIEMPRE TIENE PERMISOS PARA REALIZAR EL BORRADO
+        if ($_SESSION['rol'] == "ADMIN") {
+            return true;
+        } //EN CASO CONTARIO COMPROBAR SI EL QUE INTENTA ELIMINAR ES EL RESPONSABLE DEL CENTRO, DEPARTAMENTO, GRUPO DE INVESTIGACIÓN, TIENE MAYOR PUESTO O ES CONSERJERIA
+        else {
+            $categoria_espacio = $espacio->getCategoriaEsp();
 
-        $usuario_model = new USUARIO_Model('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-        $usuarios = $usuario_model->SHOWALL();
+            //Buscar quien es el responsable del espacio:
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+            $responsable_id = $solicitud_model->buscarResponsable();
 
-        new ESPACIO_ADD_View($espacio, $edificios, $usuarios);
-    } else {
-        if (isset($_POST['esResponsable'])) {
-            ;
-            $directorio_imagenes = "../Models/Imagenes_Espacios/";
-            $nombre_imagen = $_POST['nombre_esp'];
-            $nombre_imagen_aux = $nombre_imagen;
-
-            $i = 1;
-            while (file_exists($directorio_imagenes . $nombre_imagen_aux . '.' . strtolower(pathinfo($_FILES['imagen_espacio']['name'], PATHINFO_EXTENSION)))) {
-                $nombre_imagen_aux = $nombre_imagen . $i;
-                $i++;
-            }
-            $nombre_imagen = $nombre_imagen_aux;
-            $ruta_imagen = $directorio_imagenes . $nombre_imagen . '.' . strtolower(pathinfo($_FILES['imagen_espacio']['name'], PATHINFO_EXTENSION));
-
-            $espacio = new ESPACIO_Model(null, $_POST['nombre_esp'], $ruta_imagen, $_POST['tarifa_esp'], $_POST['categoria_esp'], $_POST['planta_esp'], $_POST['edificio_esp']);
-            $respuesta_espacio = $espacio->add();
-
-            if ($_POST['esResponsable'] == 'si') {
-                $responsable = $_SESSION['login'];
-
-                $usuario_model = new USUARIO_Model('', $responsable, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-                $usuario_model = $usuario_model->rellenaDatos();
-                $responsable = $usuario_model->getUsuarioId();
-
-                $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(), $responsable, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
-                $solicitud->add();
-            }
-
-            if ($respuesta_espacio === true) {
-                move_uploaded_file($_FILES['imagen_espacio']['tmp_name'], $ruta_imagen);
-                header('Location:../Controllers/Espacio_Controller.php?action=showall');
+            if ($responsable_id == 'Sin responsable' || $responsable_id == NULL) {
+                return false;
             } else {
-                $edificio_model = new EDIFICIO_Model('', '', '', '', '', '');
-                $edificios = $edificio_model->SHOWALL();
+                $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+                $responsable_espacio = $usuario_model->rellenaDatosById();
 
-                $usuario_model = new USUARIO_Model('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-                $usuarios = $usuario_model->SHOWALL();
-                new ESPACIO_ADD_View($espacio, $edificios, $usuarios);
+                //Buscar usuario logueado:
+                $usuario_model = new USUARIO_Model('', $login_usuario, '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+                $usuario_autenticado = $usuario_model->rellenaDatos();
+
+                switch ($categoria_espacio) {
+                    case 'DOCENCIA':
+                        //Comprobar el departamento:
+                        if($usuario_autenticado->getAfiliacion() != 'DOCENTE'){
+                            return false;
+                        }
+                        $departamento_id = $responsable_espacio->getDepartUsuario();
+                        $departamento_model = new DEPARTAMENTO_Models($departamento_id, '', '', '', '', '', '', '');
+                        $departamento = $departamento_model->rellenaDatos();
+
+                        if ($departamento->getResponsableDepart() == $usuario_autenticado->getUsuarioId()) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    case 'INVESTIGACION':
+                        //Comprobar grupo de investigación
+                        $grupo_id = $responsable_espacio->getGrupoUsuario();
+
+                        $grupo_model = new GRUPO_INVESTIGACION_Model($grupo_id, '', '', '', '', '', '');
+                        $grupo = $grupo_model->rellenaDatos();
+
+                        if ($grupo->getResponsableGrupo() == $usuario_autenticado->getUsuarioId()) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    case 'PAS':
+                        if ($responsable_espacio->getNivelJerarquia() > $usuario_autenticado->getNivelJerarquia()) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    case 'COMUN':
+                        if ($usuario_autenticado->getNombrePuesto() == 'Conserjería'
+                            || $usuario_autenticado->getNombrePuesto() == 'Conserjeria'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserjería'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserjeria'
+                            || $usuario_autenticado->getNombrePuesto() == 'conserje'
+                            || $usuario_autenticado->getNombrePuesto() == 'Conserje') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    default:
+                        return false;
+                }
             }
+
         }
-
     }
-
 }
 
 ?>

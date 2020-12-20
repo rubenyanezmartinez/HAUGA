@@ -19,6 +19,10 @@ $(document).ready(function (){
             'planta_esp' : {
                 'required' : true,
                 'integer' : true,
+            },
+            'imagen_espacio' : {
+                'required' : esNuevo,
+                'accept' : "image/*"
             }
         },
         messages : {
@@ -42,6 +46,10 @@ $(document).ready(function (){
                 'integer' : 'Solo números sin decimales',
                 'max' : 'Planta no válida',
                 'min' : 'Planta no válida'
+            },
+            'imagen_espacio' : {
+                'required' : 'El campo no puede estar vacío',
+                'accept' : "Archivos permitidos: .PNG,.JPEG,.jpg"
             }
         }
     });

@@ -115,6 +115,15 @@ class ESPACIO_Model
         }
     }
 
+    function edit(){
+        $stmt = $this->db->prepare("UPDATE espacio SET nombre_esp=?, tarifa_esp=?, categoria_esp=? WHERE espacio_id=?");
+        if($stmt->execute(array($this->nombre_esp, $this->tarifa_esp, $this->categoria_esp, $this->espacio_id))){
+            return true;
+        } else {
+            return "Error Editando";
+        }
+    }
+
     /**
      * @return mixed
      */

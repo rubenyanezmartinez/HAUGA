@@ -3,13 +3,15 @@
 class ESPACIO_ADD_View{
     var $espacio;
     var $edificios;
-    var $usuarios;
+    var $esNuevo;
+    var $responsable;
 
-    function __construct($espacio, $edificios, $usuarios)
+    function __construct($espacio, $edificios, $responsable ,$esNuevo)
     {
         $this->espacio = $espacio;
         $this->edificios = $edificios;
-        $this->usuarios = $usuarios;
+        $this->esNuevo = $esNuevo;
+        $this->responsable = $responsable;
 
         $this->render();
     }
@@ -19,13 +21,14 @@ class ESPACIO_ADD_View{
         ?>
         <script>
             var arrayPlantas = [];
+            var esNuevo = <?=$this->esNuevo?>;
         </script>
         <div class="container">
             <div class="row">
                 <!-- <div class="col-4"></div>-->
                 <div class="col-12 align-self-center">
-                    <form enctype="multipart/form-data" action="../Controllers/Espacio_Controller.php?action=add" method="post" id="addEspacioForm">
-                        <h2 class="text-center textoAzul mb-4">Dar de Alta Espacio</h2>
+                    <form enctype="multipart/form-data" action="../Controllers/Espacio_Controller.php?action=<?=$this->esNuevo ? 'add' : 'edit&espacio_id=' . $this->espacio->getEspacioId()?>" method="post" id="addEspacioForm">
+                        <h2 class="text-center textoAzul mb-4"><?=$this->esNuevo ? 'Dar de Alta Espacio' : 'Modificar Espacio'?></h2>
 
                         <!-- Primera fila -->
                         <div class="row">
@@ -67,7 +70,7 @@ class ESPACIO_ADD_View{
                             </div>
 
                             <div class="col-md-6 form-group" id="div_edificio_esp">
-                                <select class="form-control" id="edificio_esp" name="edificio_esp" onchange="cambiarEdificio()">
+                                <select <?= !$this->esNuevo ? 'disabled' : ''?> class="form-control" id="edificio_esp" name="edificio_esp" onchange="cambiarEdificio()">
 
                                     <option value="" disabled <?= $this->espacio->getEdificioEsp() == '' ? 'selected' : ''?>>Edificio</option>
 
@@ -93,6 +96,9 @@ class ESPACIO_ADD_View{
                                     <input class="form-check-input" type="checkbox" value="si" id="esResponsable" name="esResponsable">
                                     <label class="form-check-label" for="esResponsable">
                                         Soy el responsable
+                                        <?php if($this->responsable != ''){?>
+                                            (actual: <?=$this->responsable?>)
+                                        <?php } ?>
                                     </label>
                                 </div>
                             </div>
@@ -105,7 +111,7 @@ class ESPACIO_ADD_View{
                                         </svg>
                                     </div>
                                 </div>
-                                <input type="number" max="0" min="0" class="form-control" id="planta_esp" name="planta_esp" placeholder="Planta" size="30" maxlength="30" value="<?php echo($this->espacio->getPlantaEsp())?>">
+                                <input <?= !$this->esNuevo ? 'disabled' : ''?> type="number" max="0" min="0" class="form-control" id="planta_esp" name="planta_esp" placeholder="Planta" size="30" maxlength="30" value="<?php echo($this->espacio->getPlantaEsp())?>">
                             </div>
                         </div>
                         <!-- Cuarta fila -->
@@ -129,7 +135,7 @@ class ESPACIO_ADD_View{
                         <div class ="row">
                             <div class="col-md-6  mb-2" style="margin-bottom: 1rem!important;">
                                 <button id="botonAddEspacio" type='submit' name='action' value='addEspacio' class="btn btn-success" style="background-color: #073349; color: white;">
-                                    Crear Espacio
+                                    <?=$this->esNuevo ? 'Crear' : 'Modificar'?> Espacio
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
