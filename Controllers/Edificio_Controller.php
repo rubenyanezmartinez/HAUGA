@@ -109,7 +109,12 @@ function showall($num_pag, $agrupacion_id)
     $inicio = ($num_pag - 1) * TAM_PAG;
     $final = $inicio + TAM_PAG;
 
+if($allEdificios == 0){
+    $allEdificios = array_slice(array(), $inicio, $final);
+}else{
     $allEdificios = array_slice($allEdificios, $inicio, $final);
+}
+
 
     $agrupacion_model = new AGRUPACION_Model($agrupacion_id, '', '');
     $agrupacion = $agrupacion_model->rellenaDatos();
