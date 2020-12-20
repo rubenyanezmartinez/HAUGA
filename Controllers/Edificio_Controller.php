@@ -1,6 +1,7 @@
 <?php
 //INCLUDES
 include_once '../Models/EDIFICIO_Model.php';
+include_once '../Models/ESPACIO_Model.php';
 include_once '../Models/AGRUPACION_Model.php';
 
 include '../Views/EDIFICIO_ADD_View.php';
@@ -16,6 +17,11 @@ switch ($action) {
     case 'add':
         if ($_SESSION['rol']=='ADMIN'){
             add();
+        }
+        break;
+    case 'delete':
+        if($_SESSION['rol']=='ADMIN') {
+            delete();
         }
         break;
     default:
@@ -49,3 +55,18 @@ function add(){
         }
     }
 }
+function delete(){
+    if(isset($_GET['edificio_id'])){//Antes de confirmar el borrado
+        $edificio = new EDIFICIO_Model($_GET['edificio_id'], '', '', '','', '');
+        $espacio = new ESPACIO_Model('','','','','','',$_GET['edificio_id']); //Crea espacios del edificio
+        $respuestaEspacios = $espacio->borrarEspaciosEdificio();
+        if($respuestaEspacios === true){
+            $respuesta = $edificio->DELETE(); //Elimina el edificio
+            if($respuesta === true){
+                header('Location:../Controllers/AGRUPACION_Controller.php?action=showall');
+            }
+        }
+
+    }
+}
+?>

@@ -103,6 +103,18 @@ class ESPACIO_Model
         }
     }
 
+    function borrarEspaciosEdificio(){
+        $stmt = $this->db->prepare("DELETE
+					FROM espacio
+					WHERE edificio_esp = ? ");
+
+        if($stmt->execute(array($this->edificio_esp))){
+            return true;
+        }else{
+            return "Error eliminando espacios.";
+        }
+    }
+
     /**
      * @return mixed
      */
