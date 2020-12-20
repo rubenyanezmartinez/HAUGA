@@ -19,6 +19,18 @@ class EDIFICIO_SHOWALL_View
         include '../Views/Header.php';
 
         ?>
+        <script>
+            $(document).on('click', '.eliminar', function () {
+                var descr = $(this).attr('data-enlace');
+                var enlace = "../Controllers/Edificio_Controller.php?action=delete&edificio_id="+descr;
+                console.log(descr)
+                $('#exampleModal a[name=eliminar]').prop('href', enlace);
+
+                // aquí es cuando tienes que mirar la documentación de tu framework
+                $('#exampleModal').modal('show'); // o similar
+
+            });
+        </script>
         <div class="container">
             <div class="row align-self-center">
                 <div class="col text-left">
@@ -75,7 +87,7 @@ class EDIFICIO_SHOWALL_View
                                 </a>
 
                                 <?php if(IsAuthenticated()) {?>
-                                    <a href="#">
+                                    <a href="../Controllers/Edificio_Controller.php?action=edit&edificio_id=<?=$edificio['edificio_id']?>">
                                         <svg style="color: yellow" width="1.5em" height="1.5em" viewBox="0 0 16 16"
                                              class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -83,7 +95,7 @@ class EDIFICIO_SHOWALL_View
                                         </svg>
                                     </a>
 
-                                    <a class="eliminar" href="../Controllers/Edificio_Controller.php?action=comprobarPermisoBorrado&edificio_id=<?=$edificio['edificio_id']?>&num_pag=<?=$this->num_pag?>">
+                                    <a class="eliminar" data-enlace="<?=$edificio['edificio_id']?>">
                                         <svg style="color: #ff0000" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                             <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -101,6 +113,30 @@ class EDIFICIO_SHOWALL_View
             <?php
                 }
             ?>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Eliminar edificio</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Está seguro de qué desea el edificio?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Cancelar
+                            </button>
+                            <a name="eliminar" href=""><button type="button" class="btn btn-danger">Eliminar</button></a>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <nav aria-label="paginacion">

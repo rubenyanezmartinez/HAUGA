@@ -143,6 +143,19 @@ class EDIFICIO_Model{
         }
     }
 
+    function DELETE(){
+
+        $stmt = $this->db->prepare("DELETE
+                FROM edificio
+                WHERE edificio_id = ? ");
+
+        if( $stmt->execute(array($this->edificio_id))){
+            return true;
+        }else{
+            return "Error eliminando el edificio";
+        }
+    }
+
     /**
      * @return mixed
      */

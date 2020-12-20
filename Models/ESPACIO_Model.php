@@ -103,18 +103,6 @@ class ESPACIO_Model
         }
     }
 
-    function borrarEspaciosEdificio(){
-        $stmt = $this->db->prepare("DELETE
-					FROM espacio
-					WHERE edificio_esp = ? ");
-
-        if($stmt->execute(array($this->edificio_esp))){
-            return true;
-        }else{
-            return "Error eliminando espacios.";
-        }
-    }
-
     function edit(){
         $stmt = $this->db->prepare("UPDATE espacio SET nombre_esp=?, tarifa_esp=?, categoria_esp=? WHERE espacio_id=?");
         if($stmt->execute(array($this->nombre_esp, $this->tarifa_esp, $this->categoria_esp, $this->espacio_id))){
@@ -123,6 +111,8 @@ class ESPACIO_Model
             return "Error Editando";
         }
     }
+
+
 
     /**
      * @return mixed

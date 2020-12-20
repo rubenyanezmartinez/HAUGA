@@ -60,6 +60,10 @@ class CENTRO_Model{
         return $allcentros;
     }
 
+
+
+
+
     /**
      * @return mixed
      */

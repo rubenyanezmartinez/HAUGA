@@ -241,18 +241,18 @@ INSERT INTO `hauga`.`solicitud_responsabilidad`
 VALUES (1, 4, '2019-08-01', '2020-10-01', 'HISTOR', 500);
 
 
-ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`depart_usuario`) REFERENCES `hauga`.`departamento`(`depart_id`);
+ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`depart_usuario`) REFERENCES `hauga`.`departamento`(`depart_id`) ON DELETE SET NULL;
 ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`grupo_usuario`) REFERENCES `hauga`.`grupo_investigacion`(`grupo_id`) ON DELETE SET NULL;
-ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`centro_usuario`) REFERENCES `hauga`.`centro`(`centro_id`);
+ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`centro_usuario`) REFERENCES `hauga`.`centro`(`centro_id`) ON DELETE SET NULL;
 
 ALTER TABLE `hauga`.`grupo_investigacion` ADD FOREIGN KEY (`responsable_grupo`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE SET NULL;
 
 ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY (`responsable_depart`) REFERENCES `hauga`.`usuario`(`usuario_id`);
-ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY	(`edificio_depart`) REFERENCES `hauga`.`edificio`(`edificio_id`);
+ALTER TABLE `hauga`.`departamento` ADD FOREIGN KEY	(`edificio_depart`) REFERENCES `hauga`.`edificio`(`edificio_id`) ON DELETE CASCADE;
 
 ALTER TABLE `hauga`.`edificio` ADD FOREIGN KEY	(`agrup_edificio`) REFERENCES `hauga`.`agrupacion_edificio`(`agrup_id`) ON DELETE SET NULL;
 
-ALTER TABLE `hauga`.`centro` ADD FOREIGN KEY (`edificio_centro`) REFERENCES `hauga`.`edificio`(`edificio_id`);
+ALTER TABLE `hauga`.`centro` ADD FOREIGN KEY (`edificio_centro`) REFERENCES `hauga`.`edificio`(`edificio_id`) on DELETE CASCADE;
 
 ALTER TABLE `hauga`.`espacio` ADD FOREIGN KEY	(`edificio_esp`) REFERENCES `hauga`.`edificio`(`edificio_id`) ON DELETE CASCADE;
 
