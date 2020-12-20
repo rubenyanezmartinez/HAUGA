@@ -10,6 +10,7 @@ include_once '../Models/AGRUPACION_Model.php';
 
 include '../Views/EDIFICIO_ADD_View.php';
 include '../Views/EDIFICIO_SHOWALL_View.php';
+include '../Views/EDIFICIO_SHOWCURRENT_View.php';
 
 include '../Functions/Authentication.php';
 
@@ -26,6 +27,9 @@ switch ($action) {
         break;
     case 'showall':
         showall((!isset($_GET['num_pag']) || ($_GET['num_pag'] == '' ? 1 : $_GET['num_pag'])), $_GET['agrupacion_id']);
+        break;
+    case 'showcurrent':
+        showcurrent($_GET['edificio_id'], $_GET['agrupacion_id']);
         break;
     case 'delete':
         if($_SESSION['rol']=='ADMIN') {
@@ -108,6 +112,21 @@ function showall($num_pag, $agrupacion_id)
     $agrupacion = $agrupacion_model->rellenaDatos();
 
     new EDIFICIO_SHOWALL_View($allEdificios, $agrupacion, $num_pags, '');
+}
+
+function showcurrent($edificio_id, $agrupacion){
+    $edificioModel = new EDIFICIO_Model($edificio_id,'','','','', '');
+    $edificio = $edificioModel->rellenaDatos();
+
+    if($edificio != 'Error'){
+
+        $agrupacionModel = new AGRUPACION_Model($agrupacion, '','');
+        $agrupacion = $agrupacionModel->rellenaDatos();
+
+        new EDIFICIO_SHOWCURRENT_View($edificio, $agrupacion);
+    } else {
+        new EDIFICIO_SHOWCURRENT_View();
+    }
 }
 
 //Funcion que muestra los datos para poder ser editados.
