@@ -78,7 +78,7 @@ function edit($espacio_id){
 
     $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
     $responsable_id = $solicitud_model->buscarResponsable();
-    if($responsable_id != 'Sin responsable') {
+    if($responsable_id != '') {
         $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
         $responsable = $usuario_model->getNombreApellidosById();
     } else {
@@ -103,13 +103,13 @@ function edit($espacio_id){
             $usuario_model = $usuario_model->rellenaDatos();
             $responsable_nuevo = $usuario_model->getUsuarioId();
 
-            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, $responsable_nuevo, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
-            $solicitud->add();
-
             if($responsable != '') {
                 $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
                 $solicitud->eliminarResponsable();
             }
+
+            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, $responsable_nuevo, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
+            $solicitud->add();
         }
 
         $respuesta_espacio = $espacio->edit();

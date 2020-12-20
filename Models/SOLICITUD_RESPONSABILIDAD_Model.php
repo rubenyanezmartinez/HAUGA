@@ -71,8 +71,8 @@ class SOLICITUD_RESPONSABILIDAD_Model
     }
 
     function eliminarResponsable(){
-        $stmt = $this->db->prepare("UPDATE solicitud_responsabilidad SET estado='HISTOR' WHERE estado='DEFIN' and espacio_id=?");
-        $this->db->execute(array($this->espacio_id));
+        $stmt = $this->db->prepare("UPDATE solicitud_responsabilidad SET estado_solic='HISTOR', fecha_fin=? WHERE estado_solic='DEFIN' and espacio_id=?");
+        $stmt->execute(array(date('Y-m-d'), $this->espacio_id));
     }
 
     /**
