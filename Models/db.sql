@@ -211,23 +211,23 @@ VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (null, 1, 5, '2020-11-29', null, 'DEFIN', null);
+VALUES (null, 1, 5, '2020-11-29', null, 'DEFIN', 100);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (null, 2, 5, '2018-12-05', null, 'DEFIN', null);
+VALUES (null, 2, 5, '2018-12-05', null, 'DEFIN', 250);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (null, 3, 5, '2020-09-24', null,  'DEFIN', null);
+VALUES (null, 3, 5, '2020-09-24', null,  'DEFIN', 250);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (null, 4, 5, '2020-05-25', null,  'DEFIN', null);
+VALUES (null, 4, 5, '2020-05-25', null,  'DEFIN', 300);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (null, 5, 6, '2020-09-18', null, 'DEFIN', null);
+VALUES (null, 5, 6, '2020-09-18', null, 'DEFIN', 450);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)

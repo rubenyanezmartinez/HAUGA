@@ -28,8 +28,10 @@ switch ($action) {
         showall(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_GET['num_pag']);
         break;
     case 'showcurrent':
-        $espacio_id = $_GET['espacio_id'];
-        showcurrent($espacio_id);
+        if(isset($_GET['espacio_id'])){
+            $espacio_id = $_GET['espacio_id'];
+            showcurrent($espacio_id);
+        }
         break;
     case 'verHistorial':
         $espacio_id = $_GET['espacio_id'];
@@ -69,7 +71,7 @@ switch ($action) {
         break;
     case 'solicitar':
 
-        if(IsAuthenticated() and isset($_GET['espacio_id'])){
+        if(IsAuthenticated() && isset($_GET['espacio_id'])){
             $usuario_model = new USUARIO_Model('', $_SESSION['login'], '', '', '', '', '', '', '', '', '', '', '', '', '', '');
             $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
 
@@ -81,6 +83,18 @@ switch ($action) {
         } else {
             header('Location:../Controllers/Espacio_Controller.php?action=showall');
         }
+    case 'eliminarResponsable':
+        if (IsAuthenticated() && isset($_GET['espacio_id'])){  //Si esta autenticado y esta definido un espacio en la URL
+            if(tienePermisos($_SESSION['login'] ,$_GET['espacio_id'])){ //Si tiene permisos en dicho espacio
+                $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $_GET['espacio_id'], '', '', '', '', '');
+                $solicitud_model->eliminarResponsable();
+            }
+            header('Location:../Controllers/Espacio_Controller.php?action=showcurrent&espacio_id=' . $_GET['espacio_id']);
+
+        }else {
+            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        }
+        break;
     default:
         echo "default del controlador de espacios";
         break;
@@ -625,7 +639,10 @@ function showcurrent($espacio_id)
     $usuario_model = new USUARIO_Model('', $_SESSION['login'], '', '', '', '', '', '', '', '', '', '', '', '', '', '');
     $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
 
-    new ESPACIO_SHOWCURRENT_View($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion, $info_afiliacion, $solicitud_model->haSolicitadoEspacio($espacio_id, $usuario_model->consultarId()));
+    $haSolicitado = $solicitud_model->haSolicitadoEspacio($espacio_id, $usuario_model->consultarId());
+    $tienePermisos = tienePermisos($_SESSION['login'], $espacio_id);
+
+    new ESPACIO_SHOWCURRENT_View($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion, $info_afiliacion, $haSolicitado, $tienePermisos);
 }
 
 function showall($num_pag)

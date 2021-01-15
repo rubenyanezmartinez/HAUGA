@@ -9,8 +9,9 @@ class ESPACIO_SHOWCURRENT_View
     var $nombreAgrupacion;
     var $info_afiliacion;
     var $haSolicitado;
+    var $tienePermisos;
 
-    function __construct($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion,$info_afiliacion, $haSolicitado)
+    function __construct($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion,$info_afiliacion, $haSolicitado, $tienePermisos = false)
     {
         $this->espacio = $espacio;
         $this->nombresResponsable = $nombresResponsable;
@@ -18,6 +19,7 @@ class ESPACIO_SHOWCURRENT_View
         $this->nombreAgrupacion = $nombreAgrupacion;
         $this->info_afiliacion = $info_afiliacion;
         $this->haSolicitado = $haSolicitado;
+        $this->tienePermisos = $tienePermisos;
         $this->render();
     }
 
@@ -104,7 +106,7 @@ class ESPACIO_SHOWCURRENT_View
                             </a>
                         </div>
                         <div class="col text-right">
-                            <a id="botonVerIncidencias" href="#" class="btn btn-danger">
+                            <a id="botonVerIncidencias" href="#" class="btn btn-warning">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
                                     <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
@@ -114,7 +116,7 @@ class ESPACIO_SHOWCURRENT_View
                         </div>
                     </div>
 
-                    <?php if(IsAuthenticated() && $this->nombresResponsable == 'Sin responsable') {?>
+                    <?php if(IsAuthenticated() && $this->nombresResponsable == 'Sin responsable' && !esAdministrador() ) {?>
                         <div class="row" style="padding-top: 3%">
                             <div class="col" >
                                 <?php if(!$this->haSolicitado) { ?>
@@ -138,6 +140,19 @@ class ESPACIO_SHOWCURRENT_View
                         </div>
                     <?php } ?>
 
+                    <!-- Botón eliminar responsable definitivo de espacio-->
+                    <?php if(IsAuthenticated() && esAdministrador() && $this->tienePermisos && $this->nombresResponsable != 'Sin responsable'){?>
+                    <div class="row" style="padding-top: 3%">
+                        <div class="col" >
+                            <a id="botonEliminarResponsable" href="../Controllers/Espacio_Controller.php?action=eliminarResponsable&espacio_id=<?=$this->espacio->getEspacioId()?>" class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                                Eliminar responsable
+                            </a>
+                        </div>
+                    </div>
+                    <?php } ?>
                 </div>
 
             </div>
