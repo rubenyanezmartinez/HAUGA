@@ -67,9 +67,17 @@ switch ($action) {
             header('Location:../Controllers/Espacio_Controller.php?action=showall');
         }
         break;
-    case 'soliticar':
-        if(IsAuthenticated()){
-            solicitarAgisnacion($_GET['espacio_id'], $_SESSION['login']);
+    case 'solicitar':
+
+        if(IsAuthenticated() and isset($_GET['espacio_id'])){
+            $usuario_model = new USUARIO_Model('', $_SESSION['login'], '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
+
+            if(!$solicitud_model->haSolicitadoEspacio($_GET['espacio_id'], $usuario_model->consultarId())){
+                solicitarAgisnacion($_GET['espacio_id'], $_SESSION['login']);
+            } else {
+                header('Location:../Controllers/Espacio_Controller.php?action=showcurrent&espacio_id=' . $_GET['espacio_id']);
+            }
         } else {
             header('Location:../Controllers/Espacio_Controller.php?action=showall');
         }
