@@ -67,6 +67,12 @@ switch ($action) {
             header('Location:../Controllers/Espacio_Controller.php?action=showall');
         }
         break;
+    case 'soliticar':
+        if(IsAuthenticated()){
+            solicitarAgisnacion($_GET['espacio_id'], $_SESSION['login']);
+        } else {
+            header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        }
     default:
         echo "default del controlador de espacios";
         break;
@@ -76,7 +82,7 @@ function edit($espacio_id){
     $espacio = new ESPACIO_Model($espacio_id, '','','','','','');
     $espacio = $espacio->rellenaDatos();
 
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id,'','','','','');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id,'','','','','');
     $responsable_id = $solicitud_model->buscarResponsable();
     if($responsable_id != '') {
         $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
@@ -113,11 +119,11 @@ function edit($espacio_id){
             $responsable_nuevo = $usuario_model->getUsuarioId();
 
             if($responsable != '') {
-                $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+                $solicitud = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, '', '', '', '', '');
                 $solicitud->eliminarResponsable();
             }
 
-            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, $responsable_nuevo, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
+            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, $responsable_nuevo, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
             $solicitud->add();
         }
 
@@ -168,7 +174,7 @@ function add()
             $usuario_model = $usuario_model->rellenaDatos();
             $responsable = $usuario_model->getUsuarioId();
 
-            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(), $responsable, date("Y-m-d"), "0000-00-00", 'DEFIN', $espacio->getTarifaEsp());
+            $solicitud = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio->getEspacioId(), $responsable, date("Y-m-d"), null, 'DEFIN', $espacio->getTarifaEsp());
             $solicitud->add();
         }
 
@@ -220,7 +226,7 @@ function delete($espacio_id, $login_usuario)
             $categoria_espacio = $espacio->getCategoriaEsp();
 
             //Buscar quien es el responsable del espacio:
-            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, '', '', '', '', '');
             $responsable_id = $solicitud_model->buscarResponsable();
 
             if ($responsable_id == 'Sin responsable' || $responsable_id == NULL) {
@@ -379,7 +385,7 @@ function comprobarPermisoBorrado($espacio_id, $login_usuario, $num_pag)
         $nombreEdificios[$e->getEdificioEsp()] = $edificio_model->getNombreById();
 
 
-        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($e->getEspacioId(), '', '', '', '', '');
+        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $e->getEspacioId(), '', '', '', '', '');
         $responsable_id = $solicitud_model->buscarResponsable();
         if ($responsable_id != 'Sin responsable') {
             $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
@@ -410,7 +416,7 @@ function comprobarPermisoBorrado($espacio_id, $login_usuario, $num_pag)
             $categoria_espacio = $espacio->getCategoriaEsp();
 
             //Buscar quien es el responsable del espacio:
-            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, '', '', '', '', '');
             $responsable_id = $solicitud_model->buscarResponsable();
 
             if ($responsable_id == 'Sin responsable' || $responsable_id == NULL) {
@@ -486,7 +492,7 @@ function comprobarPermisoBorrado($espacio_id, $login_usuario, $num_pag)
 
 function verHistorial($espacio_id, $nombre_espacio, $num_pag)
 {
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, '', '', '', '', '');
     $allResponsables = $solicitud_model->SHOWALL();
 
     $num_pags = ceil(count($allResponsables) / TAM_PAG);
@@ -527,7 +533,7 @@ function showcurrent($espacio_id)
     $espacio = $espacio_model->rellenaDatos();
 
     //Nombre Responsable
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, '', '', '', '', '');
     $responsable_id = $solicitud_model->buscarResponsable();
     $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
     $aux = $usuario_model->getNombreApellidosById();
@@ -608,8 +614,10 @@ function showcurrent($espacio_id)
         $info_afiliacion = "-";
     }
 
+    $usuario_model = new USUARIO_Model('', $_SESSION['login'], '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
 
-    new ESPACIO_SHOWCURRENT_View($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion, $info_afiliacion);
+    new ESPACIO_SHOWCURRENT_View($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion, $info_afiliacion, $solicitud_model->haSolicitadoEspacio($espacio_id, $usuario_model->consultarId()));
 }
 
 function showall($num_pag)
@@ -618,6 +626,18 @@ function showall($num_pag)
     list($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables) = preparar_showall($num_pag);
 
     new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
+}
+
+function solicitarAgisnacion($espacio_id, $login){
+    $usuarioModel = new USUARIO_Model('', $login, '','','','','','','','','','','','','','');
+    $espacio = new ESPACIO_Model($espacio_id, '', '', '', '', '', '');
+    $espacio = $espacio->rellenaDatos();
+    $solicitud = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, $usuarioModel->consultarId(), date("Y-m-d"), null, 'TEMP', $espacio->getTarifaEsp());
+
+    $solicitud->add();
+
+    header('Location:../Controllers/Espacio_Controller.php?action=showcurrent&espacio_id=' . $espacio_id);
+
 }
 
 /**
@@ -644,7 +664,7 @@ function preparar_showall($num_pag)
         $nombreEdificios[$espacio->getEdificioEsp()] = $edificio_model->getNombreById();
 
 
-        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio->getEspacioId(), '', '', '', '', '');
+        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio->getEspacioId(), '', '', '', '', '');
         $responsable_id = $solicitud_model->buscarResponsable();
         if ($responsable_id != 'Sin responsable') {
             $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
@@ -678,7 +698,7 @@ function tienePermisos($login_usuario, $espacio_id){
             $categoria_espacio = $espacio->getCategoriaEsp();
 
             //Buscar quien es el responsable del espacio:
-            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($espacio_id, '', '', '', '', '');
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio_id, '', '', '', '', '');
             $responsable_id = $solicitud_model->buscarResponsable();
 
             if ($responsable_id == 'Sin responsable' || $responsable_id == NULL) {

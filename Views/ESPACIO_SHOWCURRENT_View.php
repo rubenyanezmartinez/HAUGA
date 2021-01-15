@@ -8,14 +8,16 @@ class ESPACIO_SHOWCURRENT_View
     var $nombreEdificioYPlanta;
     var $nombreAgrupacion;
     var $info_afiliacion;
+    var $haSolicitado;
 
-    function __construct($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion,$info_afiliacion)
+    function __construct($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion,$info_afiliacion, $haSolicitado)
     {
         $this->espacio = $espacio;
         $this->nombresResponsable = $nombresResponsable;
         $this->nombreEdificioYPlanta = $nombreEdificioYPlanta;
         $this->nombreAgrupacion = $nombreAgrupacion;
         $this->info_afiliacion = $info_afiliacion;
+        $this->haSolicitado = $haSolicitado;
         $this->render();
     }
 
@@ -115,13 +117,23 @@ class ESPACIO_SHOWCURRENT_View
                     <?php if(IsAuthenticated() && $this->nombresResponsable == 'Sin responsable') {?>
                         <div class="row" style="padding-top: 3%">
                             <div class="col" >
-                                <a id="botonSolicitarEspacio" href="#" class="btn btn-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                    </svg>
-                                    Solicitar espacio
-                                </a>
+                                <?php if(!$this->haSolicitado) { ?>
+                                    <a id="botonSolicitarEspacio" href="../Controllers/Espacio_Controller.php?action=soliticar&espacio_id=<?=$this->espacio->getEspacioId()?>" class="btn btn-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                        Solicitar espacio
+                                    </a>
+                                <?php } else { ?>
+                                    <a onclick="return false" id="botonSolicitarEspacio" href="../Controllers/Espacio_Controller.php?action=soliticar&espacio_id=<?=$this->espacio->getEspacioId()?>" class="btn btn-secondary disabled">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                        </svg>
+                                        Solicitud pendiente
+                                    </a>
+                                <?php } ?>
                             </div>
                         </div>
                     <?php } ?>

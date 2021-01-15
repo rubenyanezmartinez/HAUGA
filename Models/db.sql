@@ -110,13 +110,14 @@ CREATE TABLE `hauga`.`incidencia` (
 
 
 CREATE TABLE `hauga`.`solicitud_responsabilidad` (
+    `solicitud_id` int NOT NULL AUTO_INCREMENT,
 	`espacio_id` int NOT NULL,
 	`usuario_id` int NOT NULL,
 	`fecha_inicio` DATE NOT NULL,
-	`fecha_fin` DATE NOT NULL,
+	`fecha_fin` DATE,
 	`estado_solic` enum('HISTOR', 'DEFIN', 'TEMP'),
 	`tarifa_historica` int,
-	PRIMARY	KEY (`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`)
+	PRIMARY	KEY (`solicitud_id`)
 );
 
 
@@ -209,36 +210,36 @@ INSERT INTO `hauga`.`incidencia`
 VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (1, 5, '2020-11-29', '', 'DEFIN', null);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 1, 5, '2020-11-29', null, 'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (2, 5, '2018-12-05', '', 'DEFIN', null);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 2, 5, '2018-12-05', null, 'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (3, 5, '2020-09-24', '',  'DEFIN', null);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 3, 5, '2020-09-24', null,  'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (4, 5, '2020-05-25', '',  'DEFIN', null);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 4, 5, '2020-05-25', null,  'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (5, 6, '2020-09-18', '', 'DEFIN', null);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 5, 6, '2020-09-18', null, 'DEFIN', null);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (1, 2, '2018-10-01', '2018-12-31', 'HISTOR', 300);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 1, 2, '2018-10-01', '2018-12-31', 'HISTOR', 300);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (1, 3, '2019-01-01', '2019-07-01', 'HISTOR', 400);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 1, 3, '2019-01-01', '2019-07-01', 'HISTOR', 400);
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
-(`espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
-VALUES (1, 4, '2019-08-01', '2020-10-01', 'HISTOR', 500);
+(`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
+VALUES (null, 1, 4, '2019-08-01', '2020-10-01', 'HISTOR', 500);
 
 
 ALTER TABLE `hauga`.`usuario` ADD FOREIGN KEY (`depart_usuario`) REFERENCES `hauga`.`departamento`(`depart_id`) ON DELETE SET NULL;
