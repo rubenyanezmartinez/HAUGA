@@ -111,6 +111,10 @@ switch ($action) {
             $edificio = new EDIFICIO_Model('','','','','','');
             $edificios = $edificio->SHOWALL();
             new ESPACIO_SEARCH_View($departamentos, $centros, $grupos, $responsables, $agrupacion, $edificios);
+        } else {
+            search(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_GET['num_pag'], $_GET['depart_espacio'], $_GET['area_conc_search'],
+                            $_GET['grupo_espacio'],$_GET['puesto_search'], $_GET['responsable_espacio'], $_GET['nivel_search'],
+                            $_GET['agrupacion_espacio'], $_GET['edificio_espacio']);
         }
         break;
     default:
@@ -178,6 +182,23 @@ function edit($espacio_id){
             new ESPACIO_ADD_View($espacio, $edificios, $responsable,false);
         }
     }
+}
+
+function search($num_pag, $depart_espacio, $area_conc_search, $grupo_espacio, 
+        $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio){
+        
+    var_dump($depart_espacio);
+    var_dump($area_conc_search);
+    var_dump($grupo_espacio);
+    var_dump($puesto_search);
+    var_dump($responsable_espacio);
+    var_dump($nivel_search);
+    var_dump($agrupacion_espacio);
+    var_dump($edificio_espacio);
+
+    list($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables) = preparar_search($num_pag);
+
+    new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
 }
 
 function add()
@@ -721,6 +742,42 @@ function preparar_showall($num_pag)
     }
     return array($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables);
 }
+
+function preparar_search($num_pag)
+{
+    $espacio_model = new ESPACIO_Model('', '', '', '', '', '', '');
+    $allEspacios = $espacio_model->search();
+
+    $num_pags = ceil(count($allEspacios) / TAM_PAG);
+    $num_pag = $num_pag > $num_pags || $num_pag <= 0 ? 1 : $num_pag;
+    $inicio = ($num_pag - 1) * TAM_PAG;
+    $final = $inicio + TAM_PAG;
+
+    $allEspacios = array_slice($allEspacios, $inicio, $final);
+
+    $nombreEdificios = [];
+    $nombresResponsables = [];
+
+    foreach ($allEspacios as $espacio) {
+        $edificio_model = new EDIFICIO_Model($espacio->getEdificioEsp(), '', '', '', '', '');
+        $nombreEdificios[$espacio->getEdificioEsp()] = $edificio_model->getNombreById();
+
+
+        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', $espacio->getEspacioId(), '', '', '', '', '');
+        $responsable_id = $solicitud_model->buscarResponsable();
+        if ($responsable_id != 'Sin responsable') {
+            $usuario_model = new USUARIO_Model($responsable_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            $aux = $usuario_model->getNombreApellidosById();
+            if ($aux == 'No existe el usuario en la BD') {
+                $nombresResponsables[$espacio->getEspacioId()] = 'Sin responsable';
+            } else {
+                $nombresResponsables[$espacio->getEspacioId()] = $aux;
+            }
+        }
+    }
+    return array($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables);
+}
+
 
 
 function tienePermisos($login_usuario, $espacio_id){
