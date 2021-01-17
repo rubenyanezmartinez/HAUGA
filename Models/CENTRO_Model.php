@@ -60,7 +60,14 @@ class CENTRO_Model{
         return $allcentros;
     }
 
-
+    function add(){
+        $stmt = $this->db->prepare('INSERT INTO centro VALUES (?,?,?)');
+        if($stmt->execute(array(null, $this->nombre_centro,$this->edificio_centro))){
+            return true;
+        }else{
+            return 'Error insertando el centro';
+        }
+    }
 
 
 
