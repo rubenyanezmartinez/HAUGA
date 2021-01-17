@@ -52,6 +52,12 @@ class CENTRO_SHOWALL_View{
 
                 </div>
             </div>
+            <?php
+                if(sizeof($this->arrayCentros) == 0){
+                    echo "No existen centros";
+                }
+                else{
+            ?>
             <hr>
             <div class="row">
                 <table class="table table-bordered">
@@ -111,6 +117,9 @@ class CENTRO_SHOWALL_View{
                     </tbody>
                 </table>
             </div>
+                    <?php
+                }
+            ?>
 
         <?php
     }
