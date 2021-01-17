@@ -106,14 +106,11 @@ function showcurrent($depart_id){
 }
 
 function delete(){
-    if(isset($_GET['depart_id'])){//Antes de confirmar el borrado
-        $departamento = new DEPARTAMENTO_Models($_GET['depart_id'], '', '', '','', ''
-            ,'','');
-        $usuario = new USUARIO_Model('','','','','','','','','','','', '', '', $_GET['depart_id'], '', ''); //Crea un usuario con el departamento en cuestión
-        $usuario->actualizaDepartamento();
-        $respuesta = $departamento->DELETE(); //Elimina el departamento
+    if(isset($_GET['centro_id'])){//Antes de confirmar el borrado
+        $centro = new CENTRO_Model($_GET['centro_id']);
+        $respuesta = $centro->DELETE(); //Elimina el departamento
         if($respuesta === true){
-            header('Location:../Controllers/Departamento_Controller.php?action=showall');
+            header('Location:../Controllers/Centro_Controller.php?action=showall');
         }
     }
 }

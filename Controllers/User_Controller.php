@@ -137,10 +137,20 @@ function showall($numero_pagina){
             $centro_model = new CENTRO_Model($AllUsuarios[$i]->centro_usuario, '', '');
             $centro = $centro_model->rellenaDatos();
 
+            if($centro == 'Error inesperado al intentar cumplir su solicitud de consulta'){
+                $nombreCentro = '';
+            }else{
+                $nombreCentro = ", " . $centro->getNombreCentro();
+            }
+
             $departamento_model = new DEPARTAMENTO_Models($AllUsuarios[$i]->depart_usuario, '', '', '', '', '', '', '');
             $departamento = $departamento_model->rellenaDatos();
+            if($nombreCentro = ''){
+                $info_afiliacion[$i] = $departamento->getNombreDepartamento();
+            }else{
+                $info_afiliacion[$i] = $departamento->getNombreDepartamento() .  $nombreCentro;
+            }
 
-            $info_afiliacion[$i] = $departamento->getNombreDepartamento() . ", " . $centro->getNombreCentro();
 
         }
         else if ($AllUsuarios[$i]->getAfiliacion() == "INVESTIGADOR") {

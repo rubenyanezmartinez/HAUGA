@@ -69,6 +69,19 @@ class CENTRO_Model{
         }
     }
 
+    function DELETE(){
+
+        $stmt = $this->db->prepare("DELETE
+                FROM centro
+                WHERE centro_id = ? ");
+
+        if( $stmt->execute(array($this->centro_id))){
+            return true;
+        }else{
+            return "Error eliminando el centro";
+        }
+    }
+
 
 
     /**
