@@ -67,7 +67,7 @@ class ESPACIO_SEARCH_View{
                                         </svg>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" id="area_conc_search"  name="area_conc_search" placeholder="Área de conocimiento" size="30" maxlength="30">
+                                <input type="text" class="form-control" id="area_conc_search"  name="area_conc_search" placeholder="Área de conocimiento" size="30" maxlength="30" style="    height: 101px;">
                             </div>
 
                             <div class="col-md-6 form-group" id="div_grupo_espacio">
@@ -94,7 +94,7 @@ class ESPACIO_SEARCH_View{
                                         </svg>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" id="puesto_search"  name="puesto_search" placeholder="Puesto administrativo" size="60" maxlength="60">
+                                <input type="text" class="form-control" id="puesto_search"  name="puesto_search" placeholder="Puesto administrativo" size="60" maxlength="60" style="    height: 101px;">
                             </div>
 
                             <div class="col-md-6 form-group" id="div_responsable_espacio">
@@ -123,7 +123,7 @@ class ESPACIO_SEARCH_View{
                                         </svg>
                                     </div>
                                 </div>
-                                <input type="number" class="form-control" id="nivel_search"  name="nivel_search" placeholder="Nivel Jerarquía">
+                                <input type="number" class="form-control" id="nivel_search"  name="nivel_search" placeholder="Nivel Jerarquía" style="    height: 101px;">
                             </div>
 
                             <div class="col-md-6 form-group" id="div_agrupacion_espacio">
