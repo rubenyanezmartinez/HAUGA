@@ -143,7 +143,7 @@ switch ($action) {
                 $edificio = $_POST['edificio_espacio'];
             }
 
-            search(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_POST['num_pag'], $depart, $_POST['area_conc_search'],
+            search($depart, $_POST['area_conc_search'],
                             $grupo,$_POST['puesto_search'], $responsable, $_POST['nivel_search'],
                             $agrup, $edificio, $centros);
         }
@@ -215,13 +215,13 @@ function edit($espacio_id){
     }
 }
 
-function search($num_pag, $depart_espacio, $area_conc_search, $grupo_espacio, 
+function search($depart_espacio, $area_conc_search, $grupo_espacio,
         $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros){
 
-    list($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables) = preparar_search($num_pag, $depart_espacio, $area_conc_search, $grupo_espacio,
+    list($allEspacios, $nombreEdificios, $nombresResponsables) = preparar_search( $depart_espacio, $area_conc_search, $grupo_espacio,
         $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros);
 
-    new ESPACIO_SHOWALL_SEARCH_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
+    new ESPACIO_SHOWALL_SEARCH_View($allEspacios, $nombreEdificios, $nombresResponsables, '', 0);
 }
 
 function add()
@@ -766,7 +766,7 @@ function preparar_showall($num_pag)
     return array($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables);
 }
 
-function preparar_search($num_pag, $depart_espacio, $area_conc_search, $grupo_espacio,
+function preparar_search($depart_espacio, $area_conc_search, $grupo_espacio,
                          $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros)
 {
     $espacio_model = new ESPACIO_Model('', '', '', '', '', '', '');
@@ -774,12 +774,6 @@ function preparar_search($num_pag, $depart_espacio, $area_conc_search, $grupo_es
         $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros);
 
 
-    $num_pags = ceil(count($allEspacios) / TAM_PAG);
-    $num_pag = $num_pag > $num_pags || $num_pag <= 0 ? 1 : $num_pag;
-    $inicio = ($num_pag - 1) * TAM_PAG;
-    $final = $inicio + TAM_PAG;
-
-    $allEspacios = array_slice($allEspacios, $inicio, $final);
 
     $nombreEdificios = [];
     $nombresResponsables = [];
@@ -801,7 +795,7 @@ function preparar_search($num_pag, $depart_espacio, $area_conc_search, $grupo_es
             }
         }
     }
-    return array($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables);
+    return array($allEspacios, $nombreEdificios, $nombresResponsables);
 }
 
 

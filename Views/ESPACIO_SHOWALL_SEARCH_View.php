@@ -9,12 +9,12 @@ class ESPACIO_SHOWALL_SEARCH_View
     var $nombresResponsables;
     var $espacio_id;
 
-    function __construct($arrayEspacios, $nombreEdificios, $nombresResponsables, $num_pag, $borrado, $espacio_id)
+    function __construct($arrayEspacios, $nombreEdificios, $nombresResponsables, $borrado, $espacio_id)
     {
         $this->arrayEspacios = $arrayEspacios;
         $this->nombreEdificios = $nombreEdificios;
         $this->nombresResponsables = $nombresResponsables;
-        $this->num_pag = $num_pag;
+
         $this->espacio_id = $espacio_id;
         if ($borrado == 'No aceptado'){
             $this->noAceptado();
@@ -382,7 +382,7 @@ class ESPACIO_SHOWALL_SEARCH_View
                     <nav aria-label="paginacion">
                         <ul class="pagination justify-content-end">
                             <?php for ($i = 1; $i < $this->num_pag + 1; $i++){
-                                echo '<li class="page-item"><a class="page-link" style="background-color: #073349; color: white" href="../Controllers/Espacio_Controller.php?action=search&num_pag='.$i.'">'.$i.'</a></li>';
+                                echo '<li class="page-item"><a class="page-link" style="background-color: #073349; color: white" href="../Controllers/Espacio_Controller.php?action=search"></a></li>';
                             } ?>
 
                         </ul>
