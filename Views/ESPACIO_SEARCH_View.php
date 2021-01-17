@@ -145,7 +145,7 @@ class ESPACIO_SEARCH_View{
                         <div class="row">
 
                             <div class="col-md-6 form-group" id="div_edificio_espacio">
-                                <select class=" form-control selectpicker" id="edificio_espacio" name="edificio_espacio" multiple>
+                                <select class=" form-control" id="edificio_espacio" name="edificio_espacio" multiple>
 
                                     <option value="" disabled selected>Edificio</option>
 
