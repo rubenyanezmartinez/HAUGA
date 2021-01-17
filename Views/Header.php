@@ -86,7 +86,7 @@ include_once '../Functions/esAdministrador.php';
 
                 <?php if (esAdministrador() == "admin") {?>
                     <div class="col-2 align-self-center text-center">
-                        <h5><a href="#" class="textoAzul">CENTROS</a></h5>
+                        <h5><a href="../Controllers/Centro_Controller.php?action=showall" class="textoAzul">CENTROS</a></h5>
                     </div>
 
                     <div class="col-2 align-self-center text-center">
@@ -109,7 +109,7 @@ include_once '../Functions/esAdministrador.php';
                     </div>
                 <?php } else { ?>
                     <div class="col-2 align-self-center text-center">
-                        <h4><a href="#" class="textoAzul">CENTROS</a></h4>
+                        <h5><a href="../Controllers/Centro_Controller.php?action=showall" class="textoAzul">CENTROS</a></h5>
                     </div>
 
                     <div class="col-2 align-self-center text-center">
