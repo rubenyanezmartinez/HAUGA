@@ -23,9 +23,6 @@ class ESPACIO_SEARCH_View{
     function render(){
         include '../Views/Header.php';
         ?>
-        <script>
-        $('select').selectpicker();
-        </script>
         <div class="container">
             <div class="row">
                 <!-- <div class="col-4"></div>-->
@@ -36,7 +33,7 @@ class ESPACIO_SEARCH_View{
                         <!-- Primera fila -->
                         <div class="row">
                             <div class="col-md-6 form-group" id="div_centro_espacio">
-                                <select class=" form-control selectpicker " id="centro_espacio" name="centro_espacio" multiple>
+                                <select class=" form-control " id="centro_espacio" name="centro_espacio" multiple>
 
                                     <option value="" selected disabled>Centro</option>
 
@@ -48,7 +45,7 @@ class ESPACIO_SEARCH_View{
                             </div>
 
                             <div class="col-md-6 form-group" id="div_depart_espacio">
-                                <select class=" form-control selectpicker" id="depart_espacio" name="depart_espacio" multiple>
+                                <select class=" form-control " id="depart_espacio" name="depart_espacio" multiple>
 
                                     <option value="" disabled selected>Departamento</option>
 
@@ -74,7 +71,7 @@ class ESPACIO_SEARCH_View{
                             </div>
 
                             <div class="col-md-6 form-group" id="div_grupo_espacio">
-                                <select class=" form-control selectpicker" id="grupo_espacio" name="grupo_espacio" multiple>
+                                <select class=" form-control " id="grupo_espacio" name="grupo_espacio" multiple>
 
                                     <option value="" disabled selected>Grupo de investigación</option>
 
@@ -101,7 +98,7 @@ class ESPACIO_SEARCH_View{
                             </div>
 
                             <div class="col-md-6 form-group" id="div_responsable_espacio">
-                                <select class=" form-control selectpicker" id="responsable_espacio" name="responsable_espacio" multiple>
+                                <select class=" form-control " id="responsable_espacio" name="responsable_espacio" multiple>
 
                                     <option value="" disabled selected>Responsable</option>
 
@@ -130,7 +127,7 @@ class ESPACIO_SEARCH_View{
                             </div>
 
                             <div class="col-md-6 form-group" id="div_agrupacion_espacio">
-                                <select class=" form-control selectpicker" id="agrupacion_espacio" name="agrupacion_espacio" multiple>
+                                <select class=" form-control " id="agrupacion_espacio" name="agrupacion_espacio" multiple>
 
                                     <option value="" disabled selected>Agrupación de edificios</option>
 

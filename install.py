@@ -12,6 +12,11 @@ def imprimir_mensaje(mensaje, codigo_color):
        print(colores_indicadores.COLOR_ROJO + mensaje + colores_indicadores.COLOR_POR_DEFECTO)
 
 
+def seleccionarDirectorio():
+    print("Introduzca el directorio donde quiere clonar el proyecto (por defecto /var/www/html)")
+    dir = input()
+
+
 
 os.system('rm -r ./HAUGA/')
 os.system('rm -r /var/www/html/HAUGA/')
@@ -19,8 +24,15 @@ os.system('rm -r /var/www/html/HAUGA/')
 
 gitclone = os.system('git clone https://github.com/rubenyanezmartinez/HAUGA.git;')
 if gitclone == 0:
-    os.system('mv ./HAUGA /var/www/html/;')
-    os.system('cd /var/www/html/HAUGA/ || exit;')
+    directorio = seleccionarDirectorio()
+    if directorio == '':
+        print("Clonando directorio en /var/www/html/ ...")
+        os.system('mv ./HAUGA/* /var/www/html/;')
+        os.system('cd /var/www/html/ || exit;')
+    else:
+        print("Clonando directorio en /var/www/html/" + directorio + "/ ...")
+        os.system('mv ./HAUGA/* /var/www/html/' + directorio + '/;')
+        os.system('cd /var/www/html/' + directorio + ' || exit;')
     imprimir_mensaje('Se ha descargado y colocado con exito el proyecto', 1)
 else:
     imprimir_mensaje('ERROR: no ha sido posible descargar el proyecto', 0)
