@@ -46,9 +46,9 @@ class CENTRO_Model{
         $stmt = $this->db->prepare("SELECT * FROM centro");
         $stmt->execute();
         $centros_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $allcentros = array();  //array para almacenar los datos de todos los grupos
+        $allcentros = array();  //array para almacenar los datos de todos los centros
 
-        //Recorremos todos las filas de grupos devueltas por la sentencia sql
+        //Recorremos todos las filas de centros devueltas por la sentencia sql
         foreach ($centros_db as $centro){
             //Introducimos uno a uno los grupos recuperados de la BD
             array_push($allcentros,

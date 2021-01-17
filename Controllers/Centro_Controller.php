@@ -5,6 +5,7 @@ include '../Models/Access_DB.php';
 include '../Models/USUARIO_Model.php';
 include '../Models/EDIFICIO_Model.php';
 include '../Models/CENTRO_Model.php';
+include '../Views/CENTRO_SHOWALL_View.php';
 session_start();
 
 const TAM_PAG = 5;
@@ -66,23 +67,23 @@ function add(){
 }
 
 function showall($num_pag){
-    $departamento_model = new DEPARTAMENTO_Models('','','','','','','','');
-    $allDepartamentos = $departamento_model->SHOWALL();
+    $centro_model = new CENTRO_Model('','','');
+    $allCentros = $centro_model->SHOWALL();
 
-    $max_pags = ceil(count($allDepartamentos) / TAM_PAG);
+    $max_pags = ceil(count($allCentros) / TAM_PAG);
     $num_pag = $num_pag > $max_pags || $num_pag <= 0 ? 1 : $num_pag;
     $inicio = ($num_pag-1) * TAM_PAG;
     $final = $inicio + TAM_PAG;
 
-    $allDepartamentos = array_slice($allDepartamentos, $inicio, $final);
+    $allCentros = array_slice($allCentros, $inicio, $final);
 
-    $loginResponsable = array();
-    foreach ($allDepartamentos as $departamento) {
-        $usuario_model = new USUARIO_Model($departamento->getResponsableDepart(), '', '','','','','','','','','','','','','','');
-        $loginResponsable[$departamento->getDepartId()] = $usuario_model->getLoginById();
+    $nombreEdificios = array();
+    foreach ($allCentros as $centro) {
+        $edificio_model = new EDIFICIO_Model($centro->getEdificioCentro(), '', '','','','');
+        $nombreEdificios[$centro->getCentroId()] = $edificio_model->getNombreById();
     }
 
-    new DEPARTAMENTO_SHOWALL_View($allDepartamentos, $loginResponsable, $num_pag);
+    new CENTRO_SHOWALL_View($allCentros, $nombreEdificios, $num_pag);
 }
 
 function showcurrent($depart_id){
