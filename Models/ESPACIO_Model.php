@@ -112,6 +112,195 @@ class ESPACIO_Model
         }
     }
 
+    //NO TENER EN CUENTA ESTA MIERDA DE CÓDIGO, ESTAMOS A PUNTO DE DEJAR EL MÁSTER
+    function search($depart_espacio, $area_conc_search, $grupo_espacio,
+                    $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros){
+
+        $allEspacios = array();  //array para almacenar los datos de todos los usuarios
+        if(!$agrupacion_espacio == "") {
+            foreach ($agrupacion_espacio as $a) {
+                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE edificio_esp IN(select edificio_id from edificio where agrup_edificio = ?) ");
+                $stmt->execute(array($a));
+                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                //Recorremos todos las filas de usuario devueltas por la sentencia sql
+                foreach ($espacios_db as $espacio) {
+                    //Introducimos uno a uno los usuarios recuperados de la BD
+                    array_push($allEspacios,
+                        new ESPACIO_Model(
+                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                        )
+                    );
+                }
+            }
+        }
+        if(!$edificio_espacio == "") {
+            foreach ($edificio_espacio as $ed) {
+                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE edificio_esp = ? ");
+                $stmt->execute(array($ed));
+                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                //Recorremos todos las filas de usuario devueltas por la sentencia sql
+                foreach ($espacios_db as $espacio) {
+                    //Introducimos uno a uno los usuarios recuperados de la BD
+                    array_push($allEspacios,
+                        new ESPACIO_Model(
+                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                        )
+                    );
+                }
+            }
+        }
+
+        if(!$depart_espacio == "") {
+            foreach ($depart_espacio as $de) {
+                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE edificio_esp IN(select edificio_depart from departamento where depart_id = ?) ");
+                $stmt->execute(array($de));
+                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                //Recorremos todos las filas de usuario devueltas por la sentencia sql
+                foreach ($espacios_db as $espacio) {
+                    //Introducimos uno a uno los usuarios recuperados de la BD
+                    array_push($allEspacios,
+                        new ESPACIO_Model(
+                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                        )
+                    );
+                }
+            }
+        }
+
+        if(!$centros == "") {
+            foreach ($centros as $ce) {
+                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE edificio_esp IN(select edificio_centro from centro where centro_id = ?) ");
+                $stmt->execute(array($ce));
+                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                //Recorremos todos las filas de usuario devueltas por la sentencia sql
+                foreach ($espacios_db as $espacio) {
+                    //Introducimos uno a uno los usuarios recuperados de la BD
+                    array_push($allEspacios,
+                        new ESPACIO_Model(
+                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                        )
+                    );
+                }
+            }
+        }
+
+        if(!$responsable_espacio == "") {
+            foreach ($responsable_espacio as $re) {
+                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id = ? and (estado_solic = ? or estado_solic = ?)) ");
+                $stmt->execute(array($re, 'DEFIN', 'TEMP'));
+                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                //Recorremos todos las filas de usuario devueltas por la sentencia sql
+                foreach ($espacios_db as $espacio) {
+                    //Introducimos uno a uno los usuarios recuperados de la BD
+                    array_push($allEspacios,
+                        new ESPACIO_Model(
+                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                        )
+                    );
+                }
+            }
+        }
+
+        if(!$grupo_espacio == "") {
+            foreach ($grupo_espacio as $gr) {
+                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id  in (select responsable_grupo from grupo_investigacion where grupo_id = ?) and (estado_solic = ? or estado_solic = ?)) ");
+                $stmt->execute(array($gr, 'DEFIN', 'TEMP'));
+                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                //Recorremos todos las filas de usuario devueltas por la sentencia sql
+                foreach ($espacios_db as $espacio) {
+                    //Introducimos uno a uno los usuarios recuperados de la BD
+                    array_push($allEspacios,
+                        new ESPACIO_Model(
+                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                        )
+                    );
+                }
+            }
+        }
+
+        $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id  in (select responsable_grupo from grupo_investigacion where area_conoc_grupo = ?) and (estado_solic = ? or estado_solic = ?)) ");
+        $stmt->execute(array($area_conc_search, 'DEFIN', 'TEMP'));
+        $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //Recorremos todos las filas de usuario devueltas por la sentencia sql
+        foreach ($espacios_db as $espacio) {
+            //Introducimos uno a uno los usuarios recuperados de la BD
+            array_push($allEspacios,
+                new ESPACIO_Model(
+                    $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                    , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                )
+            );
+        }
+
+        $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id  in (select responsable_depart from departamento where area_conc_depart = ?) and (estado_solic = ? or estado_solic = ?)) ");
+        $stmt->execute(array($area_conc_search, 'DEFIN', 'TEMP'));
+        $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //Recorremos todos las filas de usuario devueltas por la sentencia sql
+        foreach ($espacios_db as $espacio) {
+            //Introducimos uno a uno los usuarios recuperados de la BD
+            array_push($allEspacios,
+                new ESPACIO_Model(
+                    $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                    , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                )
+            );
+        }
+
+        $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id  in (select usuario_id from usuario where nivel_jerarquia = ?) and (estado_solic = ? or estado_solic = ?)) ");
+        $stmt->execute(array($nivel_search, 'DEFIN', 'TEMP'));
+        $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //Recorremos todos las filas de usuario devueltas por la sentencia sql
+        foreach ($espacios_db as $espacio) {
+            //Introducimos uno a uno los usuarios recuperados de la BD
+            array_push($allEspacios,
+                new ESPACIO_Model(
+                    $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                    , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                )
+            );
+        }
+
+        $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id  in (select usuario_id from usuario where nombre_puesto = ?) and (estado_solic = ? or estado_solic = ?)) ");
+        $stmt->execute(array($puesto_search, 'DEFIN', 'TEMP'));
+        $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //Recorremos todos las filas de usuario devueltas por la sentencia sql
+        foreach ($espacios_db as $espacio) {
+            //Introducimos uno a uno los usuarios recuperados de la BD
+            array_push($allEspacios,
+                new ESPACIO_Model(
+                    $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                    , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                )
+            );
+        }
+
+        $arrayFinal = array();
+        foreach ($allEspacios as $espacio){
+            if(!in_array($espacio, $arrayFinal)){
+                array_push($arrayFinal, $espacio);
+            }
+        }
+        return $arrayFinal;
+    }
+
 
 
     /**

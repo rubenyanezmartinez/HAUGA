@@ -76,14 +76,9 @@ class ESPACIO_SHOWALL_View
                             </svg>
                             Nuevo Espacio
                         </a>
+
                     <?php } ?>
-                    <a class="btn btn-primary" style="background-color: #073349;" href="../Controllers/Espacio_Controller.php?action=search">
-                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg>
-                        Buscar Espacios
-                    </a>
+
                 </div>
                 <div class="col align-self-center">
                     <h2 class="text-center textoAzul">Espacios</h2>
@@ -381,7 +376,13 @@ class ESPACIO_SHOWALL_View
                     </tbody>
                 </table>
             </div>
-
+<div>  <a class="btn btn-primary" style="background-color: #073349;" href="../Controllers/Espacio_Controller.php?action=search">
+        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        Buscar Espacios
+    </a></div>
             <div class="row">
                 <div class="col">
                     <nav aria-label="paginacion">

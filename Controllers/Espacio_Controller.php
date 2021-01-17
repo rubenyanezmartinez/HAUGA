@@ -17,6 +17,7 @@ include '../Views/ESPACIO_SHOWCURRENT_View.php';
 include '../Views/ESPACIO_ADD_View.php';
 include '../Views/ESPACIO_HISTORIAL_View.php';
 include '../Views/ESPACIO_SEARCH_View.php';
+include '../Views/ESPACIO_SHOWALL_SEARCH_View.php';
 
 include '../Functions/Authentication.php';
 
@@ -112,9 +113,39 @@ switch ($action) {
             $edificios = $edificio->SHOWALL();
             new ESPACIO_SEARCH_View($departamentos, $centros, $grupos, $responsables, $agrupacion, $edificios);
         } else {
-            search(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_GET['num_pag'], $_GET['depart_espacio'], $_GET['area_conc_search'],
-                            $_GET['grupo_espacio'],$_GET['puesto_search'], $_GET['responsable_espacio'], $_GET['nivel_search'],
-                            $_GET['agrupacion_espacio'], $_GET['edificio_espacio']);
+            $centros="";
+            if(isset($_POST['centro_espacio'])){
+                $centros = $_POST['centro_espacio'];
+            }
+            $depart="";
+            if(isset($_POST['depart_espacio'])){
+                $depart = $_POST['depart_espacio'];
+            }
+            $grupo="";
+            if(isset($_POST['grupo_espacio'])){
+                $grupo = $_POST['grupo_espacio'];
+            }
+             $depart="";
+            if(isset($_POST['depart_espacio'])){
+                $depart = $_POST['depart_espacio'];
+            }
+            $responsable = "";
+            if(isset($_POST['responsable_espacio'])){
+                $responsable = $_POST['responsable_espacio'];
+            }
+            $agrup = "";
+            if(isset($_POST['agrupacion_espacio'])){
+
+                $agrup = $_POST['agrupacion_espacio'];
+            }
+            $edificio = "";
+            if(isset($_POST['edificio_espacio'])){
+                $edificio = $_POST['edificio_espacio'];
+            }
+
+            search(!isset($_GET['num_pag']) || $_GET['num_pag'] == '' ? 1 : $_POST['num_pag'], $depart, $_POST['area_conc_search'],
+                            $grupo,$_POST['puesto_search'], $responsable, $_POST['nivel_search'],
+                            $agrup, $edificio, $centros);
         }
         break;
     default:
@@ -185,20 +216,12 @@ function edit($espacio_id){
 }
 
 function search($num_pag, $depart_espacio, $area_conc_search, $grupo_espacio, 
-        $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio){
-        
-    var_dump($depart_espacio);
-    var_dump($area_conc_search);
-    var_dump($grupo_espacio);
-    var_dump($puesto_search);
-    var_dump($responsable_espacio);
-    var_dump($nivel_search);
-    var_dump($agrupacion_espacio);
-    var_dump($edificio_espacio);
+        $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros){
 
-    list($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables) = preparar_search($num_pag);
+    list($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables) = preparar_search($num_pag, $depart_espacio, $area_conc_search, $grupo_espacio,
+        $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros);
 
-    new ESPACIO_SHOWALL_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
+    new ESPACIO_SHOWALL_SEARCH_View($allEspacios, $nombreEdificios, $nombresResponsables, $num_pags, '', 0);
 }
 
 function add()
@@ -743,10 +766,13 @@ function preparar_showall($num_pag)
     return array($allEspacios, $num_pags, $nombreEdificios, $nombresResponsables);
 }
 
-function preparar_search($num_pag)
+function preparar_search($num_pag, $depart_espacio, $area_conc_search, $grupo_espacio,
+                         $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros)
 {
     $espacio_model = new ESPACIO_Model('', '', '', '', '', '', '');
-    $allEspacios = $espacio_model->search();
+    $allEspacios = $espacio_model->search($depart_espacio, $area_conc_search, $grupo_espacio,
+        $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros);
+
 
     $num_pags = ceil(count($allEspacios) / TAM_PAG);
     $num_pag = $num_pag > $num_pags || $num_pag <= 0 ? 1 : $num_pag;
