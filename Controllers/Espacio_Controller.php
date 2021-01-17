@@ -16,6 +16,7 @@ include '../Views/ESPACIO_SHOWALL_View.php';
 include '../Views/ESPACIO_SHOWCURRENT_View.php';
 include '../Views/ESPACIO_ADD_View.php';
 include '../Views/ESPACIO_HISTORIAL_View.php';
+include '../Views/ESPACIO_SEARCH_View.php';
 
 include '../Functions/Authentication.php';
 
@@ -93,6 +94,23 @@ switch ($action) {
 
         }else {
             header('Location:../Controllers/Espacio_Controller.php?action=showall');
+        }
+        break;
+    case 'search':
+        if(!$_POST) {
+            $departamento = new DEPARTAMENTO_Models('','','','','','','', '');  //Crea un DEPARTAMENTO vacio
+            $departamentos = $departamento->SHOWALL(); //En $Array con todos los departamento
+            $centro = new CENTRO_Model('','','');  //Crea un centro vacio
+            $centros = $centro->SHOWALL(); //En $Array con todos los centros
+            $grupo = new GRUPO_INVESTIGACION_Model('','','','','','','');
+            $grupos = $grupo->SHOWALL();
+            $responsable = new USUARIO_Model('','','','','','','','','','','','','','','','');
+            $responsables = $responsable->SHOWALL();
+            $agrupaciones = new AGRUPACION_Model('','','');
+            $agrupacion = $agrupaciones->SHOWALL();
+            $edificio = new EDIFICIO_Model('','','','','','');
+            $edificios = $edificio->SHOWALL();
+            new ESPACIO_SEARCH_View($departamentos, $centros, $grupos, $responsables, $agrupacion, $edificios);
         }
         break;
     default:
