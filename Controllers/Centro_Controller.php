@@ -6,6 +6,7 @@ include '../Models/USUARIO_Model.php';
 include '../Models/EDIFICIO_Model.php';
 include '../Models/CENTRO_Model.php';
 include '../Views/CENTRO_SHOWALL_View.php';
+include '../Views/CENTRO_ADD_View.php';
 session_start();
 
 const TAM_PAG = 5;
@@ -41,27 +42,24 @@ switch($action){
 
 
 function add(){
-    $edificio = new EDIFICIO_Model('','','','','','');  //Crea un edificio vacio
-    $edificios = $edificio->SHOWALL(); //En $Array con todos los edificio
-    $usuario = new USUARIO_Model('','','','','','','', '','','','','','','','','');  //Crea un usuario vacio
-    $usuarios = $usuario->SHOWALL(); //En $Array con todos los usuarios
+    $centro = new CENTRO_Model(null,'','');  //Crea un centro vacio
+    $centros = $centro->SHOWALL(); //En $Array con todos los centros
+
+    $edificio_model = new EDIFICIO_Model('', '', '', '', '', '');
+    $edificios = $edificio_model->SHOWALL();
     if(!$_POST){//Antes de cubrir el formulario
-        $datos = ["nombre_depart" => '', "codigo_depart" => '', "telef_depart" => '', "email_depart" => '',
-            "area_conc_depart" => '', "responsable_depart" => '', "edificio_depart" => '',"respuesta"=>''];
-        new DEPARTAMENTO_ADD_View($datos, $edificios, $usuarios);
+        new CENTRO_ADD_View($centro, $edificios);
     } else {
 
-        $departamento = new DEPARTAMENTO_Models(null, $_POST['nombre_depart'], $_POST['codigo_depart'],$_POST['telef_depart'], $_POST['email_depart']
-            ,$_POST['area_conc_depart'],$_POST['responsable_depart'],$_POST['edificio_depart']);//DEPARTAMENTO con los datos introducidos en el formulario.
+        $centro = new CENTRO_Model(null, $_POST['nombre_centro'], $_POST['edificio_centro']);//CENTRO con los datos introducidos en el formulario.
 
-        $respuesta = $departamento->registrar();
+        $respuesta = $centro->add();
 
         if($respuesta === true){
-            header('Location:../Controllers/Departamento_Controller.php?action=showall');
+            header('Location:../Controllers/Centro_Controller.php?action=showall');
         }else{
             //Mostramos datos introducidos y mensaje de error
-            $departamento = new DEPARTAMENTO_ADD_View(["nombre_depart" => $_POST['nombre_depart'] , "codigo_depart" => $_POST['codigo_depart'], "telef_depart" => $_POST['telef_depart'], "email_depart" => $_POST['email_depart'],
-                "area_conc_depart" => $_POST['area_conc_depart'], "responsable_depart" => $_POST['responsable_depart'], "edificio_depart" => $_POST['edificio_depart'],"respuesta"=>$respuesta], $edificios, $usuarios);
+            $centro = new CENTRO_ADD_View(new CENTRO_Model(null, '', ''), $edificios);
         }
     }
 }
@@ -107,7 +105,7 @@ function showcurrent($depart_id){
 
 function delete(){
     if(isset($_GET['centro_id'])){//Antes de confirmar el borrado
-        $centro = new CENTRO_Model($_GET['centro_id']);
+        $centro = new CENTRO_Model($_GET['centro_id'], '', '');
         $respuesta = $centro->DELETE(); //Elimina el departamento
         if($respuesta === true){
             header('Location:../Controllers/Centro_Controller.php?action=showall');
