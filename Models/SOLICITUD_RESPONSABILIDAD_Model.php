@@ -82,10 +82,68 @@ class SOLICITUD_RESPONSABILIDAD_Model
 
     function haSolicitadoEspacio($espacio_id, $usuario_id){
         $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE espacio_id=? and usuario_id=? and estado_solic=?");
-        $resultado = $stmt->execute(array($espacio_id, $usuario_id, 'TEMP'));
+        $stmt->execute(array($espacio_id, $usuario_id, 'TEMP'));
 
         return $stmt->fetch(PDO::FETCH_ASSOC) != false;
 
+    }
+
+    function getTemporales(){
+        $stmt = $this->db->prepare("SELECT * FROM solicitud_responsabilidad WHERE estado_solic = 'TEMP'");
+        $stmt->execute();
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $allSolicitudes = array();
+        foreach ($resultado as $solicitud){
+            array_push($allSolicitudes,
+                new SOLICITUD_RESPONSABILIDAD_Model(
+                    $solicitud['solicitud_id'], $solicitud['espacio_id'], $solicitud['usuario_id'], $solicitud['fecha_inicio'], $solicitud['fecha_fin'], $solicitud['estado_solic'], $solicitud['tarifa_historica']
+                )
+            );
+        }
+
+        return $allSolicitudes;
+    }
+
+    function getEspacioBySolicitudId($solicitud_id){
+        $stmt = $this->db->prepare("SELECT espacio_id FROM solicitud_responsabilidad WHERE solicitud_id = ?");
+        $stmt->execute(array($solicitud_id));
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($resultado != null){
+            return $resultado['espacio_id'];
+        } else {
+            return -1;
+        }
+    }
+
+    function aceptar($solicitud_id){
+        $stmt_actualizar = $this->db->prepare("UPDATE solicitud_responsabilidad SET estado_solic='DEFIN' WHERE solicitud_id = ?");
+        if($stmt_actualizar->execute(array($solicitud_id))){
+            $stmt_borrar = $this->db->prepare("DELETE FROM solicitud_responsabilidad WHERE estado_solic='TEMP' AND espacio_id = ?");
+            if($stmt_borrar->execute(array($this->getEspacioBySolicitudId($solicitud_id)))){
+                return true;
+            }
+        }
+
+        return "Error al aceptar la solicitiud";
+    }
+
+    function denegar($solicitud_id){
+        $stmt = $this->db->prepare("DELETE FROM solicitud_responsabilidad WHERE solicitud_id = ?");
+        if($stmt->execute(array($solicitud_id))){
+            return true;
+        } else {
+            return 'Error al denegar la solicitud';
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSolicitudId()
+    {
+        return $this->solicitud_id;
     }
 
     /**

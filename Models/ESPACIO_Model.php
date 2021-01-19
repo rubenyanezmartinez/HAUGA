@@ -112,7 +112,6 @@ class ESPACIO_Model
         }
     }
 
-    //NO TENER EN CUENTA ESTA MIERDA DE CÓDIGO, ESTAMOS A PUNTO DE DEJAR EL MÁSTER
     function search($depart_espacio, $area_conc_search, $grupo_espacio,
                     $puesto_search, $responsable_espacio, $nivel_search, $agrupacion_espacio, $edificio_espacio, $centros){
 

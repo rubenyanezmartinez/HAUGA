@@ -18,6 +18,7 @@ include '../Views/ESPACIO_ADD_View.php';
 include '../Views/ESPACIO_HISTORIAL_View.php';
 include '../Views/ESPACIO_SEARCH_View.php';
 include '../Views/ESPACIO_SHOWALL_SEARCH_View.php';
+include '../Views/SOLICITUD_SHOWALL_View.php';
 
 include '../Functions/Authentication.php';
 
@@ -146,6 +147,37 @@ switch ($action) {
             search($depart, $_POST['area_conc_search'],
                             $grupo,$_POST['puesto_search'], $responsable, $_POST['nivel_search'],
                             $agrup, $edificio, $centros);
+        }
+        break;
+    case 'verSolicitudes':
+        if(IsAuthenticated()){
+            verSolicitudes($_SESSION['login']);
+        } else {
+            header('Location:../Controllers/Index_Controller.php');
+        }
+        break;
+    case 'aceptarSolicitud':
+        if(IsAuthenticated() && isset($_GET['solicitud_id'])){
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($_GET['solicitud_id'],'','','','','','');
+            if(tienePermisos($_SESSION['login'], $solicitud_model->getEspacioBySolicitudId($_GET['solicitud_id']))){
+                aceptarSolicitud($_GET['solicitud_id'], true);
+            } else {
+                header('Location:../Controllers/Index_Controller.php');
+            }
+        } else {
+            header('Location:../Controllers/Index_Controller.php');
+        }
+        break;
+    case 'denegarSolicitud':
+        if(IsAuthenticated() && isset($_GET['solicitud_id'])){
+            $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model($_GET['solicitud_id'],'','','','','','');
+            if(tienePermisos($_SESSION['login'], $solicitud_model->getEspacioBySolicitudId($_GET['solicitud_id']))){
+                aceptarSolicitud($_GET['solicitud_id'], false);
+            } else {
+                header('Location:../Controllers/Index_Controller.php');
+            }
+        } else {
+            header('Location:../Controllers/Index_Controller.php');
         }
         break;
     default:
@@ -798,7 +830,46 @@ function preparar_search($depart_espacio, $area_conc_search, $grupo_espacio,
     return array($allEspacios, $nombreEdificios, $nombresResponsables);
 }
 
+function verSolicitudes($login){
+    $solicitudModel = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
+    $solicitudes = $solicitudModel->getTemporales();
 
+
+    $usuario_model = new USUARIO_Model('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '' );
+
+    $arraySolicitudes = array();
+    $arrayEspacios = array();
+    $arrayUsuarios = array();
+
+    foreach ($solicitudes as $solicitud){
+        if(tienePermisos($login, $solicitud->getEspacioId())){
+            array_push($arraySolicitudes, $solicitud);
+
+            $espacio_model = new ESPACIO_Model($solicitud->getEspacioId(), '', '', '', '', '', '');
+            $arrayEspacios[$solicitud->getSolicitudId()] = $espacio_model->rellenaDatos();
+
+            $usuario_model = new USUARIO_Model($solicitud->getUsuarioId(), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '' );
+            $arrayUsuarios[$solicitud->getSolicitudId()] = $usuario_model->rellenaDatosById();
+        }
+    }
+
+    new SOLICITUD_SHOWALL_View($arraySolicitudes, $arrayEspacios, $arrayUsuarios);
+
+
+}
+
+function aceptarSolicitud($solicitud_id, $aceptada){
+    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
+
+    if($aceptada){
+        $solicitud_model->aceptar($solicitud_id);
+    } else {
+        $solicitud_model->denegar($solicitud_id);
+    }
+
+    header('Location:../Controllers/Espacio_Controller.php?action=verSolicitudes');
+
+}
 
 function tienePermisos($login_usuario, $espacio_id){
     //COMRPOBACION DE SI EL USUARIO TIENE LOS PERMISOS PARA PODER REALIZAR EL BORRADO DEL ESPACIO:
