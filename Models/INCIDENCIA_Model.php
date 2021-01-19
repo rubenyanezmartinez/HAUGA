@@ -60,5 +60,16 @@ class INCIDENCIA_Model{
 
     }
 
+    function add(){
+        $stmt = $this->db->prepare("INSERT INTO incidencia (incidencia_id, descripcion_incid, 
+                    estado_incid, espacio_afectado, autor_incidencia) VALUES (?,?,?,?,?)");
+        if($stmt->execute(array(null,$this->descripcion_incid, $this->estado_incid,
+                $this->espacio_afectado, $this->autor_incidencia))){
+            return true;
+        }else{
+            return 'Error en la inserción de la incidencia';
+        }
+
+    }
 }
 ?>

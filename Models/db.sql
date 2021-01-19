@@ -104,7 +104,7 @@ CREATE TABLE `hauga`.`incidencia` (
 	`descripcion_incid` VARCHAR(500) NOT NULL,
 	`estado_incid` enum('PEND', 'DENEG', 'ACEPT') NOT NULL,
 	`espacio_afectado` int NOT NULL,
-	`autor_incidencia` int,
+	`autor_incidencia` VARCHAR(60),
 	PRIMARY KEY	(`incidencia_id`)
 );
 
@@ -207,7 +207,7 @@ VALUES (null, 'Laboratorio L39','../Models/Imagenes_Espacios/Aula_2_1.PNG', 800,
 
 INSERT INTO `hauga`.`incidencia`
 (`incidencia_id`, `descripcion_incid`, `estado_incid`, `espacio_afectado`, `autor_incidencia`)
-VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 1);
+VALUES (null, 'incidencia con el proyector', 'ACEPT', 1, 'Pepe Viyuela');
 
 INSERT INTO `hauga`.`solicitud_responsabilidad`
 (`solicitud_id`, `espacio_id`, `usuario_id`, `fecha_inicio`, `fecha_fin`, `estado_solic`, `tarifa_historica`)
@@ -258,7 +258,7 @@ ALTER TABLE `hauga`.`centro` ADD FOREIGN KEY (`edificio_centro`) REFERENCES `hau
 ALTER TABLE `hauga`.`espacio` ADD FOREIGN KEY	(`edificio_esp`) REFERENCES `hauga`.`edificio`(`edificio_id`) ON DELETE CASCADE;
 
 ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`espacio_afectado`) REFERENCES `hauga`.`espacio`(`espacio_id`) ON DELETE CASCADE;
-ALTER TABLE `hauga`.`incidencia` ADD FOREIGN KEY (`autor_incidencia`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE CASCADE;
+
 
 ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY	(`espacio_id`) REFERENCES `hauga`.`espacio`(`espacio_id`) ON DELETE CASCADE;
 ALTER TABLE `hauga`.`solicitud_responsabilidad` ADD FOREIGN KEY (`usuario_id`) REFERENCES `hauga`.`usuario`(`usuario_id`) ON DELETE CASCADE;
