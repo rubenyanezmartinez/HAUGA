@@ -52,7 +52,7 @@ class INCIDENCIA_ADD_View{
                         <h5 class="text-center textoAzul">Crear incidencia</h5>
                         <?php if (IsAuthenticated()) {?>
                             <div class="form-group">
-
+                                <input type="hidden" name="autor" id="autor" value="a"/>
                             </div>
                         <?php } else {?>
                             <div class="input-group mb-2">
@@ -74,11 +74,11 @@ class INCIDENCIA_ADD_View{
                                     </svg>
                                 </div>
                             </div>
-                            <select class="form-control" name="agrupacion" id="agrupacion">
+                            <select onchange="incidenciaCambiarAgrup(this)" class="form-control" name="agrupacion" id="agrupacion">
                                 <option disabled selected>Selecciona una agrupación</option>
 
                                 <?php foreach($this->agrupaciones as $agrupacion){?>
-                                <option value =<?= $agrupacion->getAgrupId()?>><?= $agrupacion->getNombreAgrup()?></option>
+                                    <option value="<?= $agrupacion->getAgrupId()?>"><?= $agrupacion->getNombreAgrup()?></option>
                                 <?php }?>
 
                             </select>
@@ -91,11 +91,11 @@ class INCIDENCIA_ADD_View{
                                     </svg>
                                 </div>
                             </div>
-                            <select class="form-control" name="edificio" id="edificio">
-                                <option disabled selected>Selecciona un edificio</option>
+                            <select onchange="incidenciaCambiarEdificio(this)" class="form-control" name="edificio" id="edificio">
+                                <option value="" disabled selected>Selecciona un edificio</option>
                                  <?php foreach($this->edificios as $edificio){?>
-                                <option value="<?= $edificio->getEdificioId()?>"> <?= $edificio->getNombreEdif()?></option>
-                                <?php } ?>
+                                    <option value="<?= $edificio->getEdificioId()?>" class="edificio agrupacion-<?=$edificio->getAgrup_edificio()?>" hidden> <?= $edificio->getNombreEdif()?></option>
+                                 <?php } ?>
                             </select>
                         </div>
                         <div class="input-group mb-2">
@@ -106,10 +106,10 @@ class INCIDENCIA_ADD_View{
                                     </svg>
                                 </div>
                             </div>
-                            <select class="form-control" name="espacio_id" id="espacio_id">
-                                <option disabled selected>Selecciona un espacio</option>
+                            <select class="form-control" name="espacio_id" id="espacio">
+                                <option value="" disabled selected>Selecciona un espacio</option>
                                 <?php foreach($this->espacios as $espacio){ ?>
-                                <option value="<?= $espacio->getEspacioId()?>"><?=$espacio->getNombreEsp()?></option>
+                                    <option value="<?= $espacio->getEspacioId()?>" class="espacio edificio-<?=$espacio->getEdificioEsp()?>" hidden><?=$espacio->getNombreEsp()?></option>
                                 <?php } ?>
                             </select>
                         </div>

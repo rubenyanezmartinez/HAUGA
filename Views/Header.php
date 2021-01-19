@@ -35,6 +35,9 @@ include_once '../Functions/esAdministrador.php';
     <script type="text/javascript" src="../Views/js/validacionesAddAgrupacion.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddGrupoInvestigacion.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddEspacio.js"></script>
+    <script type="text/javascript" src="../Views/js/formAddIncidencia.js"></script>
+    <script type="text/javascript" src="../Views/js/validacionesAddEdificio.js"></script>
+    <script type="text/javascript" src="../Views/js/validacionesAddIncidencia.js"></script>
 
 
     <nav id="barra-fija-superior" class="nav">

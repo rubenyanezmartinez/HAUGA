@@ -33,12 +33,11 @@ function add(){
 
         new INCIDENCIA_ADD_View($agrupaciones, $edificios, $espacios);
     }else{
-
         if(isset($_POST['espacio_id'])){
 
             $espacio_id = $_POST['espacio_id'];
 
-            if(isset($_POST['autor'])){
+            if(!IsAuthenticated()){
                 $autor = $_POST['autor'];
             }else{
                 $usuario_model = new USUARIO_Model('',$_SESSION['login'],'','','','',
@@ -49,6 +48,8 @@ function add(){
             $incidencia_model = new INCIDENCIA_Model('',$_POST['descripcion_incid'],'PEND',$espacio_id,$autor);
             $incidencia_model->add();
         }
+
+        header('Location:../Controllers/Index_Controller.php');
     }
 
 }
