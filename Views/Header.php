@@ -39,6 +39,8 @@ include_once '../Functions/esAdministrador.php';
     <script type="text/javascript" src="../Views/js/validacionesAddEdificio.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddIncidencia.js"></script>
 
+    <script src="../View/js/html2pdf.bundle.min.js"></script>
+
 
     <nav id="barra-fija-superior" class="nav">
         <div class="container">
