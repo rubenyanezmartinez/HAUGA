@@ -301,16 +301,7 @@ class ESPACIO_SHOWALL_SEARCH_View
         include '../Views/Header.php';
 
         ?>
-        <script>
-            function generatePDF() {
-                // Choose the element that our invoice is rendered in.
-                const element = document.getElementById("pdf");
-                // Choose the element and save the PDF for our user.
-                html2pdf()
-                    .from(element)
-                    .save();
-            }
-        </script>
+
         <div class="container" id="pdf">
             <div class="row align-self-center">
                 <div class="col text-left">
@@ -341,7 +332,7 @@ class ESPACIO_SHOWALL_SEARCH_View
                 </div>
             </div>
             <hr>
-            <div class="row">
+            <div class="row" >
                 <table class="table table-bordered">
                     <thead>
                     <tr class="text-center" style="color: white;background-color: #073349;">

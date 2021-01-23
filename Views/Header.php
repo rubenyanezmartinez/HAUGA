@@ -39,7 +39,17 @@ include_once '../Functions/esAdministrador.php';
     <script type="text/javascript" src="../Views/js/validacionesAddEdificio.js"></script>
     <script type="text/javascript" src="../Views/js/validacionesAddIncidencia.js"></script>
 
-    <script src="../View/js/html2pdf.bundle.min.js"></script>
+    <script src="../Views/js/html2pdf.bundle.min.js"></script>
+    <script>
+        function generatePDF() {
+            // Choose the element that our invoice is rendered in.
+            const element = document.getElementById("pdf");
+            // Choose the element and save the PDF for our user.
+            html2pdf()
+                .from(element)
+                .save();
+        }
+    </script>
 
 
     <nav id="barra-fija-superior" class="nav">
