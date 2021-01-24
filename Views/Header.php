@@ -125,6 +125,9 @@ include_once '../Functions/esAdministrador.php';
                     <div class="col-1 align-self-center text-center">
                         <h5><a href="../Controllers/Espacio_Controller.php?action=verSolicitudes" class="textoAzul">RESPONSABLES</a></h5>
                     </div>
+                    <div class="col-1 align-self-center text-center">
+                        <h5><a href="../Controllers/Incidencia_Controller.php?action=showall" class="textoAzul">INCIDENCIAS</a></h5>
+                    </div>
                 <?php } else { ?>
                     <div class="col-1 align-self-center text-center">
                         <h4><a href="../Controllers/Centro_Controller.php?action=showall" class="textoAzul">CENTROS</a></h4>
