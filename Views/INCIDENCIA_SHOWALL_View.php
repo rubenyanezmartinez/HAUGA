@@ -5,13 +5,15 @@ class INCIDENCIA_SHOWALL_View{
     var $incidencias;
     var $espacios;
     var $autenticado;
+    var $incidenciasTodas;
     var $texto;
 
-    function __construct($incidencias, $espacios, $autenticado){
+    function __construct($incidencias, $espacios, $autenticado, $incidenciasTodas){
         $this->incidencias = $incidencias;
         $this->espacios = $espacios;
         $this->autenticado = $autenticado;
         $this->texto = '';
+        $this->incidenciasTodas = $incidenciasTodas;
         $this->showall();
     }
 
@@ -47,7 +49,7 @@ class INCIDENCIA_SHOWALL_View{
                     </thead>
                     <tbody>
                     <?php
-                    foreach($this->incidencias as $incidencia){?>
+                    foreach($this->incidenciasTodas as $incidencia){?>
 
                         <tr>
                             <th scope="row"><?=$this->espacios[$incidencia->getEspacioAfectado()]?></th>
@@ -66,7 +68,7 @@ class INCIDENCIA_SHOWALL_View{
                             </th>
                             <th style="text-align: center">
                         <?php
-                        if($incidencia->getEstadoIncid() == "PEND" && $this->autenticado == true){?>
+                        if($incidencia->getEstadoIncid() == "PEND" && $this->autenticado == true && in_array($incidencia, $this->incidencias) ){?>
 
                                 <a href="../Controllers/Incidencia_Controller.php?action=aceptar&incidencia_id=<?=$incidencia->getIncidenciaId()?>">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">

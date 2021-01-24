@@ -110,15 +110,16 @@ function showall(){
         }
     }
 
+    $incidenciasTodas = $incidencia_model->SHOWALL();
 
     $nombreEspacios = [];
 
-    foreach($incidencias as $incidencia){
+    foreach($incidenciasTodas as $incidencia){
         $espacio_model = new ESPACIO_Model($incidencia->getEspacioAfectado(), '', '', '', '', '', '');
         $nombreEspacios[$incidencia->getEspacioAfectado()] = $espacio_model->getNombreById();
     }
 
-    new INCIDENCIA_SHOWALL_View($incidencias, $nombreEspacios, $autenticado);
+    new INCIDENCIA_SHOWALL_View($incidencias, $nombreEspacios, $autenticado, $incidenciasTodas);
 }
 
 function permisosIncidencias($usuario_autenticado){
