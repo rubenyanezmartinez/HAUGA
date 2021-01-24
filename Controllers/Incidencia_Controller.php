@@ -21,10 +21,10 @@ switch($action){
         showall();
         break;
     case 'aceptar':
-        aceptar();
+        aceptar($_GET['incidencia_id']);
         break;
     case 'denegar':
-        denegar();
+        denegar($_GET['incidencia_id']);
         break;
     default:
         echo "default del controlador de incidencias";
@@ -62,6 +62,22 @@ function add(){
         header('Location:../Controllers/Index_Controller.php');
     }
 
+}
+
+function aceptar($incidencia_id){
+    $incidencia = new INCIDENCIA_Model($incidencia_id,'','','','');
+    $incidencia = $incidencia->rellenaDatos();
+
+    $incidencia->updateEstado('ACEPT');
+    header('Location:../Controllers/Index_Controller.php');
+}
+
+function denegar($incidencia_id){
+    $incidencia = new INCIDENCIA_Model($incidencia_id,'','','','');
+    $incidencia = $incidencia->rellenaDatos();
+
+    $incidencia->updateEstado('DENEG');
+    header('Location:../Controllers/Index_Controller.php');
 }
 
 function showall(){

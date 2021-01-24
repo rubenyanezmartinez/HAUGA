@@ -91,6 +91,11 @@ class INCIDENCIA_Model{
         return $allIncidencias;
     }
 
+    public function updateEstado($estadoIncid){
+        $stmt = $this->db->prepare("UPDATE incidencia SET estado_incid = ? WHERE incidencia_id = ?");
+        $stmt->execute(array($estadoIncid, $this->getIncidenciaId()));
+    }
+    
     /**
      * @return mixed
      */
