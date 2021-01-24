@@ -86,22 +86,28 @@ function showall(){
     $incidencia_model = new INCIDENCIA_Model('','','','','');
     $espacio_model = new ESPACIO_Model('', '', '', '', '', '', '');
 
-    $usuario_autenticado = new USUARIO_Model('',$_SESSION['login'],'','','','',
-        '','','','','','','','','','');
-    $user = $usuario_autenticado->rellenaDatos();
 
 
+    $autenticado = true;
 
-    $permiso = permisosIncidencias($user);
+    if(!isset($_SESSION['login'])){
+        $incidencias = $incidencia_model->SHOWALL();
+        $autenticado = false;
+    }else {
+        $usuario_autenticado = new USUARIO_Model('',$_SESSION['login'],'','','','',
+            '','','','','','','','','','');
+        $user = $usuario_autenticado->rellenaDatos();
+        $permiso = permisosIncidencias($user);
 
-    if($permiso != 'NO'){
-        if($permiso == 'ADMIN'){
-            $incidencias = $incidencia_model->SHOWALL();
-        }else{
-            $incidencias = $incidencia_model->buscarIncidencias($permiso);
+        if ($permiso != 'NO') {
+            if ($permiso == 'ADMIN') {
+                $incidencias = $incidencia_model->SHOWALL();
+            } else {
+                $incidencias = $incidencia_model->buscarIncidencias($permiso);
+            }
+        } else {
+            header('Location:../Controllers/Index_Controller.php');
         }
-    }else{
-        header('Location:../Controllers/Index_Controller.php');
     }
 
 
@@ -112,7 +118,7 @@ function showall(){
         $nombreEspacios[$incidencia->getEspacioAfectado()] = $espacio_model->getNombreById();
     }
 
-    new INCIDENCIA_SHOWALL_View($incidencias, $nombreEspacios);
+    new INCIDENCIA_SHOWALL_View($incidencias, $nombreEspacios, $autenticado);
 }
 
 function permisosIncidencias($usuario_autenticado){
