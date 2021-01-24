@@ -92,18 +92,8 @@ class INCIDENCIA_Model{
     }
 
     function buscarIncidencias($case){
-        $stmt = $this->db->prepare("SELECT * FROM incidencia ORDER BY estado_incid");
-        $stmt->execute();
-
-        switch($case){
-            case 'CONSERJERIA':
-                $stmt = $this->db->prepare("SELECT * FROM incidencia WHERE espacio_afectado IN(select * from espacio where categoria_esp = ?)");
-                $stmt->execute(array('COMUN'));
-            case 'ADMIN':
-                $stmt = $this->db->prepare("SELECT * FROM incidencia ORDER BY estado_incid");
-                $stmt->execute();
-
-        }
+        $stmt = $this->db->prepare("SELECT * FROM incidencia WHERE espacio_afectado IN(select espacio_id from espacio where categoria_esp = ?)");
+        $stmt->execute(array($case));
 
         $incidencias_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $allIncidencias = array();  //array para almacenar los datos de todas las incidencias

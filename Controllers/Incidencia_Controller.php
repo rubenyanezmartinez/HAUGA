@@ -4,7 +4,9 @@ include_once '../Models/ESPACIO_Model.php';
 include_once '../Models/AGRUPACION_Model.php';
 include_once '../Models/USUARIO_Model.php';
 include_once '../Models/EDIFICIO_Model.php';
+include_once '../Models/GRUPO_INVESTIGACION_Model.php';
 include_once '../Models/INCIDENCIA_Model.php';
+include_once '../Models/DEPARTAMENTO_Models.php';
 include_once '../Views/INCIDENCIA_ADD_View.php';
 include_once '../Views/INCIDENCIA_SHOWALL_View.php';
 
@@ -86,23 +88,22 @@ function showall(){
 
     $usuario_autenticado = new USUARIO_Model('',$_SESSION['login'],'','','','',
         '','','','','','','','','','');
-    $usuario_autenticado->rellenaDatos();
+    $user = $usuario_autenticado->rellenaDatos();
 
-    $case = "";
-    if($usuario_autenticado->getRol() == "ADMIN"){
-        $case = "ADMIN";
-    }
-    if ($usuario_autenticado->getNombrePuesto() == 'Conserjería'
-        || $usuario_autenticado->getNombrePuesto() == 'Conserjeria'
-        || $usuario_autenticado->getNombrePuesto() == 'conserjería'
-        || $usuario_autenticado->getNombrePuesto() == 'conserjeria'
-        || $usuario_autenticado->getNombrePuesto() == 'conserje'
-        || $usuario_autenticado->getNombrePuesto() == 'Conserje'){
-        $case = "CONSERJERIA";
+
+
+    $permiso = permisosIncidencias($user);
+
+    if($permiso != 'NO'){
+        if($permiso == 'ADMIN'){
+            $incidencias = $incidencia_model->SHOWALL();
+        }else{
+            $incidencias = $incidencia_model->buscarIncidencias($permiso);
+        }
+    }else{
+        header('Location:../Controllers/Index_Controller.php');
     }
 
-    $incidencias = $incidencia_model->buscarIncidencias($case);
-    $allEspacios = $espacio_model->SHOWALL();
 
     $nombreEspacios = [];
 
@@ -112,4 +113,55 @@ function showall(){
     }
 
     new INCIDENCIA_SHOWALL_View($incidencias, $nombreEspacios);
+}
+
+function permisosIncidencias($usuario_autenticado){
+
+    if($usuario_autenticado->getRol() == 'ADMIN'){
+        return 'ADMIN';
+    }
+
+    else if ($usuario_autenticado->getAfiliacion() == 'ADMINISTRACION' && $usuario_autenticado->getNombrePuesto() == 'Conserjería'
+        || $usuario_autenticado->getNombrePuesto() == 'Conserjeria'
+        || $usuario_autenticado->getNombrePuesto() == 'conserjería'
+        || $usuario_autenticado->getNombrePuesto() == 'conserjeria'
+        || $usuario_autenticado->getNombrePuesto() == 'conserje'
+        || $usuario_autenticado->getNombrePuesto() == 'Conserje') {
+
+        return 'COMUN';
+    }
+
+    else if ($usuario_autenticado->getAfiliacion() == 'DOCENTE'){
+
+        $departamento_model = new DEPARTAMENTO_Models('', '', '', '', '', '', '', '');
+        $departamentos = $departamento_model->SHOWALL();
+
+        foreach ($departamentos as $dep) {
+            if ($dep->getResponsableDepart() == $usuario_autenticado->getUsuarioId()) {
+                return 'DOCENCIA';
+            }
+        }
+    }
+
+    else if($usuario_autenticado->getAfiliacion() == 'INVESTIGADOR') {
+
+        $grupo_model = new GRUPO_INVESTIGACION_Model('', '', '', '', '', '', '', '');
+        $grupos = $grupo_model->SHOWALL();
+
+        foreach ($grupos as $grupo) {
+            if ($grupo->getResponsableGrupo() == $usuario_autenticado->getUsuarioId()) {
+                return 'INVESTIGACION';
+            }
+        }
+    }
+
+    else if($usuario_autenticado->getAfiliacion() == 'ADMINISTRACION') {
+
+        return 'PAS';
+    }
+
+    else{
+        return 'NO';
+    }
+
 }
