@@ -730,11 +730,16 @@ function showcurrent($espacio_id)
         $info_afiliacion = "-";
     }
 
-    $usuario_model = new USUARIO_Model('', $_SESSION['login'], '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-    $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
+    if(isset($_SESSION['login'])) {
+        $usuario_model = new USUARIO_Model('', $_SESSION['login'], '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+        $solicitud_model = new SOLICITUD_RESPONSABILIDAD_Model('', '', '', '', '', '', '');
 
-    $haSolicitado = $solicitud_model->haSolicitadoEspacio($espacio_id, $usuario_model->consultarId());
-    $tienePermisos = tienePermisos($_SESSION['login'], $espacio_id);
+        $haSolicitado = $solicitud_model->haSolicitadoEspacio($espacio_id, $usuario_model->consultarId());
+        $tienePermisos = tienePermisos($_SESSION['login'], $espacio_id);
+    } else {
+        $tienePermisos = false;
+        $haSolicitado = false;
+    }
 
     new ESPACIO_SHOWCURRENT_View($espacio, $nombresResponsable, $nombreEdificioYPlanta, $nombreAgrupacion, $info_afiliacion, $haSolicitado, $tienePermisos);
 }
