@@ -300,6 +300,13 @@ class ESPACIO_Model
         return $arrayFinal;
     }
 
+    public function getNombreById(){
+        $stmt = $this->db->prepare("SELECT nombre_esp FROM espacio WHERE espacio_id = ?");
+        $stmt->execute(array($this->espacio_id));
+        $nombre = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $nombre;
+    }
+
 
 
     /**

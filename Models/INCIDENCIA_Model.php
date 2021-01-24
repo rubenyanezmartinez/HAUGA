@@ -71,5 +71,104 @@ class INCIDENCIA_Model{
         }
 
     }
+
+    function SHOWALL(){
+        $stmt = $this->db->prepare("SELECT * FROM incidencia ORDER BY estado_incid");
+        $stmt->execute();
+        $incidencias_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allIncidencias = array();  //array para almacenar los datos de todas las incidencias
+
+        //Recorremos todos las filas de usuario devueltas por la sentencia sql
+        foreach ($incidencias_db as $incidencia){
+            //Introducimos uno a uno los usuarios recuperados de la BD
+            array_push($allIncidencias,
+                new INCIDENCIA_Model(
+                    $incidencia['incidencia_id'], $incidencia['descripcion_incid'], $incidencia['estado_incid']
+                    ,$incidencia['espacio_afectado'], $incidencia['autor_incidencia']
+                )
+            );
+        }
+        return $allIncidencias;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIncidenciaId()
+    {
+        return $this->incidencia_id;
+    }
+
+    /**
+     * @param mixed $espacio_id
+     */
+    public function setIncidenciaId($incidencia_id)
+    {
+        $this->incidencia_id = $incidencia_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescripcionIncid()
+    {
+        return $this->descripcion_incid;
+    }
+
+    /**
+     * @param mixed $espacio_id
+     */
+    public function setDescripcionIncid($descripcion_incid)
+    {
+        $this->descripcion_incid = $descripcion_incid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoIncid()
+    {
+        return $this->estado_incid;
+    }
+
+    /**
+     * @param mixed $espacio_id
+     */
+    public function setEstadoIncid($estado_incid)
+    {
+        $this->estado_incid = $estado_incid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEspacioAfectado()
+    {
+        return $this->espacio_afectado;
+    }
+
+    /**
+     * @param mixed $espacio_id
+     */
+    public function setEspacioAfectado($espacio_afectado)
+    {
+        $this->espacio_afectado = $espacio_afectado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAutorIncidencia()
+    {
+        return $this->autor_incidencia;
+    }
+
+    /**
+     * @param mixed $espacio_id
+     */
+    public function setAutorIncidencia($autor_incidencia)
+    {
+        $this->autor_incidencia = $autor_incidencia;
+    }
 }
 ?>
