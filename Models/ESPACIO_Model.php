@@ -304,6 +304,13 @@ class ESPACIO_Model
                     array_push($arrayFinal, $espacio);
                 }
             }
+            if(empty($arrayFinal)){
+                foreach ($espacios_responsable as $espacio) {
+                    if (!in_array($espacio, $arrayFinal) ) {
+                        array_push($arrayFinal, $espacio);
+                    }
+                }
+            }
         }else{
             foreach ($allEspacios as $espacio) {
                 if (!in_array($espacio, $arrayFinal)) {
