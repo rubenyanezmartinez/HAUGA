@@ -195,25 +195,6 @@ class ESPACIO_Model
             }
         }
 
-        if(!$responsable_espacio == "") {
-            foreach ($responsable_espacio as $re) {
-                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id = ? and (estado_solic = ? or estado_solic = ?)) ");
-                $stmt->execute(array($re, 'DEFIN', 'TEMP'));
-                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-                //Recorremos todos las filas de usuario devueltas por la sentencia sql
-                foreach ($espacios_db as $espacio) {
-                    //Introducimos uno a uno los usuarios recuperados de la BD
-                    array_push($allEspacios,
-                        new ESPACIO_Model(
-                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
-                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
-                        )
-                    );
-                }
-            }
-        }
 
         if(!$grupo_espacio == "") {
             foreach ($grupo_espacio as $gr) {
@@ -291,10 +272,43 @@ class ESPACIO_Model
             );
         }
 
+        $espacios_responsable = array();
+        $responsable = false;
+        if(!$responsable_espacio == "") {
+            $responsable = true;
+            foreach ($responsable_espacio as $re) {
+                $stmt = $this->db->prepare("SELECT * FROM espacio WHERE espacio_id IN(select espacio_id from solicitud_responsabilidad where usuario_id = ? and (estado_solic = ? or estado_solic = ?)) ");
+                $stmt->execute(array($re, 'DEFIN', 'TEMP'));
+                $espacios_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+                //Recorremos todos las filas de usuario devueltas por la sentencia sql
+                foreach ($espacios_db as $espacio) {
+                    //Introducimos uno a uno los usuarios recuperados de la BD
+                    array_push($espacios_responsable,
+                        new ESPACIO_Model(
+                            $espacio['espacio_id'], $espacio['nombre_esp'], $espacio['ruta_imagen']
+                            , $espacio['tarifa_esp'], $espacio['categoria_esp'], $espacio['planta_esp'], $espacio['edificio_esp']
+                        )
+                    );
+                }
+            }
+        }
+
         $arrayFinal = array();
-        foreach ($allEspacios as $espacio){
-            if(!in_array($espacio, $arrayFinal)){
-                array_push($arrayFinal, $espacio);
+
+        if($responsable) {
+            foreach ($allEspacios as $espacio) {
+                if (!in_array($espacio, $arrayFinal) && in_array($espacio, $espacios_responsable)) {
+                    array_push($arrayFinal, $espacio);
+                }
+            }
+        }else{
+            foreach ($allEspacios as $espacio) {
+                if (!in_array($espacio, $arrayFinal)) {
+                    array_push($arrayFinal, $espacio);
+                }
             }
         }
         return $arrayFinal;
