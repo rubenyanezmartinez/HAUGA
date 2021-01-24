@@ -91,6 +91,36 @@ class INCIDENCIA_Model{
         return $allIncidencias;
     }
 
+    function buscarIncidencias($case){
+        $stmt = $this->db->prepare("SELECT * FROM incidencia ORDER BY estado_incid");
+        $stmt->execute();
+
+        switch($case){
+            case 'CONSERJERIA':
+                $stmt = $this->db->prepare("SELECT * FROM incidencia WHERE espacio_afectado IN(select * from espacio where categoria_esp = ?)");
+                $stmt->execute(array('COMUN'));
+            case 'ADMIN':
+                $stmt = $this->db->prepare("SELECT * FROM incidencia ORDER BY estado_incid");
+                $stmt->execute();
+
+        }
+
+        $incidencias_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allIncidencias = array();  //array para almacenar los datos de todas las incidencias
+
+        //Recorremos todos las filas de usuario devueltas por la sentencia sql
+        foreach ($incidencias_db as $incidencia){
+            //Introducimos uno a uno los usuarios recuperados de la BD
+            array_push($allIncidencias,
+                new INCIDENCIA_Model(
+                    $incidencia['incidencia_id'], $incidencia['descripcion_incid'], $incidencia['estado_incid']
+                    ,$incidencia['espacio_afectado'], $incidencia['autor_incidencia']
+                )
+            );
+        }
+        return $allIncidencias;
+    }
+
     public function updateEstado($estadoIncid){
         $stmt = $this->db->prepare("UPDATE incidencia SET estado_incid = ? WHERE incidencia_id = ?");
         $stmt->execute(array($estadoIncid, $this->getIncidenciaId()));

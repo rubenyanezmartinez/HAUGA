@@ -66,25 +66,42 @@ function add(){
 
 function aceptar($incidencia_id){
     $incidencia = new INCIDENCIA_Model($incidencia_id,'','','','');
-    $incidencia = $incidencia->rellenaDatos();
+    //$incidencia = $incidencia->rellenaDatos();
 
     $incidencia->updateEstado('ACEPT');
-    header('Location:../Controllers/Index_Controller.php');
+    header('Location:../Controllers/Incidencia_Controller.php?action=showall');
 }
 
 function denegar($incidencia_id){
     $incidencia = new INCIDENCIA_Model($incidencia_id,'','','','');
-    $incidencia = $incidencia->rellenaDatos();
+    //$incidencia = $incidencia->rellenaDatos();
 
     $incidencia->updateEstado('DENEG');
-    header('Location:../Controllers/Index_Controller.php');
+    header('Location:../Controllers/Incidencia_Controller.php?action=showall');
 }
 
 function showall(){
     $incidencia_model = new INCIDENCIA_Model('','','','','');
     $espacio_model = new ESPACIO_Model('', '', '', '', '', '', '');
 
-    $incidencias = $incidencia_model->SHOWALL();
+    $usuario_autenticado = new USUARIO_Model('',$_SESSION['login'],'','','','',
+        '','','','','','','','','','');
+    $usuario_autenticado->rellenaDatos();
+
+    $case = "";
+    if($usuario_autenticado->getRol() == "ADMIN"){
+        $case = "ADMIN";
+    }
+    if ($usuario_autenticado->getNombrePuesto() == 'Conserjería'
+        || $usuario_autenticado->getNombrePuesto() == 'Conserjeria'
+        || $usuario_autenticado->getNombrePuesto() == 'conserjería'
+        || $usuario_autenticado->getNombrePuesto() == 'conserjeria'
+        || $usuario_autenticado->getNombrePuesto() == 'conserje'
+        || $usuario_autenticado->getNombrePuesto() == 'Conserje'){
+        $case = "CONSERJERIA";
+    }
+
+    $incidencias = $incidencia_model->buscarIncidencias($case);
     $allEspacios = $espacio_model->SHOWALL();
 
     $nombreEspacios = [];
