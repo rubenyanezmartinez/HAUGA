@@ -20,6 +20,12 @@ switch($action){
     case 'showall':
         showall();
         break;
+    case 'aceptar':
+        aceptar();
+        break;
+    case 'denegar':
+        denegar();
+        break;
     default:
         echo "default del controlador de incidencias";
         break;
@@ -68,7 +74,7 @@ function showall(){
     $nombreEspacios = [];
 
     foreach($incidencias as $incidencia){
-        $espacio_model = new ESPACIO_Model($incidencia->getEspacioAfectado(), '', '', '', '', '');
+        $espacio_model = new ESPACIO_Model($incidencia->getEspacioAfectado(), '', '', '', '', '', '');
         $nombreEspacios[$incidencia->getEspacioAfectado()] = $espacio_model->getNombreById();
     }
 
