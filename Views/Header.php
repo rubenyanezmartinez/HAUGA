@@ -100,59 +100,59 @@ include_once '../Functions/esAdministrador.php';
             <div class="row col-12" style="padding-top: 1%">
 
                 <?php if (esAdministrador() == "admin") {?>
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/Centro_Controller.php?action=showall" class="textoAzul">CENTROS</a></h5>
                     </div>
 
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/AGRUPACION_Controller.php?action=showall&num_pag=1" class="textoAzul">EDIFICIOS</a></h5>
                     </div>
 
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/Espacio_Controller.php?action=showall" class="textoAzul">ESPACIOS</a></h5>
                     </div>
 
-                    <div class="col-2 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/Departamento_Controller.php?action=showall" class="textoAzul">DEPARTAMENTOS</a></h5>
                     </div>
 
-                    <div class="col-2 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/GrupoInvestigacion_Controller.php?action=showall" class="textoAzul">GRUPOS INVG.</a></h5>
                     </div>
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/User_Controller.php?action=showall&numero_pagina=1" class="textoAzul">USUARIOS</a></h5>
                     </div>
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/Espacio_Controller.php?action=verSolicitudes" class="textoAzul">RESPONSABLES</a></h5>
                     </div>
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h5><a href="../Controllers/Incidencia_Controller.php?action=showall" class="textoAzul">INCIDENCIAS</a></h5>
                     </div>
                 <?php } else { ?>
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h4><a href="../Controllers/Centro_Controller.php?action=showall" class="textoAzul">CENTROS</a></h4>
                     </div>
 
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h4><a href="../Controllers/AGRUPACION_Controller.php?action=showall&num_pag=1" class="textoAzul">EDIFICIOS</a></h4>
                     </div>
 
-                    <div class="col-1 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h4><a href="../Controllers/Espacio_Controller.php?action=showall" class="textoAzul">ESPACIOS</a></h4>
                     </div>
 
-                    <div class="col-2 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h4><a href="../Controllers/Departamento_Controller.php?action=showall" class="textoAzul">DEPARTAMENTOS</a></h4>
                     </div>
 
-                    <div class="col-2 align-self-center text-center">
+                    <div class="col align-self-center text-center">
                         <h4><a href="../Controllers/GrupoInvestigacion_Controller.php?action=showall" class="textoAzul">GRUPOS INVG.</a></h4>
                     </div>
                     <?php if(IsAuthenticated()){ ?>
-                        <div class="col-2 align-self-center text-center">
+                        <div class="col align-self-center text-center">
                             <h4><a href="../Controllers/Espacio_Controller.php?action=verSolicitudes" class="textoAzul">RESPONSABLES</a></h4>
                         </div>
-                        <div class="col-2 align-self-center text-center">
+                        <div class="col align-self-center text-center">
                             <h4><a href="../Controllers/User_Controller.php?action=showcurrent&login_usuario=<?= $_SESSION['login']?>"
                                    class="textoAzul">MIS DATOS</a></h4>
                         </div>
